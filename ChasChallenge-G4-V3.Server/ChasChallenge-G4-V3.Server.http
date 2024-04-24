@@ -1,0 +1,6 @@
+@ChasChallenge_G4_V3.Server_HostAddress = http://localhost:5148
+
+GET {{ChasChallenge_G4_V3.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
