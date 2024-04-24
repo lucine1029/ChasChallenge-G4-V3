@@ -1,56 +1,57 @@
-import { useEffect, useState } from 'react';
-import './App.css';
+import { useState } from 'react';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
-interface Forecast {
-    date: string;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string;
-}
 
-function App() {
-    const [forecasts, setForecasts] = useState<Forecast[]>();
+// Routes
+import ChatbotPage from './Pages/ChatbotPage/ChatbotPage';
+import HomePage from './Pages/HomePage/HomePage';
+import SignInPage  from './Pages/UserAuthentication/SingInPage/SingInPage'
+import SignUpPage from './Pages/UserAuthentication/SignUpPage/SignUpPage'
+import AccountPage from './Pages/AccountPage/AccountPage'
 
-    useEffect(() => {
-        populateWeatherData();
-    }, []);
 
-    const contents = forecasts === undefined
-        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-        : <table className="table table-striped" aria-labelledby="tabelLabel">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-                {forecasts.map(forecast =>
-                    <tr key={forecast.date}>
-                        <td>{forecast.date}</td>
-                        <td>{forecast.temperatureC}</td>
-                        <td>{forecast.temperatureF}</td>
-                        <td>{forecast.summary}</td>
-                    </tr>
-                )}
-            </tbody>
-        </table>;
+// function ProtectedRoute() {
 
-    return (
-        <div>
-            <h1 id="tabelLabel">Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
-            {contents}
-        </div>
-    );
+//   const authContext = useContext(AuthContext);
+//   const isAuthenticated = authContext && authContext.user !== null;
+//   console.log('isAuthenticated', isAuthenticated)
 
-    async function populateWeatherData() {
-        const response = await fetch('weatherforecast');
-        const data = await response.json();
-        setForecasts(data);
-    }
-}
+//   return isAuthenticated ? <Outlet/> : <Navigate to='/login' replace></Navigate>
+// }
+
+
+const App = () => {
+  const [links] = useState([
+    { label: 'Home', url: '/'},
+    { label: 'Sign Up', url: '/signup' },
+    { label: 'Sign In', url: '/signin' },
+    { label: 'Account', url: '/account'},
+    { label: 'Chat', url: '/chat'},
+
+  ]);
+  
+  return (
+    <BrowserRouter>
+
+    <nav className='nav-bar'>
+      <ul>
+        {links.map((link, index) => (
+          <li key={index}>
+            <Link to={link.url}>{link.label}</Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <Routes>
+        <Route path='/' element={<HomePage/>}/>
+        <Route path='/chat' element={<ChatbotPage/>}/>
+        <Route path='/signup' element={<SignUpPage/>}/>
+        <Route path='/signin' element={<SignInPage/>}/>
+        <Route path='/account' element={<AccountPage/>}/>
+    </Routes>
+    </BrowserRouter>
+  );
+};
 
 export default App;

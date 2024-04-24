@@ -1,0 +1,130 @@
+main{
+    width: 100vw;
+    height: 95vh;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+}
+
+.ai-chat-container{
+    background-color: rgb(225, 225, 225);
+    width: 95%;
+    height: 90%;
+    border-radius: 2rem;
+    margin: 1rem 0.5rem;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.chat-bubble{
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgba(78, 131, 230, 0.897);
+    padding: .8rem;
+    width: 75%;
+    border-radius: 1rem;
+    margin: .4rem;
+
+    h4{
+        margin: 0;
+    }
+
+    &.user{
+        background-color: rgba(78, 230, 116, 0.897);
+    }
+    &.ai{
+        background-color: rgba(78, 131, 230, 0.897);
+
+        &.loading {
+            animation: jello-horizontal 1s infinite;
+        }
+    }
+}
+
+#chat-input{
+    width: 16rem;
+    margin: .2rem .4rem;
+    border: none;
+    background-color: rgb(224, 224, 224);
+    border-radius: 1rem;
+    padding: .8rem;
+}
+
+#chat-submit-btn{
+    background: none;
+    border: none;
+    cursor: pointer;
+    background-color: rgb(230, 230, 230);
+    padding: .9rem;
+    border-radius: 1rem;
+}
+
+//chatbubble animation
+
+ @-webkit-keyframes jello-horizontal {
+    0% {
+      -webkit-transform: scale3d(1, 1, 1);
+              transform: scale3d(1, 1, 1);
+    }
+    30% {
+      -webkit-transform: scale3d(1.25, 0.75, 1);
+              transform: scale3d(1.25, 0.75, 1);
+    }
+    40% {
+      -webkit-transform: scale3d(0.75, 1.25, 1);
+              transform: scale3d(0.75, 1.25, 1);
+    }
+    50% {
+      -webkit-transform: scale3d(1.15, 0.85, 1);
+              transform: scale3d(1.15, 0.85, 1);
+    }
+    65% {
+      -webkit-transform: scale3d(0.95, 1.05, 1);
+              transform: scale3d(0.95, 1.05, 1);
+    }
+    75% {
+      -webkit-transform: scale3d(1.05, 0.95, 1);
+              transform: scale3d(1.05, 0.95, 1);
+    }
+    100% {
+      -webkit-transform: scale3d(1, 1, 1);
+              transform: scale3d(1, 1, 1);
+    }
+  }
+  @keyframes jello-horizontal {
+    0% {
+      -webkit-transform: scale3d(1, 1, 1);
+              transform: scale3d(1, 1, 1);
+    }
+    30% {
+      -webkit-transform: scale3d(1.25, 0.75, 1);
+              transform: scale3d(1.25, 0.75, 1);
+    }
+    40% {
+      -webkit-transform: scale3d(0.75, 1.25, 1);
+              transform: scale3d(0.75, 1.25, 1);
+    }
+    50% {
+      -webkit-transform: scale3d(1.15, 0.85, 1);
+              transform: scale3d(1.15, 0.85, 1);
+    }
+    65% {
+      -webkit-transform: scale3d(0.95, 1.05, 1);
+              transform: scale3d(0.95, 1.05, 1);
+    }
+    75% {
+      -webkit-transform: scale3d(1.05, 0.95, 1);
+              transform: scale3d(1.05, 0.95, 1);
+    }
+    100% {
+      -webkit-transform: scale3d(1, 1, 1);
+              transform: scale3d(1, 1, 1);
+    }
+  }
+  
