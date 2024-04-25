@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "User 1",
+      "email": "user1@example.com"
+    }
+  ],
+
+  "child": [
+    {
+      "id": 1,
+      "name": "Child 1",
+      "birthDate": "2021-03-15",
+      "gender": "Male",
+      "allergies": "nuts"
+    }
+  ]
+}
