@@ -1,11 +1,15 @@
 import "../../../scss/Components/_profilesteps.scss";
 import { useState } from "react";
+import AllergiesComp from "../../../ResusableComponents/AllergiesComp";
+import ChildData from "../../../ResusableComponents/ChildData";
 
 /* This component handles the steps of adding baby profile information and includes a stepmessage and a button component */
 
+/*---------------- Typescript ----------------*/
 interface StepMessageProps {
   step: number;
-  children: React.ReactNode;
+  message: string;
+  FormComponent: React.ComponentType;
 }
 
 interface ButtonProps {
@@ -15,7 +19,15 @@ interface ButtonProps {
 
 const messages = ["Ditt barn", "Allergier", "Preferenser"];
 
-export default function ProfileSteps() {
+// Step-specific components (temporary, these need to be imported)
+
+function PreferencesComp(): React.ComponentType {
+  return <div>Preference settings.</div>;
+}
+
+const FormComponents = [ChildData, AllergiesComp, PreferencesComp];
+
+export default function SignUpSteps() {
   const [step, setStep] = useState(1);
 
   function handlePrevious() {
@@ -38,8 +50,11 @@ export default function ProfileSteps() {
           <div className={step >= 3 ? "active" : ""}>Steg 3</div>
         </div>
 
-        <StepMessage step={step}>{messages[step - 1]}</StepMessage>
-
+        <StepMessage
+          step={step}
+          message={messages[step - 1]}
+          FormComponent={FormComponents[step - 1]}
+        />
         <div>
           <Button onClick={handlePrevious}>Föregående</Button>
 
@@ -50,12 +65,13 @@ export default function ProfileSteps() {
   );
 }
 
-function StepMessage({ step, children }: StepMessageProps) {
+function StepMessage({ step, message, FormComponent }: StepMessageProps) {
   return (
     <div className="message">
       <h3>
-        Steg {step} - {children}{" "}
+        Steg {step} - {message}{" "}
       </h3>
+      <FormComponent />
     </div>
   );
 }
