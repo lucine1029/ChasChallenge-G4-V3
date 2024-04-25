@@ -1,4 +1,7 @@
 
+using ChasChallenge_G4_V3.Server.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace ChasChallenge_G4_V3.Server
 {
     public class Program
@@ -6,6 +9,9 @@ namespace ChasChallenge_G4_V3.Server
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            //db connection
+            string connectionString = builder.Configuration.GetConnectionString("ApplicationContext");
+            builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
 
             // Add services to the container.
 
