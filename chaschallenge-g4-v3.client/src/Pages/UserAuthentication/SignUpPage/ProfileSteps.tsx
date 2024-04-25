@@ -1,4 +1,4 @@
-import "../../../scss/Components/ProfileSteps.scss";
+import "../../../scss/Components/_profilesteps.scss";
 import { useState } from "react";
 
 /* This component handles the steps of adding baby profile information and includes a stepmessage and a button component */
