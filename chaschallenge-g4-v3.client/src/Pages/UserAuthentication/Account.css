@@ -1,6 +1,5 @@
 /* Account.css */
 
-
 .input-container {
   margin-bottom: 20px;
 }
@@ -19,12 +18,16 @@
   border: 1px solid #ccc;
 }
 
+.input-field::placeholder {
+  color: red; /* Change the color of placeholder-text in inputfield to red if user already exists*/
+}
+
 .login-button,
 .signup-button {
   width: 100%;
   padding: 12px;
   border-radius: 4px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   cursor: pointer;
@@ -44,7 +47,7 @@
   display: block;
   text-align: center;
   margin-top: 20px;
-  color: #2196F3;
+  color: #2196f3;
   text-decoration: none;
 }
 
@@ -70,5 +73,3 @@
   margin-bottom: 20px;
   text-align: center;
 }
-
-
