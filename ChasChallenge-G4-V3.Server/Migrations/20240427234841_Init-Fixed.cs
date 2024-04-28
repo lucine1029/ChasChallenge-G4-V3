@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ChasChallenge_G4_V3.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitFixed : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,7 +32,8 @@ namespace ChasChallenge_G4_V3.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NickName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Gender = table.Column<int>(type: "int", nullable: true)
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    birthdate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -84,7 +85,7 @@ namespace ChasChallenge_G4_V3.Server.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DateOfMeasurement = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateOfMeasurement = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Weight = table.Column<double>(type: "float", nullable: true),
                     Height = table.Column<double>(type: "float", nullable: true),
                     HeadCircumference = table.Column<double>(type: "float", nullable: true),

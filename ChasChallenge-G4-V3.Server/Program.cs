@@ -1,5 +1,8 @@
 
 using ChasChallenge_G4_V3.Server.Data;
+using ChasChallenge_G4_V3.Server.Handlers;
+using ChasChallenge_G4_V3.Server.Services;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChasChallenge_G4_V3.Server
@@ -12,6 +15,9 @@ namespace ChasChallenge_G4_V3.Server
             //db connection
             string connectionString = builder.Configuration.GetConnectionString("ApplicationContext");
             builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
+
+            //Dependency injection
+            builder.Services.AddScoped<IUserServices,UserServices>();
 
             // Add services to the container.
 
@@ -33,8 +39,22 @@ namespace ChasChallenge_G4_V3.Server
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
+
+            //Post
+            app.MapPost("/user", UserHandler.AddUser);
+            app.MapPost("/user/child", UserHandler.AddChild);
+            //app.MapPost("/user/existingChild", UserHandler.AddExistingChild);
+            app.MapPost("/user/child/allergy", UserHandler.AddAllergy);
+            app.MapPost("/user/child/measurement", UserHandler.AddMeasurement);
+
+
+            //Gets
+            app.MapGet("/user", UserHandler.GetUser);
+            app.MapGet("/allusers", UserHandler.GetAllUsers);
+            app.MapGet("/user/child", UserHandler.GetChildofUser);
+            app.MapGet("/user/child/allergies", UserHandler.GetChildAllergies);
+            app.MapGet("/user/allchildren/allergies", UserHandler.GetAllChildrensAllergies);
 
 
             app.MapControllers();

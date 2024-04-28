@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Handlers\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

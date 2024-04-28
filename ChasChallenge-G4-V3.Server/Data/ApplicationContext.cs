@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChasChallenge_G4_V3.Server.Data
 {
-    internal class ApplicationContext : DbContext
+    public class ApplicationContext : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Child> Children { get; set; }

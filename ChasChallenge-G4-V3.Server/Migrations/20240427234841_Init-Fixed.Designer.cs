@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChasChallenge_G4_V3.Server.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20240425234359_Init")]
-    partial class Init
+    [Migration("20240427234841_Init-Fixed")]
+    partial class InitFixed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,8 +65,8 @@ namespace ChasChallenge_G4_V3.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("Gender")
-                        .HasColumnType("int");
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -74,6 +74,9 @@ namespace ChasChallenge_G4_V3.Server.Migrations
 
                     b.Property<string>("NickName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("birthdate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -91,7 +94,7 @@ namespace ChasChallenge_G4_V3.Server.Migrations
                     b.Property<int?>("ChildId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DateOfMeasurement")
+                    b.Property<DateTime?>("DateOfMeasurement")
                         .HasColumnType("datetime2");
 
                     b.Property<double?>("HeadCircumference")
