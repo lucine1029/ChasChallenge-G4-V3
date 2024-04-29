@@ -78,6 +78,7 @@ const ChatComponent: React.FC = () => {
 
     return (
         <main>
+            <h2>Vad kan jag hjälpa dig med?</h2>
             {/* //Renderar chatbubblor för varje meddelande i messages. */}
             <div className='ai-chat-container'>
                 {messages.map((message, index) => (
@@ -88,7 +89,14 @@ const ChatComponent: React.FC = () => {
 
             <form onSubmit={handleSubmit} action=''>
                 <input type='text' id='chat-input' placeholder='Ställ en fråga..' />
-                <button type='submit' id='chat-submit-btn'>Skicka</button>
+                <h5>Vad andra föräldrar har sökt</h5>
+                <div className='suggestion-container'>
+                    <button className='suggestion-btn'>Vad kan en 9 mån bebis äta?</button>
+                    <button className='suggestion-btn'>Sparris 5 mån?</button>
+                    <button className='suggestion-btn'>Honung 6 mån?</button>
+                    <button className='suggestion-btn'>När kan en bebis äta nötter?</button>
+                </div>
+                <button type='submit' id='chat-submit-btn'>Nästa</button>
             </form>
         </main>
     );

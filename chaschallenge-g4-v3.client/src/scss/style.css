@@ -15,9 +15,8 @@ main {
 }
 
 .ai-chat-container {
-  background-color: rgb(225, 225, 225);
+  background-color: rgb(255, 255, 255);
   width: 95%;
-  height: 90%;
   border-radius: 2rem;
   margin: 1rem 0.5rem;
   display: flex;
@@ -32,41 +31,66 @@ main {
   align-items: start;
   justify-content: center;
   flex-direction: column;
-  background-color: rgba(78, 131, 230, 0.897);
   padding: 0.8rem;
   width: 75%;
-  border-radius: 1rem;
+  border-radius: 1.5rem;
   margin: 0.4rem;
 }
 .chat-bubble h4 {
   margin: 0;
 }
 .chat-bubble.user {
-  background-color: rgba(78, 230, 116, 0.897);
+  border: 2px solid #2622F2;
 }
 .chat-bubble.ai {
-  background-color: rgba(78, 131, 230, 0.897);
+  border: 2px solid #2622F2;
 }
 .chat-bubble.ai.loading {
   animation: jello-horizontal 1s infinite;
 }
 
-#chat-input {
-  width: 16rem;
+form {
+  display: flex;
+  justify-content: spread-around;
+  align-items: center;
+  flex-direction: column;
+  height: 10%;
+}
+form .suggestion-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
   margin: 0.2rem 0.4rem;
-  border: none;
-  background-color: rgb(224, 224, 224);
+}
+form .suggestion-container .suggestion-btn {
+  background: none;
+  border: 1px solid #F24822;
+  cursor: pointer;
+  padding: 0.9rem;
+  border-radius: 1rem;
+  margin: 0.2rem;
+}
+
+#chat-input {
+  width: 85%;
+  margin: 0.2rem 0.4rem;
+  border: 1.5px solid #2622F2;
+  background-color: rgb(255, 255, 255);
   border-radius: 1rem;
   padding: 0.8rem;
 }
 
 #chat-submit-btn {
+  width: 100%;
   background: none;
   border: none;
   cursor: pointer;
   background-color: rgb(230, 230, 230);
   padding: 0.9rem;
   border-radius: 1rem;
+  margin-top: 3rem;
 }
 @keyframes jello-horizontal {
   0% {

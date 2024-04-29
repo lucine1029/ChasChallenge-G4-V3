@@ -1,130 +1,159 @@
 main{
-    width: 100vw;
-    height: 95vh;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    flex-direction: column;
+  width: 100vw;
+  height: 95vh;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: column;
 }
 
 .ai-chat-container{
-    background-color: rgb(225, 225, 225);
-    width: 95%;
-    height: 90%;
-    border-radius: 2rem;
-    margin: 1rem 0.5rem;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    flex-direction: column;
-    overflow-y: scroll;
+  background-color: rgb(255, 255, 255);
+  width: 95%;
+  border-radius: 2rem;
+  margin: 1rem 0.5rem;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: column;
+  overflow-y: scroll;
 }
 
 .chat-bubble{
-    display: flex;
-    align-items: start;
-    justify-content: center;
-    flex-direction: column;
-    background-color: rgba(78, 131, 230, 0.897);
-    padding: .8rem;
-    width: 75%;
-    border-radius: 1rem;
-    margin: .4rem;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  flex-direction: column;
+  padding: .8rem;
+  width: 75%;
+  border-radius: 1.5rem ;
+  margin: .4rem;
 
-    h4{
-        margin: 0;
-    }
+  h4{
+      margin: 0;
+  }
 
-    &.user{
-        background-color: rgba(78, 230, 116, 0.897);
-    }
-    &.ai{
-        background-color: rgba(78, 131, 230, 0.897);
+  &.user{
+      // background-color: rgba(78, 230, 116, 0.897);
+      border: 2px solid #2622F2;
+  }
+  &.ai{
+      // background-color: rgba(78, 131, 230, 0.897);
+      border: 2px solid #2622F2;
 
-        &.loading {
-            animation: jello-horizontal 1s infinite;
-        }
-    }
+      &.loading {
+          animation: jello-horizontal 1s infinite;
+      }
+  }
+}
+
+form{
+  display: flex;
+  justify-content: spread-around;
+  align-items: center;
+  flex-direction: column;
+  height: 10%;
+
+
+  .suggestion-container{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin: .2rem .4rem;
+
+      .suggestion-btn{
+          background: none;
+          border: 1px solid #F24822 ;
+          cursor: pointer;
+          padding: .9rem;
+          border-radius: 1rem;
+          margin: .2rem;
+
+      }
+  }
 }
 
 #chat-input{
-    width: 16rem;
-    margin: .2rem .4rem;
-    border: none;
-    background-color: rgb(224, 224, 224);
-    border-radius: 1rem;
-    padding: .8rem;
+  width: 85%;
+  margin: .2rem .4rem;
+  border: 1.5px solid #2622F2;
+  background-color: rgb(255, 255, 255);
+  border-radius: 1rem;
+  padding: .8rem;
 }
 
 #chat-submit-btn{
-    background: none;
-    border: none;
-    cursor: pointer;
-    background-color: rgb(230, 230, 230);
-    padding: .9rem;
-    border-radius: 1rem;
+width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  background-color: rgb(230, 230, 230);
+  padding: .9rem;
+  border-radius: 1rem;
+  margin-top: 3rem;
 }
 
 //chatbubble animation
 
- @-webkit-keyframes jello-horizontal {
-    0% {
-      -webkit-transform: scale3d(1, 1, 1);
-              transform: scale3d(1, 1, 1);
-    }
-    30% {
-      -webkit-transform: scale3d(1.25, 0.75, 1);
-              transform: scale3d(1.25, 0.75, 1);
-    }
-    40% {
-      -webkit-transform: scale3d(0.75, 1.25, 1);
-              transform: scale3d(0.75, 1.25, 1);
-    }
-    50% {
-      -webkit-transform: scale3d(1.15, 0.85, 1);
-              transform: scale3d(1.15, 0.85, 1);
-    }
-    65% {
-      -webkit-transform: scale3d(0.95, 1.05, 1);
-              transform: scale3d(0.95, 1.05, 1);
-    }
-    75% {
-      -webkit-transform: scale3d(1.05, 0.95, 1);
-              transform: scale3d(1.05, 0.95, 1);
-    }
-    100% {
-      -webkit-transform: scale3d(1, 1, 1);
-              transform: scale3d(1, 1, 1);
-    }
+@-webkit-keyframes jello-horizontal {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
   }
-  @keyframes jello-horizontal {
-    0% {
-      -webkit-transform: scale3d(1, 1, 1);
-              transform: scale3d(1, 1, 1);
-    }
-    30% {
-      -webkit-transform: scale3d(1.25, 0.75, 1);
-              transform: scale3d(1.25, 0.75, 1);
-    }
-    40% {
-      -webkit-transform: scale3d(0.75, 1.25, 1);
-              transform: scale3d(0.75, 1.25, 1);
-    }
-    50% {
-      -webkit-transform: scale3d(1.15, 0.85, 1);
-              transform: scale3d(1.15, 0.85, 1);
-    }
-    65% {
-      -webkit-transform: scale3d(0.95, 1.05, 1);
-              transform: scale3d(0.95, 1.05, 1);
-    }
-    75% {
-      -webkit-transform: scale3d(1.05, 0.95, 1);
-              transform: scale3d(1.05, 0.95, 1);
-    }
-    100% {
-      -webkit-transform: scale3d(1, 1, 1);
-              transform: scale3d(1, 1, 1);
-    }
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+            transform: scale3d(1.25, 0.75, 1);
   }
-  
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+            transform: scale3d(0.75, 1.25, 1);
+  }
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+            transform: scale3d(1.15, 0.85, 1);
+  }
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+            transform: scale3d(0.95, 1.05, 1);
+  }
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+            transform: scale3d(1.05, 0.95, 1);
+  }
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+}
+@keyframes jello-horizontal {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+            transform: scale3d(1.25, 0.75, 1);
+  }
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+            transform: scale3d(0.75, 1.25, 1);
+  }
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+            transform: scale3d(1.15, 0.85, 1);
+  }
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+            transform: scale3d(0.95, 1.05, 1);
+  }
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+            transform: scale3d(1.05, 0.95, 1);
+  }
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+}
