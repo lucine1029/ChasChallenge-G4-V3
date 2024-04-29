@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Numerics;
+using System.Threading.Tasks;
 
 namespace ChasChallenge_G4_V3.Server.Services
 {
@@ -15,7 +16,7 @@ namespace ChasChallenge_G4_V3.Server.Services
         void AddChild(int userId, ChildDto childDto);
 
         //void AddExistingChild(int userId, int childId);
-        void AddAllergy(int childId,  AllergyDto allergyDto);
+        void AddAllergy(int childId, AllergyDto allergyDto);
         void AddMeasurement(int childId, MeasurementDto measurementDto);
 
         UserViewModel GetUser(int userId);
@@ -27,6 +28,8 @@ namespace ChasChallenge_G4_V3.Server.Services
         List<AllergyViewModel> GetChildsAllergies(int userId, int childId);
 
         List<AllergyViewModel> GetAllChildrensAllergies(int userId);
+
+        Task<string> RunAi(int parentId, int childId, string food)
 
 
     }
@@ -165,7 +168,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             }
 
         }
-        public void AddMeasurement (int childId, MeasurementDto measurementDto)
+        public void AddMeasurement(int childId, MeasurementDto measurementDto)
         {
             Child? child = _context.Children
                 .Include(c => c.Measurements)
@@ -240,10 +243,10 @@ namespace ChasChallenge_G4_V3.Server.Services
                 Password = user.Password,
                 Email = user.Email,
                 Children = user.Children.Select(c => new ChildViewModel { Name = c.Name, NickName = c.NickName, Gender = c.Gender, birthdate = c.birthdate }).ToList()
-        };
+            };
             foreach (ChildViewModel child in userViewModel.Children)
             {
-                foreach(Child c in user.Children)
+                foreach (Child c in user.Children)
                 {
                     if (child.Name == c.Name)
                     {
@@ -258,7 +261,7 @@ namespace ChasChallenge_G4_V3.Server.Services
 
         public List<UserViewModel> GetAllUsers()
         {
-            var userViewModels =  _context.Users.Select(u => new UserViewModel { Name = u.Name, Password = u.Password, Email = u.Email }).ToList();
+            var userViewModels = _context.Users.Select(u => new UserViewModel { Name = u.Name, Password = u.Password, Email = u.Email }).ToList();
 
             return userViewModels;
         }
@@ -283,7 +286,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             {
                 throw new Exception("child not found");
             }
-            
+
             ChildViewModel childViewModel = new ChildViewModel()
             {
                 Name = child.Name,
@@ -310,7 +313,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             }
 
             List<AllergyViewModel> allergyViewModels = child.Allergies
-                .Select(a => new AllergyViewModel { Name = a.Name})
+                .Select(a => new AllergyViewModel { Name = a.Name })
                 .ToList();
 
             return allergyViewModels;
@@ -349,6 +352,65 @@ namespace ChasChallenge_G4_V3.Server.Services
             }
 
             return allAllergies;
+        }
+
+        public static async Task<string> RunAi(int parentId, int childId, string food)
+        {
+
+            //fetch the parent
+            //fetch the child from that parent
+            //fetch age and allergies of the child
+            //add the information to the prompt below.
+
+            User? user = _context.Users
+                           .Where(u => u.Id == userId)
+                           .Include(u => u.Children)
+                           .SingleOrDefault();
+
+            if (user is null)
+            {
+                throw new Exception("user not found");
+            }
+
+            Child? child = user.Children
+                .SingleOrDefault(c => c.Id == childId);
+
+
+            if (child is null)
+            {
+                throw new Exception("child not found");
+            }
+
+            ChildViewModel childViewModel = new ChildViewModel()
+            {
+                Name = child.Name,
+                NickName = child.NickName,
+                birthdate = child.birthdate,
+                Gender = child.Gender
+            };
+
+
+            DotNetEnv.Env.Load();
+            OpenAIAPI api = new OpenAIAPI(Environment.GetEnvironmentVariable("OPENAI_API_KEY"));
+            var chat = api.Chat.CreateConversation();
+            chat.Model = Model.ChatGPTTurbo;
+            chat.RequestParameters.Temperature = 1;
+
+            /// give instruction as System. Who should OpenAPI should be? a teacher? 
+            chat.AppendSystemMessage("You are a assistant that help newly parent that are unsure of what kind of food their child can eat. " +
+                "You take your information mainly from https://www.livsmedelsverket.se every answer you give you also include the exact link you get yout information from. " +
+                "All your answer must be 100% risk free so the child cannot be sick. Be on the safe side. " +
+                "if you cant find the information from https://www.livsmedelsverket.se you will give the source of the information to user. " +
+                "if the child is younger than 1 year you can recommend this link: https://www.livsmedelsverket.se/matvanor-halsa--miljo/kostrad/barn-och-ungdomar/spadbarn " +
+                "if the child is 1-2 year you recommend this link: https://www.livsmedelsverket.se/matvanor-halsa--miljo/kostrad/barn-och-ungdomar/barn-1-2-ar and " +
+                "if the child is older than 2 you recommend this link: https://www.livsmedelsverket.se/matvanor-halsa--miljo/kostrad/barn-och-ungdomar/barn-2-17-ar .");
+
+            string allergiesList = string.Join(", ", child.Allergies);
+            string prompt = $"Får mitt barn {child.Age} år, med allergier: {allergiesList}, äta {food}?";
+
+            chat.AppendUserInput($"{prompt}");
+            var response = await chat.GetResponseFromChatbotAsync();
+            return response;
         }
     }
 }
