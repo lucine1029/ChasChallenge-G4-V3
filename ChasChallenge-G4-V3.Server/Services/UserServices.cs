@@ -5,6 +5,8 @@ using ChasChallenge_G4_V3.Server.Models.ViewModels;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using OpenAI_API;
+using OpenAI_API.Models;
 using System;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -30,7 +32,7 @@ namespace ChasChallenge_G4_V3.Server.Services
 
         List<AllergyViewModel> GetAllChildrensAllergies(int userId);
 
-        Task<string> RunAi(int parentId, int childId, string food)
+        Task<string> RunAi(int parentId, int childId, string food);
 
 
     }
@@ -355,7 +357,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             return allAllergies;
         }
 
-        public static async Task<string> RunAi(int parentId, int childId, string food)
+        public async Task<string> RunAi(int parentId, int childId, string food)
         {
 
             //fetch the parent
@@ -364,7 +366,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             //add the information to the prompt below.
 
             User? user = _context.Users
-                           .Where(u => u.Id == userId)
+                           .Where(u => u.Id == parentId)
                            .Include(u => u.Children)
                            .SingleOrDefault();
 
