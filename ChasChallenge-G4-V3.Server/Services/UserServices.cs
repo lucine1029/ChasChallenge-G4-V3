@@ -4,6 +4,7 @@ using ChasChallenge_G4_V3.Server.Models.DTOs;
 using ChasChallenge_G4_V3.Server.Models.ViewModels;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -389,6 +390,19 @@ namespace ChasChallenge_G4_V3.Server.Services
                 Gender = child.Gender
             };
 
+            string childsAllergies = "";
+
+            foreach(Allergy a in child.Allergies) { 
+            
+                if (string.IsNullOrWhiteSpace(childsAllergies))
+                {
+                    childsAllergies += a;
+                }
+                else
+                {
+                    childsAllergies += ", " + a;
+                }
+            }
 
             DotNetEnv.Env.Load();
             OpenAIAPI api = new OpenAIAPI(Environment.GetEnvironmentVariable("OPENAI_API_KEY"));
@@ -405,8 +419,7 @@ namespace ChasChallenge_G4_V3.Server.Services
                 "if the child is 1-2 year you recommend this link: https://www.livsmedelsverket.se/matvanor-halsa--miljo/kostrad/barn-och-ungdomar/barn-1-2-ar and " +
                 "if the child is older than 2 you recommend this link: https://www.livsmedelsverket.se/matvanor-halsa--miljo/kostrad/barn-och-ungdomar/barn-2-17-ar .");
 
-            string allergiesList = string.Join(", ", child.Allergies);
-            string prompt = $"Får mitt barn {child.Age} år, med allergier: {allergiesList}, äta {food}?";
+            string prompt = $"Får mitt barn {child.birthdate} år, med allergier: {childsAllergies}, äta {food}?";
 
             chat.AppendUserInput($"{prompt}");
             var response = await chat.GetResponseFromChatbotAsync();
