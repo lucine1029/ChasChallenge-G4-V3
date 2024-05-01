@@ -422,7 +422,7 @@ namespace ChasChallenge_G4_V3.Server.Services
                 "if the child is older than 2 you recommend this link: https://www.livsmedelsverket.se/matvanor-halsa--miljo/kostrad/barn-och-ungdomar/barn-2-17-ar .");
 
             string prompt = $"Får mitt barn {child.birthdate} år, med allergier: {childsAllergies}, äta {food}?";
-
+            Console.WriteLine("hej är "+prompt);
             chat.AppendUserInput($"{prompt}");
             var response = await chat.GetResponseFromChatbotAsync();
             return response;

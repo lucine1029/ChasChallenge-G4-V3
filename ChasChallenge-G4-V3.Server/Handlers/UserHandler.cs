@@ -143,6 +143,19 @@ namespace ChasChallenge_G4_V3.Server.Handlers
             }
         }
 
+        public static IResult RunAi(IUserServices userServices, int userId, int childId, string food)
+        {
+            try
+            {
+                var child = userServices.RunAi(userId, childId, food);
+                return Results.Json(child);
+            }
+            catch (Exception ex)
+            {
+                return Results.NotFound($"Exception {ex.Message}");
+            }
+        }
+
 
     }
 }
