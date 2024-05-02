@@ -398,14 +398,15 @@ namespace ChasChallenge_G4_V3.Server.Services
             
                 if (string.IsNullOrWhiteSpace(childsAllergies))
                 {
-                    childsAllergies += a;
+                    childsAllergies = "inga";
                 }
                 else
                 {
                     childsAllergies += ", " + a;
                 }
             }
-
+            await Console.Out.WriteLineAsync("test:");
+            await Console.Out.WriteLineAsync(childsAllergies);
             DotNetEnv.Env.Load();
             OpenAIAPI api = new OpenAIAPI(Environment.GetEnvironmentVariable("OPENAI_API_KEY"));
             var chat = api.Chat.CreateConversation();
@@ -421,7 +422,7 @@ namespace ChasChallenge_G4_V3.Server.Services
                 "if the child is 1-2 year you recommend this link: https://www.livsmedelsverket.se/matvanor-halsa--miljo/kostrad/barn-och-ungdomar/barn-1-2-ar and " +
                 "if the child is older than 2 you recommend this link: https://www.livsmedelsverket.se/matvanor-halsa--miljo/kostrad/barn-och-ungdomar/barn-2-17-ar .");
 
-            string prompt = $"Får mitt barn {child.birthdate} år, med allergier: {childsAllergies}, äta {food}?";
+            string prompt = $"Får mitt barn som är {child.birthdate.Month} månader, som har: {childsAllergies} allergier, äta {food}?";
             Console.WriteLine("hej är "+prompt);
             chat.AppendUserInput($"{prompt}");
             var response = await chat.GetResponseFromChatbotAsync();
