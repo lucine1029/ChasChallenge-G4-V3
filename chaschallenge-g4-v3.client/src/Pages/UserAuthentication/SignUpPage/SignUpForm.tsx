@@ -1,8 +1,8 @@
-
-
-// import { useForm, SubmitHandler } from 'react-hook-form';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { addNewUser } from '../../../ResusableComponents/RequestMockData'; // Import addNewUser function
+import '../Account.css';
 
 interface FormValues {
   email: string;
@@ -11,79 +11,116 @@ interface FormValues {
 }
 
 const SignUpForm: React.FC = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors }
-  } = useForm<FormValues>();
+  const [emailExists, setEmailExists] = useState<boolean>(false); // State variable to track if email already exists
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormValues>();
 
-  const formSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log('Form Submitted: ', data);
+  // Function to check if email exists
+  const checkEmailExists = async (email: string) => {
+    try {
+      const response = await fetch('http://localhost:3000/users');
+      const users = await response.json();
+      const existingUser = users.some((user: any) => user.email === email);
+      setEmailExists(existingUser);
+    } catch (error) {
+      console.error('Error checking email existence:', error);
+    }
+  };
+
+  useEffect(() => {
+    // Check if email exists when the component mounts
+    checkEmailExists('');
+    // Cleanup function to reset emailExists state
+    return () => setEmailExists(false);
+  }, []);
+
+  const handleEmailChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    checkEmailExists(value);
+  };
+
+  const formSubmit: SubmitHandler<FormValues> = async (data) => {
+    try {
+      if (emailExists) {
+        console.log('Email in use');
+        setValue('email', ''); // Clear the email field
+        return;
+      }
+
+      await addNewUser({ email: data.email, password: data.password });
+      console.log('User registered successfully:', data);
+    } catch (error) {
+      console.error('Error registering user:', error);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit(formSubmit)}>
-      {/* Input-fält för e-post */}
-      <div>
-        <label htmlFor="email">Email:</label>
-        <input
-          id="email"
-          type="email"
-          {...register('email', {
-            required: 'Email is required',
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-              message: 'Invalid email address'
-            }
-          })}
-        />
-        {/* Visa felmeddelande om e-post är ogiltig */}
-        {errors.email && <span>{errors.email.message}</span>}
-      </div>
-
-      {/* Input-fält för lösenord */}
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
-          id="password"
-          type="password"
-          {...register('password', {
-            required: 'Password is required',
-            minLength: {
-              value: 8,
-              message: 'Password must be at least 8 characters'
-            }
-          })}
-        />
-        {/* Visa felmeddelande om lösenordet är ogiltigt */}
-        {errors.password && <span>{errors.password.message}</span>}
-      </div>
-
-      {/* Input-fält för att bekräfta lösenordet */}
-      <div>
-        <label htmlFor="confirmPassword">Confirm Password:</label>
-        <input
-          id="confirmPassword"
-          type="password"
-          {...register('confirmPassword', {
-            required: 'Please confirm your password',
-            validate: (value) =>
-              value === watch('password') || 'Passwords do not match'
-          })}
-        />
-        {/* Visa felmeddelande om bekräftelse av lösenordet är ogiltigt */}
-        {errors.confirmPassword && (
-          <span>{errors.confirmPassword.message}</span>
-        )}
-      </div>
-
-      {/* Knapp för att registrera */}
-      <button type="submit">Register</button>
-
-      {/* Länk för att logga in om man redan har ett konto */}
-      <Link to="/signin">Already have an account? Sign In</Link>
-    </form>
+    <div className='login-container'>
+      <h2 className='login-text'>Sign Up</h2>
+      <form onSubmit={handleSubmit(formSubmit)} className='form-container'>
+        <div className='input-container'>
+          <label htmlFor='email' className='input-label'>
+            Email:
+          </label>
+          <input
+            id='email'
+            type='email'
+            {...register('email', {
+              required: 'Email is Required',
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                message: 'Invalid email address',
+              },
+            })}
+            className={`input-field ${emailExists ? 'email-taken' : ''}`}
+            style={{ 
+              border: emailExists ? '1px solid red' : '1px solid #ccc', 
+              color: emailExists ? 'red' : '#000',
+            }}
+            
+            placeholder={emailExists ? 'Email Already in use!' : ''}
+            
+            onChange={handleEmailChange}
+          />
+          {errors.email && <span className='error-message'>{errors.email.message}</span>}
+        </div>
+        <div className='input-container'>
+          <label htmlFor='password' className='input-label'>
+            Password:
+          </label>
+          <input
+            id='password'
+            type='password'
+            {...register('password', {
+              required: 'Password is Required',
+            })}
+            className='input-field'
+          />
+          {errors.password && <span className='error-message'>{errors.password.message}</span>}
+        </div>
+        <div className='input-container'>
+          <label htmlFor='confirmPassword' className='input-label'>
+            Confirm Password:
+          </label>
+          <input
+            id='confirmPassword'
+            type='password'
+            {...register('confirmPassword', {
+              required: 'Confirm Password is Required',
+            })}
+            className='input-field'
+          />
+          {errors.confirmPassword && (
+            <span className='error-message'>{errors.confirmPassword.message}</span>
+          )}
+        </div>
+        <button type='submit' className='login-button'>
+          Sign Up
+        </button>
+      </form>
+      <Link to='/signin' className='link-button'>
+        Already have an account? Log In
+      </Link>
+    </div>
   );
 };
 
