@@ -38,7 +38,7 @@ namespace ChasChallenge_G4_V3.Server.Services
     {
         private ApplicationContext _context;
 
-        private UserManager<User> _userManager;
+        private UserManager<User> _userManager; // UserManager is a built-in Identity class that manages the User objects in the program. - Sean
 
         public UserServices(UserManager<User> userManager, ApplicationContext context)
         {
@@ -52,7 +52,7 @@ namespace ChasChallenge_G4_V3.Server.Services
         public async Task<IResult> RegisterUserAsync(UserDto user)
         {
 
-            User existingUser = await _userManager.FindByEmailAsync(user.Email);
+            User existingUser = await _userManager.FindByEmailAsync(user.Email); // Example of UserManager using some built in methods. - Sean
 
             if (existingUser != null)
             {
@@ -66,7 +66,7 @@ namespace ChasChallenge_G4_V3.Server.Services
                 Email = user.Email,
             };
 
-            var result = await _userManager.CreateAsync(identityUser, user.Password);
+            var result = await _userManager.CreateAsync(identityUser, user.Password); // Another built in UserManager Method - Sean
 
             if (result.Succeeded)
             {
@@ -81,7 +81,7 @@ namespace ChasChallenge_G4_V3.Server.Services
 
         }
 
-        public async Task<IResult> UserLoginAsync(LoginUserDto loginUser)
+        public async Task<IResult> UserLoginAsync(LoginUserDto loginUser) // There could be a built in Identity/UserManager login method. Will check - Sean
         {
 
             var identityUser = await _userManager.FindByEmailAsync(loginUser.Email);
@@ -103,7 +103,7 @@ namespace ChasChallenge_G4_V3.Server.Services
 
         //End of Identity Methods
 
-        public void AddChild(string userId, ChildDto childDto) // integrate with identity
+        public void AddChild(string userId, ChildDto childDto) // userId input parameters are now strings because Identity's own UserID are strings.
         {
             User? user = _context.Users
                 .Include(u => u.Children)

@@ -18,10 +18,10 @@ namespace ChasChallenge_G4_V3.Server
             string connectionString = builder.Configuration.GetConnectionString("ApplicationContext");
             builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
 
-            // Add Identity services
+            // Add Identity services. You can add requirements to what a new user needs to enter to his/her Identity. 
             builder.Services.AddIdentity<User, IdentityRole>(options =>
             {
-                options.Password.RequiredLength = 5; // Example of optional requirement
+                options.Password.RequiredLength = 5; // Examples of optional requirement
                 options.User.RequireUniqueEmail = true;
 
             })
