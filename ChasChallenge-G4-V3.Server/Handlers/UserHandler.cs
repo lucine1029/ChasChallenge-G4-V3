@@ -7,21 +7,26 @@ namespace ChasChallenge_G4_V3.Server.Handlers
     //Aldor nämnde att dessa inte borde vara static i lektionen 16/4? kika på det.
     public class UserHandler
     {
-        /*---------------------------------------- POSTS -------------------------------------*/
-        public static IResult AddUser(IUserServices userServices, UserDto userdto)
+        
+
+        public static async Task<IResult> UserLoginAsync(IUserServices userService, LoginUserDto loginUser)
         {
-            try
-            {
-                userServices.AddUser(userdto);
-                return Results.Ok();
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest(ex);
-            }
+            var result = await userService.UserLoginAsync(loginUser);
+
+            return result;
         }
 
-        public static IResult AddChild(IUserServices userServices, int userId, ChildDto childDto) 
+        public static async Task<IResult> RegisterUserAsync(IUserServices userService, UserDto newUser)
+        {
+
+            var result = await userService.RegisterUserAsync(newUser);
+
+            return result;
+
+
+        }
+
+        public static IResult AddChild(IUserServices userServices, string userId, ChildDto childDto)
         {
             try
             {
@@ -57,20 +62,20 @@ namespace ChasChallenge_G4_V3.Server.Handlers
                 return Results.Ok();
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Results.BadRequest(ex);
             }
         }
 
-        public static IResult AddMeasurement(IUserServices userServices,int childId, MeasurementDto measurementDto)
+        public static IResult AddMeasurement(IUserServices userServices, int childId, MeasurementDto measurementDto)
         {
             try
             {
                 userServices.AddMeasurement(childId, measurementDto);
                 return Results.Ok();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Results.BadRequest(ex);
             }
@@ -78,66 +83,66 @@ namespace ChasChallenge_G4_V3.Server.Handlers
 
         /*---------------------------------------- GETS -------------------------------------*/
 
-        public static IResult GetUser (IUserServices userServices, int userId)
+        public static IResult GetUser(IUserServices userServices, string userId)
         {
             try
             {
-                var user =  userServices.GetUser(userId);
+                var user = userServices.GetUser(userId);
                 return Results.Json(user);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Results.NotFound($"Exception {ex.Message}");
             }
         }
 
-        public static IResult GetAllUsers (IUserServices userServices)
+        public static IResult GetAllUsers(IUserServices userServices)
         {
             try
             {
                 var users = userServices.GetAllUsers();
                 return Results.Json(users);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Results.NotFound($"Exception {ex.Message}");
             }
         }
 
-        public static IResult GetChildofUser(IUserServices userServices,int userId, int childId)
+        public static IResult GetChildofUser(IUserServices userServices, string userId, int childId)
         {
             try
             {
                 var child = userServices.GetChildOfUser(userId, childId);
                 return Results.Json(child);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Results.NotFound($"Exception {ex.Message}");
             }
         }
 
-        public static IResult GetChildAllergies(IUserServices userServices,int userId, int childId)
+        public static IResult GetChildAllergies(IUserServices userServices, string userId, int childId)
         {
             try
             {
                 var allergies = userServices.GetChildsAllergies(userId, childId);
                 return Results.Json(allergies);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Results.NotFound($"Exception {ex.Message}");
             }
         }
 
-        public static IResult GetAllChildrensAllergies(IUserServices userServices, int userId)
+        public static IResult GetAllChildrensAllergies(IUserServices userServices, string userId)
         {
             try
             {
                 var allergies = userServices.GetAllChildrensAllergies(userId);
                 return Results.Json(allergies);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Results.NotFound($"Exception {ex.Message}");
             }

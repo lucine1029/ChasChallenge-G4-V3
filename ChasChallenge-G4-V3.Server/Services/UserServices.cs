@@ -3,6 +3,7 @@ using ChasChallenge_G4_V3.Server.Models;
 using ChasChallenge_G4_V3.Server.Models.DTOs;
 using ChasChallenge_G4_V3.Server.Models.ViewModels;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Numerics;
@@ -11,22 +12,25 @@ namespace ChasChallenge_G4_V3.Server.Services
 {
     public interface IUserServices
     {
-        void AddUser(UserDto userDto);
-        void AddChild(int userId, ChildDto childDto);
+        
+        void AddChild(string userId, ChildDto childDto);
 
         //void AddExistingChild(int userId, int childId);
-        void AddAllergy(int childId,  AllergyDto allergyDto);
+        void AddAllergy(int childId, AllergyDto allergyDto);
         void AddMeasurement(int childId, MeasurementDto measurementDto);
 
-        UserViewModel GetUser(int userId);
+        Task<IResult> RegisterUserAsync(UserDto user);
+        Task<IResult> UserLoginAsync(LoginUserDto User);
+
+        UserViewModel GetUser(string userId);
 
         List<UserViewModel> GetAllUsers();
 
-        ChildViewModel GetChildOfUser(int userId, int childId);
+        ChildViewModel GetChildOfUser(string userId, int childId);
 
-        List<AllergyViewModel> GetChildsAllergies(int userId, int childId);
+        List<AllergyViewModel> GetChildsAllergies(string userId, int childId);
 
-        List<AllergyViewModel> GetAllChildrensAllergies(int userId);
+        List<AllergyViewModel> GetAllChildrensAllergies(string userId);
 
 
     }
@@ -34,43 +38,72 @@ namespace ChasChallenge_G4_V3.Server.Services
     {
         private ApplicationContext _context;
 
-        public UserServices(ApplicationContext context)
+        private UserManager<User> _userManager;
+
+        public UserServices(UserManager<User> userManager, ApplicationContext context)
         {
+            _userManager = userManager;
             _context = context;
         }
 
-        public void AddUser(UserDto userDto)
+       
+        //Identity Methods
+
+        public async Task<IResult> RegisterUserAsync(UserDto user)
         {
-            if (string.IsNullOrWhiteSpace(userDto.Email))
+
+            User existingUser = await _userManager.FindByEmailAsync(user.Email);
+
+            if (existingUser != null)
             {
-                throw new InvalidDataException();
+                return Results.BadRequest("User already exists in database.");
             }
 
-            if (_context.Users.Any(u => u.Email == userDto.Email))
+            var identityUser = new User
             {
-                throw new Exception($"User with email : {userDto.Email} allready exists");
-            }
+                Name = user.Name,
+                UserName = user.Email,
+                Email = user.Email,
+            };
 
-            _context.Users
-                .Add(new User()
-                {
-                    Name = userDto.Name,
-                    Email = userDto.Email,
-                    Password = userDto.Password
-                });
+            var result = await _userManager.CreateAsync(identityUser, user.Password);
 
-            try
+            if (result.Succeeded)
             {
-                _context.SaveChanges();
+                // User created successfully, return Ok
+                return Results.Ok("User created successfully.");
             }
-            catch
+            else
             {
-                throw new Exception("unable to save to Database");
+                // User creation failed, return BadRequest with error message
+                return Results.BadRequest("Failed to create user.");
             }
 
         }
 
-        public void AddChild(int userId, ChildDto childDto)
+        public async Task<IResult> UserLoginAsync(LoginUserDto loginUser)
+        {
+
+            var identityUser = await _userManager.FindByEmailAsync(loginUser.Email);
+
+            if (identityUser == null)
+            {
+                return Results.BadRequest($"User Not Found");
+            }
+
+            var isPasswordValid = await _userManager.CheckPasswordAsync(identityUser, loginUser.Password);
+
+            if (!isPasswordValid)
+            {
+                return Results.BadRequest("Invalid email or password.");
+            }
+
+            return Results.Ok("Login successful.");
+        }
+
+        //End of Identity Methods
+
+        public void AddChild(string userId, ChildDto childDto) // integrate with identity
         {
             User? user = _context.Users
                 .Include(u => u.Children)
@@ -165,7 +198,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             }
 
         }
-        public void AddMeasurement (int childId, MeasurementDto measurementDto)
+        public void AddMeasurement(int childId, MeasurementDto measurementDto)
         {
             Child? child = _context.Children
                 .Include(c => c.Measurements)
@@ -220,7 +253,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             }
         }
 
-        public UserViewModel GetUser(int UserId)
+        public UserViewModel GetUser(string UserId) // Needs to be integrated to IdentityUser
         {
             User? user = _context.Users
                 .Include(u => u.Children)
@@ -237,13 +270,13 @@ namespace ChasChallenge_G4_V3.Server.Services
             UserViewModel userViewModel = new UserViewModel()
             {
                 Name = user.Name,
-                Password = user.Password,
+                
                 Email = user.Email,
                 Children = user.Children.Select(c => new ChildViewModel { Name = c.Name, NickName = c.NickName, Gender = c.Gender, birthdate = c.birthdate }).ToList()
-        };
+            };
             foreach (ChildViewModel child in userViewModel.Children)
             {
-                foreach(Child c in user.Children)
+                foreach (Child c in user.Children)
                 {
                     if (child.Name == c.Name)
                     {
@@ -256,14 +289,14 @@ namespace ChasChallenge_G4_V3.Server.Services
             return userViewModel;
         }
 
-        public List<UserViewModel> GetAllUsers()
+        public List<UserViewModel> GetAllUsers() // Integrate to Identity
         {
-            var userViewModels =  _context.Users.Select(u => new UserViewModel { Name = u.Name, Password = u.Password, Email = u.Email }).ToList();
+            var userViewModels = _context.Users.Select(u => new UserViewModel { Name = u.Name, Email = u.Email }).ToList();
 
             return userViewModels;
         }
 
-        public ChildViewModel GetChildOfUser(int userId, int childId)
+        public ChildViewModel GetChildOfUser(string userId, int childId) // Integrate to Identity
         {
             User? user = _context.Users
                 .Where(u => u.Id == userId)
@@ -283,7 +316,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             {
                 throw new Exception("child not found");
             }
-            
+
             ChildViewModel childViewModel = new ChildViewModel()
             {
                 Name = child.Name,
@@ -295,7 +328,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             return childViewModel;
         }
 
-        public List<AllergyViewModel> GetChildsAllergies(int userId, int childId)
+        public List<AllergyViewModel> GetChildsAllergies(string userId, int childId)
         {
 
 
@@ -310,13 +343,13 @@ namespace ChasChallenge_G4_V3.Server.Services
             }
 
             List<AllergyViewModel> allergyViewModels = child.Allergies
-                .Select(a => new AllergyViewModel { Name = a.Name})
+                .Select(a => new AllergyViewModel { Name = a.Name })
                 .ToList();
 
             return allergyViewModels;
         }
 
-        public List<AllergyViewModel> GetAllChildrensAllergies(int userId)
+        public List<AllergyViewModel> GetAllChildrensAllergies(string userId) // Integrate to Identity
         {
             User? user = _context.Users
                 .Include(u => u.Children)
