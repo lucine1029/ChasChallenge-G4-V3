@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchAndCombineData } from './ResusableComponents/RequestMockData'; // Import the fetchAndCombineData function from RequestMockData.tsx
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 
-import AccountPage from './Pages/AccountPage/AccountPage';
+import AccountRoutes from './Pages/AccountPage/AccountPage/';
 import ChatbotPage from './Pages/ChatbotPage/ChatbotPage';
 import HomePage from './Pages/HomePage/HomePage';
 import SignUpPage from './Pages/UserAuthentication/SignUpPage/SignUpPage';
@@ -39,14 +39,13 @@ const App = () => {
           ))}
         </ul>
       </nav>
-      
 
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/chat' element={<ChatbotPage />} />
         <Route path='/signup' element={<SignUpPage />} />
         <Route path='/signin' element={<SignInPage />} />
-        <Route path='/account' element={<AccountPage />} />
+        <Route path='/account/*' element={<AccountRoutes />} />
       </Routes>
     </BrowserRouter>
   );

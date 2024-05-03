@@ -1,7 +1,7 @@
-import "../../../scss/Components/_profilesteps.scss";
-import { useState } from "react";
-import AllergiesComp from "../../../ResusableComponents/AllergiesComp";
-import ChildData from "../../../ResusableComponents/ChildData";
+import '../../../scss/Components/_profilesteps.scss';
+import { useState } from 'react';
+import AllergiesComp from '../../../ResusableComponents/ChildAllergies';
+import ChildData from '../../../ResusableComponents/ChildProfile';
 
 /* This component handles the steps of adding baby profile information and includes a stepmessage and a button component */
 
@@ -17,7 +17,7 @@ interface ButtonProps {
   children: React.ReactNode;
 }
 
-const messages = ["Ditt barn", "Allergier", "Preferenser"];
+const messages = ['Ditt barn', 'Allergier', 'Preferenser'];
 
 // Step-specific components (temporary, these need to be imported)
 
@@ -44,10 +44,10 @@ export default function SignUpSteps() {
     <div>
       <h2>ProfileSetup</h2>
       <section>
-        <div className="column">
-          <div className={step >= 1 ? "active" : ""}>Steg 1</div>
-          <div className={step >= 2 ? "active" : ""}>Steg 2</div>
-          <div className={step >= 3 ? "active" : ""}>Steg 3</div>
+        <div className='column'>
+          <div className={step >= 1 ? 'active' : ''}>Steg 1</div>
+          <div className={step >= 2 ? 'active' : ''}>Steg 2</div>
+          <div className={step >= 3 ? 'active' : ''}>Steg 3</div>
         </div>
 
         <StepMessage
@@ -67,9 +67,9 @@ export default function SignUpSteps() {
 
 function StepMessage({ step, message, FormComponent }: StepMessageProps) {
   return (
-    <div className="message">
+    <div className='message'>
       <h3>
-        Steg {step} - {message}{" "}
+        Steg {step} - {message}{' '}
       </h3>
       <FormComponent />
     </div>
@@ -79,5 +79,3 @@ function StepMessage({ step, message, FormComponent }: StepMessageProps) {
 function Button({ onClick, children }: ButtonProps) {
   return <button onClick={onClick}>{children}</button>;
 }
-
-
