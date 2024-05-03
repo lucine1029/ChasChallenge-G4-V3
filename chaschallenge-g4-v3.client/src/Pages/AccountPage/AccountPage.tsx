@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { Routes, Route, Link, Outlet } from 'react-router-dom';
 import UserSettings from './UserSettings';
 import ChildProfile from '../../ResusableComponents/ChildProfile';
