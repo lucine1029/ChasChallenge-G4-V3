@@ -1,8 +1,10 @@
 
 using ChasChallenge_G4_V3.Server.Data;
 using ChasChallenge_G4_V3.Server.Handlers;
+using ChasChallenge_G4_V3.Server.Models;
 using ChasChallenge_G4_V3.Server.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChasChallenge_G4_V3.Server
@@ -15,6 +17,16 @@ namespace ChasChallenge_G4_V3.Server
             //db connection
             string connectionString = builder.Configuration.GetConnectionString("ApplicationContext");
             builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
+
+            // Add Identity services
+            builder.Services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 5; // Example of optional requirement
+                options.User.RequireUniqueEmail = true;
+
+            })
+            .AddEntityFrameworkStores<ApplicationContext>()
+            .AddDefaultTokenProviders();
 
             //Dependency injection
             builder.Services.AddScoped<IUserServices,UserServices>();
@@ -42,14 +54,17 @@ namespace ChasChallenge_G4_V3.Server
             app.UseAuthorization();
 
             //Post
-            app.MapPost("/user", UserHandler.AddUser);
+            //app.MapPost("/user", UserHandler.AddUser);
             app.MapPost("/user/child", UserHandler.AddChild);
             //app.MapPost("/user/existingChild", UserHandler.AddExistingChild);
             app.MapPost("/user/child/allergy", UserHandler.AddAllergy);
             app.MapPost("/user/child/measurement", UserHandler.AddMeasurement);
 
+            app.MapPost("/register", UserHandler.RegisterUserAsync);
+            app.MapPost("/login", UserHandler.UserLoginAsync);
 
-            //Gets
+
+            ////Gets
             app.MapGet("/user", UserHandler.GetUser);
             app.MapGet("/allusers", UserHandler.GetAllUsers);
             app.MapGet("/user/child", UserHandler.GetChildofUser);
