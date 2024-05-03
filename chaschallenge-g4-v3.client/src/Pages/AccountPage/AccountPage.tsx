@@ -9,7 +9,7 @@ import AddChild from './AddChild';
 const AccountPage = () => {
   return (
     <div>
-      <h1>Account Settings</h1>
+      <h1>Account</h1>
       <nav>
         <ul>
           <li>
