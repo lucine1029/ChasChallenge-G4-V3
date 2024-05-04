@@ -8,7 +8,7 @@ import SignInPage from './Pages/UserAuthentication/SingInPage/SingInPage';
 import AccountPage from './Pages/AccountPage/AccountPage';
 import UserSettings from './Pages/AccountPage/UserSettings';
 import ChildProfile from './Pages/AccountPage/ChildProfile';
-import AddChild from './Pages/AccountPage/AddChild';
+import AddChild from './Pages/AccountPage/ChildAdd';
 import BackButton from './Components/BackButton';
 
 const App = () => {

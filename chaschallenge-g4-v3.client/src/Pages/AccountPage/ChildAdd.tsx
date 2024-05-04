@@ -2,7 +2,7 @@
 
 import ChildProfile from '../../ResusableComponents/ChildProfile'; // Assuming ChildData is your form component for child details
 import ChildAllergies from '../../ResusableComponents/ChildAllergies'; // Allergies component
-import AvatarList from './AvatarList';
+import AvatarList from './ChildAvatarList';
 import BackButton from '../../ResusableComponents/BackButton';
 
 const AddChild = () => {

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import AvatarCard from './AvatarCard';
+import AvatarCard from './ChildAvatarCard';
 
 function AvatarList() {
   const [avatars, setAvatars] = useState([]);
