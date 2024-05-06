@@ -15,11 +15,11 @@ function ChildCard() {
         <div>
           <h2>Barnets Namn</h2>
           <p>Pojke</p>
-          <p>January 2024</p>
-          <p>
-            <span>Allergi-1</span>
-            <span>Allergi-2</span>
-          </p>
+          <p>14 January 2024</p>
+          <div className='column'>
+            <span className='allergy'>Allergi-1</span>
+            <span className='allergy'>Allergi-2</span>
+          </div>
         </div>
       </div>
     </>

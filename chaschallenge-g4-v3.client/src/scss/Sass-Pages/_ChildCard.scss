@@ -12,7 +12,7 @@ body {
   padding: 0 20px 20px;
   border-radius: 6px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.075);
-  text-align: center;
+  text-align: left;
 }
 
 .avatar {
@@ -34,6 +34,15 @@ body {
   top: 20%; /* Centers the image vertically */
   left: 20%; /* Centers the image horizontally */
   object-position: center;
+}
+
+.column {
+  display: flex;
+  gap: 1rem;
+}
+
+.allergy {
+  background-color: #f0f0f0;
 }
 
 h2 {
