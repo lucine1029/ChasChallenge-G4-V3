@@ -7,7 +7,7 @@ import SignUpPage from './Pages/UserAuthentication/SignUpPage/SignUpPage';
 import SignInPage from './Pages/UserAuthentication/SingInPage/SingInPage';
 import AccountPage from './Pages/AccountPage/AccountPage';
 import UserSettings from './Pages/AccountPage/UserSettings';
-import ChildProfile from './Pages/AccountPage/ChildProfile';
+import ChildrenPage from './Pages/AccountPage/ChildrenPage';
 import AddChild from './Pages/AccountPage/ChildAdd';
 // import BackButton from './Components/BackButton';
 import NavBar from './ResusableComponents/NavBar';
@@ -35,7 +35,7 @@ const App = () => {
           <Route path='/signin' element={<SignInPage />} />
           <Route path='/account/' element={<AccountPage />} />
           <Route path='/account/settings' element={<UserSettings />} />
-          <Route path='/account/children' element={<ChildProfile />} />
+          <Route path='/account/children' element={<ChildrenPage />} />
           <Route path='/account/children/add' element={<AddChild />} />
         </Routes>
       </BrowserRouter>

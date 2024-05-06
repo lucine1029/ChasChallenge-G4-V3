@@ -1,11 +1,7 @@
-import ChildCard from '../../ResusableComponents/ChildCard';
+import ChildList from '../../ResusableComponents/ChildList';
 
-interface Props {}
-
-function ChildrenPage(props: Props) {
-  const {} = props;
-
-  return <ChildCard />;
+function ChildrenPage() {
+  return <ChildList />;
 }
 
 export default ChildrenPage;

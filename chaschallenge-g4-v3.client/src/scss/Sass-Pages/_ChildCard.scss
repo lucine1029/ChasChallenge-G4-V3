@@ -5,61 +5,59 @@ body {
   background-color: #f0f0f0;
   font-family: roboto;
 }
+
 .container {
   width: 400px;
-  margin: 120px auto 120px;
+  margin: 100px auto 100px;
   background-color: #fff;
-  padding: 0 20px 20px;
-  border-radius: 6px;
+  padding: 0 1rem 0rem;
+  border-radius: 1rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.075);
   text-align: left;
+  position: relative;
 }
 
 .avatar {
   border-radius: 100px;
   overflow: hidden;
-  height: 150px;
-  width: 150px;
+  height: 120px;
+  width: 120px;
   position: relative;
-  margin: auto;
-  top: -60px;
+  margin-left: 0.6rem;
+  transform: translateY(-60px);
   background-color: #fff;
   box-shadow: 0 0 0 13px #f0f0f0;
 }
 
 .avatar img {
   position: absolute;
-  width: 60%; /* Full width of the container */
-  height: 60%; /* Full height of the container */
-  top: 20%; /* Centers the image vertically */
-  left: 20%; /* Centers the image horizontally */
+  width: 60%;
+  height: 60%;
+  top: 20%;
+  left: 20%;
   object-position: center;
+}
+
+.text-follow-avatar {
+  position: relative;
+  top: -30px; /* Matches the avatar offset */
 }
 
 .column {
   display: flex;
   gap: 1rem;
+  margin-top: 1.5rem;
 }
 
 .allergy {
   background-color: #f0f0f0;
+  padding: 1rem 1rem;
+  border-radius: 1rem;
 }
 
 h2 {
   font-size: 32px;
   font-weight: 600;
-  margin-bottom: 15px;
-  color: #333;
-}
-h4 {
-  font-size: 13px;
-  color: #00baff;
-  letter-spacing: 1px;
-  margin-bottom: 25px;
-}
-p {
-  font-size: 16px;
-  line-height: 26px;
-  margin-bottom: 20px;
-  color: #666;
+  margin: 1rem 0 0.4rem 0;
+  //color: #333;
 }
