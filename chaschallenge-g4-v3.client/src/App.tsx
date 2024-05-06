@@ -10,6 +10,7 @@ import UserSettings from './Pages/AccountPage/UserSettings';
 import ChildProfile from './Pages/AccountPage/ChildProfile';
 import AddChild from './Pages/AccountPage/ChildAdd';
 import BackButton from './Components/BackButton';
+import ChildrenPage from './Pages/AccountPage/ChildrenPage';
 
 const App = () => {
   const [links] = useState([
@@ -50,7 +51,7 @@ const App = () => {
         <Route path='/signin' element={<SignInPage />} />
         <Route path='/account/' element={<AccountPage />} />
         <Route path='/account/settings' element={<UserSettings />} />
-        <Route path='/account/children' element={<ChildProfile />} />
+        <Route path='/account/children' element={<ChildrenPage />} />
         <Route path='/account/children/add' element={<AddChild />} />
       </Routes>
     </BrowserRouter>
