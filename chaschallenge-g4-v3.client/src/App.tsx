@@ -11,6 +11,10 @@ import ChildProfile from './Pages/AccountPage/ChildProfile';
 import AddChild from './Pages/AccountPage/ChildAdd';
 // import BackButton from './Components/BackButton';
 import NavBar from './ResusableComponents/NavBar';
+import {getDataFromSwagger} from './ResusableComponents/RequestDataSwagger'
+
+getDataFromSwagger()
+
 
 const App = () => {
   //UseEffect for data from json.db
