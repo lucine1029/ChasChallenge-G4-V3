@@ -416,7 +416,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             DateTime timeNow = DateTime.Now;
             int ageInMonths = (timeNow.Year - birthdate.Year) * 12 + timeNow.Month - birthdate.Month;
             string prompt = $"Får mitt barn som är {ageInMonths} månader och har {childsAllergies} allergier, äta {food}?";
-            await Console.Out.WriteLineAsync("ålder:"+ageInMonths + childsAllergies);
+
             chat.AppendUserInput($"{prompt}");
             var response = await chat.GetResponseFromChatbotAsync();
             return response;
