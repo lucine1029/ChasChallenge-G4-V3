@@ -147,8 +147,8 @@ namespace ChasChallenge_G4_V3.Server.Handlers
         {
             try
             {
-                var child = await userServices.GetChildDietAi(userId, childId, food);
-                return Results.Json(child);
+                var childDiet = await userServices.GetChildDietAi(userId, childId, food);
+                return Results.Json(childDiet);
             }
             catch (Exception ex)
             {
