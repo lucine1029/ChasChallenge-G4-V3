@@ -143,11 +143,11 @@ namespace ChasChallenge_G4_V3.Server.Handlers
             }
         }
 
-        public static IResult RunAi(IUserServices userServices, int userId, int childId, string food)
+        public static async Task<IResult> GetChildDietAi(IUserServices userServices, int userId, int childId, string food)
         {
             try
             {
-                var child = userServices.RunAi(userId, childId, food);
+                var child = await userServices.GetChildDietAi(userId, childId, food);
                 return Results.Json(child);
             }
             catch (Exception ex)
@@ -155,7 +155,5 @@ namespace ChasChallenge_G4_V3.Server.Handlers
                 return Results.NotFound($"Exception {ex.Message}");
             }
         }
-
-
     }
 }
