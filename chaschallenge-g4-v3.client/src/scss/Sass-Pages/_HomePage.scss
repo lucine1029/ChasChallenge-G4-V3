@@ -1,0 +1,45 @@
+.homepage-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;    
+    h1{
+        margin: 2rem;
+        text-align: center;
+        text-transform: uppercase;
+    }
+    h2{
+        color: #F4F3FE;
+        font-weight: 200;
+        text-align: center;
+        font-size: 32px;
+    }
+}
+
+.homepage-auth-portal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20rem;
+
+    .homepage-login-btn{
+        width: 14rem;
+        padding: 1.5rem;
+        background-color: #DCD9FB;
+        border: none;
+        border-radius: 1rem;
+        font-size:x-large;
+        font-weight: 400;
+        text-decoration: none;
+        color: black;
+        display: flex;
+        justify-content: center;
+    }
+    p{
+        font-weight: 300;
+    }
+    a{
+        font-weight: 300;
+    }
+}
