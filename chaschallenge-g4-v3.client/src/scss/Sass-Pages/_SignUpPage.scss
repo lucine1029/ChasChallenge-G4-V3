@@ -1,6 +1,11 @@
 @use '../abstract/index' as *;
 
 /* Account.css */
+:root{
+  background-color: white;
+  background-image: url('../../../public/Baby-Background.png');
+  background-size: cover;
+}
 
 .input-container {
     margin-bottom: 20px;

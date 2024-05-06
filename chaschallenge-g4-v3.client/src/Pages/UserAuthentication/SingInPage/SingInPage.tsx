@@ -5,6 +5,7 @@ import '../../../scss/Sass-Pages/_SignUpPage.scss';
 
 const SignIn: React.FC = () => {
   return (
+    <main>
     <div className='login-container'>
       {' '}
       {/* Använd klassen för container */}
@@ -14,6 +15,7 @@ const SignIn: React.FC = () => {
         <Link to='/'>Back to Home</Link>
       </div>
     </div>
+    </main>
   );
 };
 
