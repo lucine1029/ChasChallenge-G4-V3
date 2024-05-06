@@ -1,11 +1,8 @@
-import '../../../scss/Components/_profilesteps.scss';
-import { useState } from 'react';
-import AllergiesComp from '../../../ResusableComponents/ChildAllergies';
-import ChildData from '../../../ResusableComponents/ChildProfile';
+/* import { useState } from 'react';
 
-/* This component handles the steps of adding baby profile information and includes a stepmessage and a button component */
+//This component handles the steps of adding baby profile information and includes a stepmessage and a button component
 
-/*---------------- Typescript ----------------*/
+//---------------- Typescript ----------------
 interface StepMessageProps {
   step: number;
   message: string;
@@ -79,3 +76,4 @@ function StepMessage({ step, message, FormComponent }: StepMessageProps) {
 function Button({ onClick, children }: ButtonProps) {
   return <button onClick={onClick}>{children}</button>;
 }
+ */
