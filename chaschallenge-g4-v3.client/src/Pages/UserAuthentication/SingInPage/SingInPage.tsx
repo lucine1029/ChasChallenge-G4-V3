@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SignInForm from './SignInForm';
-import '../Account.css'
+import '../../../scss/Components/_SignUpPage.scss';
 
 const SignIn: React.FC = () => {
   return (
