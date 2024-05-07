@@ -33,7 +33,8 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             var identityUser = new User
             {
-                Name = user.Name,
+                LastName = user.LastName,
+                FirstName = user.FirstName,
                 UserName = user.Email,
                 Email = user.Email,
             };
