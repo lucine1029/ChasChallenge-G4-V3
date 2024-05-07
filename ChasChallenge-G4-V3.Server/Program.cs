@@ -60,8 +60,8 @@ namespace ChasChallenge_G4_V3.Server
             app.MapPost("/user/child/allergy", UserHandler.AddAllergy);
             app.MapPost("/user/child/measurement", UserHandler.AddMeasurement);
 
-            app.MapPost("/register", UserHandler.RegisterUserAsync);
-            app.MapPost("/login", UserHandler.UserLoginAsync);
+            app.MapPost("/register", LoginHandler.RegisterUserAsync);
+            app.MapPost("/login", LoginHandler.UserLoginAsync);
 
 
             ////Gets

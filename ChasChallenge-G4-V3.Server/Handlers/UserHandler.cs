@@ -7,25 +7,7 @@ namespace ChasChallenge_G4_V3.Server.Handlers
     //Aldor nämnde att dessa inte borde vara static i lektionen 16/4? kika på det.
     public class UserHandler
     {
-        
-
-        public static async Task<IResult> UserLoginAsync(IUserServices userService, LoginUserDto loginUser)
-        {
-            var result = await userService.UserLoginAsync(loginUser);
-
-            return result;
-        }
-
-        public static async Task<IResult> RegisterUserAsync(IUserServices userService, UserDto newUser)
-        {
-
-            var result = await userService.RegisterUserAsync(newUser);
-
-            return result;
-
-
-        }
-
+          
         public static IResult AddChild(IUserServices userServices, string userId, ChildDto childDto)
         {
             try
