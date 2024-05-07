@@ -6,22 +6,22 @@ namespace ChasChallenge_G4_V3.Server.Handlers
 {
     public class LoginHandler
     {
-        public static async Task<IResult> UserLoginAsync(ILoginServices userService, LoginUserDto loginUser)
+        public static async Task<IResult> UserLoginAsync(ILoginServices loginService, LoginUserDto loginUser)
         {
-            var result = await userService.UserLoginAsync(loginUser);
+            var result = await loginService.UserLoginAsync(loginUser);
 
             if (!result.Success)
             {
                 return Results.BadRequest(result.ErrorMessage);
             }
 
-            return Results.Ok(result.UserId);
+            return Results.Json(result.UserId);
         }
 
-        public static async Task<IResult> RegisterUserAsync(IUserServices userService, UserDto newUser)
+        public static async Task<IResult> RegisterUserAsync(ILoginServices loginService, UserDto newUser)
         {
 
-            var result = await RegisterUserAsync(userService, newUser);
+            var result = await loginService.RegisterUserAsync(newUser);
 
             return result;
 

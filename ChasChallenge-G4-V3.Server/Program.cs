@@ -37,6 +37,7 @@ namespace ChasChallenge_G4_V3.Server
 
             //Dependency injection
             builder.Services.AddScoped<IUserServices,UserServices>();
+            builder.Services.AddScoped<ILoginServices, LoginServices>();
 
             // Add services to the container.
 
