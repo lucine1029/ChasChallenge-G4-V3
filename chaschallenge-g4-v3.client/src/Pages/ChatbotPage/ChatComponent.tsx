@@ -86,7 +86,7 @@ const ChatComponent: React.FC = () => {
                 ))}
             </div>
 
-            <form onSubmit={handleSubmit} action=''>
+            <form className='user-input-container' onSubmit={handleSubmit} action=''>
                 <input type='text' id='chat-input' placeholder='Ställ en fråga..' />
                 <button type='submit' id='chat-submit-btn'>Skicka</button>
             </form>

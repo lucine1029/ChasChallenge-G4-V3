@@ -55,12 +55,12 @@ const SignUpForm: React.FC = () => {
 
   return (
     <div className='login-container'>
-      <h2 className='login-text'>Sign Up</h2>
+      <h2 className='login-text'>Registrera dig</h2>
       <form onSubmit={handleSubmit(formSubmit)} className='form-container'>
         <div className='input-container'>
-          <label htmlFor='email' className='input-label'>
+          {/* <label htmlFor='email' className='input-label'>
             Email:
-          </label>
+          </label> */}
           <input
             id='email'
             type='email'
@@ -73,23 +73,24 @@ const SignUpForm: React.FC = () => {
             })}
             className={`input-field ${emailExists ? 'email-taken' : ''}`}
             style={{ 
-              border: emailExists ? '1px solid red' : '1px solid #ccc', 
+              border: emailExists ? '1px solid red' : '', 
               color: emailExists ? 'red' : '#000',
             }}
             
-            placeholder={emailExists ? 'Email Already in use!' : ''}
+            placeholder={emailExists ? 'Email Already in use!' : 'E-postadress'}
             
             onChange={handleEmailChange}
           />
           {errors.email && <span className='error-message'>{errors.email.message}</span>}
         </div>
         <div className='input-container'>
-          <label htmlFor='password' className='input-label'>
+          {/* <label htmlFor='password' className='input-label'>
             Password:
-          </label>
+          </label> */}
           <input
             id='password'
             type='password'
+            placeholder='Lösenord'
             {...register('password', {
               required: 'Password is Required',
             })}
@@ -98,12 +99,13 @@ const SignUpForm: React.FC = () => {
           {errors.password && <span className='error-message'>{errors.password.message}</span>}
         </div>
         <div className='input-container'>
-          <label htmlFor='confirmPassword' className='input-label'>
+          {/* <label htmlFor='confirmPassword' className='input-label'>
             Confirm Password:
-          </label>
+          </label> */}
           <input
             id='confirmPassword'
             type='password'
+            placeholder='Bekräfta lösenord'
             {...register('confirmPassword', {
               required: 'Confirm Password is Required',
             })}
