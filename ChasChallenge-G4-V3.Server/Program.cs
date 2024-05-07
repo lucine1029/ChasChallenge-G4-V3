@@ -23,10 +23,17 @@ namespace ChasChallenge_G4_V3.Server
             {
                 options.Password.RequiredLength = 5; // Examples of optional requirement
                 options.User.RequireUniqueEmail = true;
+                options.Password.RequireDigit = false; // Remove digit requirement
+                options.Password.RequireLowercase = false; // Remove lowercase requirement
+                options.Password.RequireUppercase = false; // Remove uppercase requirement
+                options.Password.RequireNonAlphanumeric = false; // Remove non-alphanumeric requirement           
+                options.Password.RequiredUniqueChars = 0; // Set minimum unique characters in password (if needed)
 
             })
             .AddEntityFrameworkStores<ApplicationContext>()
             .AddDefaultTokenProviders();
+
+            
 
             //Dependency injection
             builder.Services.AddScoped<IUserServices,UserServices>();
