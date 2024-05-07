@@ -1,7 +1,8 @@
-@use '../Abstract/fonts' as *;
+@use '../Abstract/index' as *;
 
 :root{
     padding: 0;
     margin: 0;
     font-family: $mainfont;
+    background: linear-gradient(to bottom, $gradient);
 }

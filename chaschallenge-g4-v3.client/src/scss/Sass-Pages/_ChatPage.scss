@@ -1,6 +1,8 @@
+@use '../abstract/index' as *;
+
 main{
     width: 100vw;
-    height: 95vh;
+    height: 98vh;
     display: flex;
     justify-content: start;
     align-items: center;
@@ -8,7 +10,6 @@ main{
 }
 
 .ai-chat-container{
-    background-color: rgb(225, 225, 225);
     width: 95%;
     height: 90%;
     border-radius: 2rem;
@@ -25,106 +26,57 @@ main{
     align-items: start;
     justify-content: center;
     flex-direction: column;
-    background-color: rgba(78, 131, 230, 0.897);
-    padding: .8rem;
-    width: 75%;
+    padding: .2rem .8rem;
+    width: 85%;
     border-radius: 1rem;
-    margin: .4rem;
+    margin: .2rem;
 
     h4{
         margin: 0;
     }
 
     &.user{
-        background-color: rgba(78, 230, 116, 0.897);
+        background-color: #D9B8FF;
     }
     &.ai{
-        background-color: rgba(78, 131, 230, 0.897);
+        background-color: #b4e0ff;
 
         &.loading {
-            animation: jello-horizontal 1s infinite;
+          
         }
     }
 }
 
+.user-input-container{
+  margin-bottom: 2rem;
+  background-color: white;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 #chat-input{
     width: 16rem;
+    height: 2rem;
     margin: .2rem .4rem;
     border: none;
-    background-color: rgb(224, 224, 224);
+    background-color: rgb(255, 255, 255);
     border-radius: 1rem;
-    padding: .8rem;
+    padding: .4rem;
+    font-size:medium;
+    overflow-y: auto;
+}
+
+#chat-input:focus{
+  outline:none;
 }
 
 #chat-submit-btn{
     background: none;
     border: none;
     cursor: pointer;
-    background-color: rgb(230, 230, 230);
-    padding: .9rem;
-    border-radius: 1rem;
+    margin: .4rem;
+    background-color: white;
+    font-size: medium;
 }
-
-//chatbubble animation
-
- @-webkit-keyframes jello-horizontal {
-    0% {
-      -webkit-transform: scale3d(1, 1, 1);
-              transform: scale3d(1, 1, 1);
-    }
-    30% {
-      -webkit-transform: scale3d(1.25, 0.75, 1);
-              transform: scale3d(1.25, 0.75, 1);
-    }
-    40% {
-      -webkit-transform: scale3d(0.75, 1.25, 1);
-              transform: scale3d(0.75, 1.25, 1);
-    }
-    50% {
-      -webkit-transform: scale3d(1.15, 0.85, 1);
-              transform: scale3d(1.15, 0.85, 1);
-    }
-    65% {
-      -webkit-transform: scale3d(0.95, 1.05, 1);
-              transform: scale3d(0.95, 1.05, 1);
-    }
-    75% {
-      -webkit-transform: scale3d(1.05, 0.95, 1);
-              transform: scale3d(1.05, 0.95, 1);
-    }
-    100% {
-      -webkit-transform: scale3d(1, 1, 1);
-              transform: scale3d(1, 1, 1);
-    }
-  }
-  @keyframes jello-horizontal {
-    0% {
-      -webkit-transform: scale3d(1, 1, 1);
-              transform: scale3d(1, 1, 1);
-    }
-    30% {
-      -webkit-transform: scale3d(1.25, 0.75, 1);
-              transform: scale3d(1.25, 0.75, 1);
-    }
-    40% {
-      -webkit-transform: scale3d(0.75, 1.25, 1);
-              transform: scale3d(0.75, 1.25, 1);
-    }
-    50% {
-      -webkit-transform: scale3d(1.15, 0.85, 1);
-              transform: scale3d(1.15, 0.85, 1);
-    }
-    65% {
-      -webkit-transform: scale3d(0.95, 1.05, 1);
-              transform: scale3d(0.95, 1.05, 1);
-    }
-    75% {
-      -webkit-transform: scale3d(1.05, 0.95, 1);
-              transform: scale3d(1.05, 0.95, 1);
-    }
-    100% {
-      -webkit-transform: scale3d(1, 1, 1);
-              transform: scale3d(1, 1, 1);
-    }
-  }
-  
