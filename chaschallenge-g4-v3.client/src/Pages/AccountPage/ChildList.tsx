@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { useState } from 'react';
-import '../scss/Sass-Pages/_ChildCard.scss';
+import '../../scss/Sass-Pages/_ChildCard.scss';
+import BackButton from '../../ResusableComponents/BackButton';
 
 const initialChildren = [
   {
@@ -10,7 +11,7 @@ const initialChildren = [
     birthdate: '14 january, 2022',
   },
   {
-    id: 118836,
+    id: 118846,
     image: 'https://img.pokemondb.net/sprites/home/normal/wartortle.png',
     firstName: 'Zara',
     birthdate: '12 juni, 2020',

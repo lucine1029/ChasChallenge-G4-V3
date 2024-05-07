@@ -5,7 +5,7 @@ import ChildAllergies from '../../ResusableComponents/ChildAllergies'; // Allerg
 import AvatarList from './ChildAvatarList';
 import BackButton from '../../ResusableComponents/BackButton';
 
-const AddChild = () => {
+export default function ChildAddPage() {
   return (
     <>
       <BackButton />
@@ -17,6 +17,4 @@ const AddChild = () => {
       </div>
     </>
   );
-};
-
-export default AddChild;
+}
