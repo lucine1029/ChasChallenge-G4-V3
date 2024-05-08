@@ -1,0 +1,19 @@
+@use '../abstract/index' as *;
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.link-no-style {
+  text-decoration: none;
+  color: inherit;
+}
+
+.row {
+  display: flex;
+}
+
+.columns {
+  display: flex;
+}
