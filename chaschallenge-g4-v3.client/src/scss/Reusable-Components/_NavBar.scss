@@ -19,5 +19,56 @@
   .fill-green-600 {
     fill: black; /* Green color */
   }
-  
+  .kebab-menu {
+    font-size: 2rem;
+    fill: red;
+  }
+
+  .modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: start;
+    // justify-content: center;
+    justify-content: end;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    margin-top: 1.5rem;
+  }
+
+  .modal-content {
+    padding: 1rem;
+    background-color: white;
+    // border-radius: 0.5rem;
+  }
+
+  .modal-close {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .modal-close-button {
+    color: gray;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .modal-button-container {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .modal-button {
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 1rem;
+    color: blue;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
 }

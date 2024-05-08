@@ -37,7 +37,7 @@ const App = () => {
           <Route path='/chat' element={<ChatbotPage />} />
           <Route path='/signup' element={<SignUpPage />} />
           <Route path='/signin' element={<SignInPage />} />
-          <Route path='/account/' element={<AccountPage />} />
+          <Route path='/account' element={<AccountPage />} />
           <Route path='/account/settings' element={<UserSettings />} />
           <Route path='/account/children' element={<ChildrenManagePage />} />
           <Route path='/account/children/add' element={<ChildAddPage />} />
