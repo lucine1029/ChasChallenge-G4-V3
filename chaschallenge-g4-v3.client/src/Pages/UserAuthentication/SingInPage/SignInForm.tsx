@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import '../Account.css'; // Importera din CSS-fil för att använda klasserna
+import '../../../scss/Sass-Pages/_SignUpPage.scss'; // Importera din CSS-fil för att använda klasserna
 
 interface FormValues {
   email: string;
@@ -24,10 +24,11 @@ const SignInForm: React.FC = () => {
     <>
       <form onSubmit={handleSubmit(formSubmit)}>
         <div className="input-container">
-          <label htmlFor="email" className="input-label">Email:</label>
+          {/* <label htmlFor="email" className="input-label">Email:</label> */}
           <input
             id="email"
             type="email"
+            placeholder='E-postadress'
             {...register('email', {
               required: 'Email is Required',
               pattern: {
@@ -40,10 +41,11 @@ const SignInForm: React.FC = () => {
           {errors.email && <span className="error-message">{errors.email.message}</span>} {/* Använd klassen för felmeddelande */}
         </div>
         <div className="input-container">
-          <label htmlFor="password" className="input-label">Password:</label>
+          {/* <label htmlFor="password" className="input-label">Password:</label> */}
           <input
             id="password"
             type="password"
+            placeholder='Lösenord'
             {...register('password', {
               required: 'Password is Required'
             })}
@@ -51,9 +53,12 @@ const SignInForm: React.FC = () => {
           />
           {errors.password && <span className="error-message">{errors.password.message}</span>} {/* Använd klassen för felmeddelande */}
         </div>
-        <button type="submit" className="login-button">Log In</button> {/* Använd klassen för knappen */}
+        <div className='signin-forgot-container'>
+          <Link className='forgot-link' to='/home'>Glömt lösenordet?</Link>
+        </div>
+        <button type="submit" className="login-button">Logga in</button> {/* Använd klassen för knappen */}
       </form>
-      <Link to="/signup" className="link-button">Don't have an account? Sign Up</Link> {/* Använd klassen för länk-knappen */}
+      <Link to="/signup" className="link-button">Har du inte ett konto redan?</Link> {/* Använd klassen för länk-knappen */}
     </>
   );
 }

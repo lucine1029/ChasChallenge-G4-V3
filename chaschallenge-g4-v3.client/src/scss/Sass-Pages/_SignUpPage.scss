@@ -1,0 +1,102 @@
+//SignupPage
+@use '../abstract/index' as *;
+
+:root{
+  background-color: white;
+  background-image: url('../../../public/Baby-Background.png');
+  background-size: cover;
+}
+
+.input-container {
+    margin-bottom: 20px;
+  }
+  
+  .input-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #555;
+  }
+  
+  .input-field {
+    outline: none;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    border-bottom: solid 1.5px black;
+  }
+
+  .input-field:focus{
+    outline: none;
+  }
+  
+  .input-field::placeholder {
+    color: black;
+  }
+  
+  .login-button,
+  .signup-button {
+    margin-top: 2rem;
+    width: 100%;
+    padding: 12px;
+    border-radius: 1rem;
+    background: linear-gradient(to bottom, $gradient);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: large;
+    font-weight: 600;
+  }
+  
+  .login-button:hover,
+  .signup-button:hover {
+    background-color: #45a049;
+  }
+  
+  .error-message {
+    color: red;
+  }
+  
+  .link-button {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #000000;
+    text-decoration: none;
+    font-weight: 300;
+  }
+  
+  .link-button:hover {
+    text-decoration: underline;
+  }
+  
+  /* Specifika stilar för SignIn-sidan */
+  .login-container,
+  .signout-container {
+    border-radius: 8px;
+    padding: 40px;
+    max-width: 400px;
+    margin: auto;
+  }
+  
+  .login-text,
+  .signout-text {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .signin-forgot-container{
+    display: flex;
+    justify-content: flex-end;
+    width: 14rem;
+    .forgot-link{
+      text-decoration: none;
+      color: black;
+      font-size: small;
+      font-weight: 300;
+    }
+  }
