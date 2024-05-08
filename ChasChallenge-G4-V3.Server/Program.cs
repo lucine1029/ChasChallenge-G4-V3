@@ -23,13 +23,21 @@ namespace ChasChallenge_G4_V3.Server
             {
                 options.Password.RequiredLength = 5; // Examples of optional requirement
                 options.User.RequireUniqueEmail = true;
+                options.Password.RequireDigit = false; // Remove digit requirement
+                options.Password.RequireLowercase = false; // Remove lowercase requirement
+                options.Password.RequireUppercase = false; // Remove uppercase requirement
+                options.Password.RequireNonAlphanumeric = false; // Remove non-alphanumeric requirement           
+                options.Password.RequiredUniqueChars = 0; // Set minimum unique characters in password (if needed)
 
             })
             .AddEntityFrameworkStores<ApplicationContext>()
             .AddDefaultTokenProviders();
 
+            
+
             //Dependency injection
             builder.Services.AddScoped<IUserServices,UserServices>();
+            builder.Services.AddScoped<ILoginServices, LoginServices>();
 
             // Add services to the container.
 
@@ -60,8 +68,8 @@ namespace ChasChallenge_G4_V3.Server
             app.MapPost("/user/child/allergy", UserHandler.AddAllergy);
             app.MapPost("/user/child/measurement", UserHandler.AddMeasurement);
 
-            app.MapPost("/register", UserHandler.RegisterUserAsync);
-            app.MapPost("/login", UserHandler.UserLoginAsync);
+            app.MapPost("/register", LoginHandler.RegisterUserAsync);
+            app.MapPost("/login", LoginHandler.UserLoginAsync);
 
 
             ////Gets

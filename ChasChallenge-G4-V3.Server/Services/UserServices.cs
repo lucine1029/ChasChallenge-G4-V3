@@ -19,8 +19,7 @@ namespace ChasChallenge_G4_V3.Server.Services
         void AddAllergy(int childId, AllergyDto allergyDto);
         void AddMeasurement(int childId, MeasurementDto measurementDto);
 
-        Task<IResult> RegisterUserAsync(UserDto user);
-        Task<IResult> UserLoginAsync(LoginUserDto User);
+     
 
         UserViewModel GetUser(string userId);
 
@@ -47,61 +46,7 @@ namespace ChasChallenge_G4_V3.Server.Services
         }
 
        
-        //Identity Methods
-
-        public async Task<IResult> RegisterUserAsync(UserDto user)
-        {
-
-            User existingUser = await _userManager.FindByEmailAsync(user.Email); // Example of UserManager using some built in methods. - Sean
-
-            if (existingUser != null)
-            {
-                return Results.BadRequest("User already exists in database.");
-            }
-
-            var identityUser = new User
-            {
-                Name = user.Name,
-                UserName = user.Email,
-                Email = user.Email,
-            };
-
-            var result = await _userManager.CreateAsync(identityUser, user.Password); // Another built in UserManager Method - Sean
-
-            if (result.Succeeded)
-            {
-                // User created successfully, return Ok
-                return Results.Ok("User created successfully.");
-            }
-            else
-            {
-                // User creation failed, return BadRequest with error message
-                return Results.BadRequest("Failed to create user.");
-            }
-
-        }
-
-        public async Task<IResult> UserLoginAsync(LoginUserDto loginUser) // There could be a built in Identity/UserManager login method. Will check - Sean
-        {
-
-            var identityUser = await _userManager.FindByEmailAsync(loginUser.Email);
-
-            if (identityUser == null)
-            {
-                return Results.BadRequest($"User Not Found");
-            }
-
-            var isPasswordValid = await _userManager.CheckPasswordAsync(identityUser, loginUser.Password);
-
-            if (!isPasswordValid)
-            {
-                return Results.BadRequest("Invalid email or password.");
-            }
-
-            return Results.Ok("Login successful.");
-        }
-
-        //End of Identity Methods
+       
 
         public void AddChild(string userId, ChildDto childDto) // userId input parameters are now strings because Identity's own UserID are strings.
         {
@@ -269,7 +214,8 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             UserViewModel userViewModel = new UserViewModel()
             {
-                Name = user.Name,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 
                 Email = user.Email,
                 Children = user.Children.Select(c => new ChildViewModel { Name = c.Name, NickName = c.NickName, Gender = c.Gender, birthdate = c.birthdate }).ToList()
@@ -291,7 +237,7 @@ namespace ChasChallenge_G4_V3.Server.Services
 
         public List<UserViewModel> GetAllUsers() // Integrate to Identity
         {
-            var userViewModels = _context.Users.Select(u => new UserViewModel { Name = u.Name, Email = u.Email }).ToList();
+            var userViewModels = _context.Users.Select(u => new UserViewModel { LastName = u.LastName ,FirstName = u.FirstName, Email = u.Email }).ToList();
 
             return userViewModels;
         }

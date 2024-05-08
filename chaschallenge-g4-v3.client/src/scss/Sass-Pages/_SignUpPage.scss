@@ -25,6 +25,7 @@
     border: none;
     background-color: transparent;
     border-bottom: solid 1.5px black;
+    border-radius: 0;
   }
 
   .input-field:focus{
@@ -40,7 +41,7 @@
     margin-top: 2rem;
     width: 100%;
     padding: 12px;
-    border-radius: 1rem;
+    border-radius: .5rem;
     background: linear-gradient(to bottom, $gradient);
     color: white;
     border: none;
