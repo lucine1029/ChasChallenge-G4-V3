@@ -10,7 +10,7 @@ import UserSettings from './Pages/AccountPage/UserSettings';
 import ChildrenManagePage from './Pages/AccountPage/ChildrenManagePage';
 import ChildAddPage from './Pages/AccountPage/ChildAddPage';
 // import BackButton from './Components/BackButton';
-import NavBar from './ResusableComponents/NavBar';
+import {NavBar} from './ResusableComponents/NavBar';
 import {getDataFromSwagger} from './ResusableComponents/RequestDataSwagger'
 
 getDataFromSwagger()
@@ -37,7 +37,7 @@ const App = () => {
           <Route path='/chat' element={<ChatbotPage />} />
           <Route path='/signup' element={<SignUpPage />} />
           <Route path='/signin' element={<SignInPage />} />
-          <Route path='/account/' element={<AccountPage />} />
+          <Route path='/account' element={<AccountPage />} />
           <Route path='/account/settings' element={<UserSettings />} />
           <Route path='/account/children' element={<ChildrenManagePage />} />
           <Route path='/account/children/add' element={<ChildAddPage />} />
