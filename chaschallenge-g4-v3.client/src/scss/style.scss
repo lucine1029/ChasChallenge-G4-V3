@@ -1,9 +1,13 @@
 // Här lägger vi bara @use importer från SCSS-Components.
 
+//Global
 @use './Abstract/index' as *;
 @use './Sass-Pages/root';
 
-//Pages
-@use './Sass-Pages/ChatPage';
+//Components
 @use './Reusable-Components/NavBar';
-@use './Sass-Pages/HomePage'
+
+//Pages
+@use './Sass-Pages/HomePage';
+@use './Sass-Pages/ChatPage';
+@use './Sass-Pages/SignUpPage';
