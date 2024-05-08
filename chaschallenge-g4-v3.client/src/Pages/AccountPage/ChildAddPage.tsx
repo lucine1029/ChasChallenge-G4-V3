@@ -1,6 +1,4 @@
-//@ts-nocheck
-
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 
@@ -24,34 +22,35 @@ const allergies = [
   'Ägg',
 ];
 
-function AvatarDropdown({ onAvatarChange }) {
+function Button({ onClick, children }) {
+  return <button onClick={onClick}>{children}</button>;
+}
+
+function FetchAvatarDropdown({ onAvatarChange }) {
   const [avatars, setAvatars] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState({
-    url: 'https://via.placeholder.com/50',
+    name: '',
+    url: 'https://via.placeholder.com/100', // Default placeholder image
   });
 
   useEffect(() => {
-    const fetchPokemonAvatars = async () => {
-      try {
-        const response = await axios.get(
-          'https://pokeapi.co/api/v2/pokemon?limit=50'
-        );
-        const pokemonData = await Promise.all(
-          response.data.results.map(async (pokemon) => {
-            const detailResponse = await axios.get(pokemon.url);
-            return {
-              url: detailResponse.data.sprites.front_default,
-            };
-          })
-        );
-        setAvatars(pokemonData);
-      } catch (error) {
-        console.error('Error fetching Pokémon:', error);
-      }
+    const fetchAvatars = async () => {
+      const response = await axios.get(
+        'https://pokeapi.co/api/v2/pokemon?limit=50'
+      );
+      const avatarData = await Promise.all(
+        response.data.results.map(async (pokemon) => {
+          const detail = await axios.get(pokemon.url);
+          return {
+            name: pokemon.name,
+            url: detail.data.sprites.front_default,
+          };
+        })
+      );
+      setAvatars(avatarData);
     };
-
-    fetchPokemonAvatars();
+    fetchAvatars();
   }, []);
 
   const handleSelect = (avatar) => {
@@ -61,96 +60,68 @@ function AvatarDropdown({ onAvatarChange }) {
   };
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative', marginBottom: '20px' }}>
       <div
         style={{
           cursor: 'pointer',
           padding: '10px',
-          border: '1px solid #ccc',
+          //border: '1px solid #ccc',
           borderRadius: '5px',
           display: 'flex',
-          //justifyContent: 'center', // Center the image
+          alignItems: 'center',
         }}
         onClick={() => setIsOpen(!isOpen)}
       >
         <img
-          src={selectedAvatar.url || 'https://via.placeholder.com/50'}
-          alt='Selected Avatar'
-          style={{ width: '100px', height: '100px' }}
+          src={selectedAvatar.url || 'https://via.placeholder.com/100'}
+          alt={selectedAvatar.name}
+          style={{ width: '100px', height: '100px', marginRight: '10px' }}
         />
       </div>
 
       {isOpen && (
-        <ul
+        <div
           style={{
-            display: 'flex',
-            flexWrap: 'wrap',
             position: 'absolute',
-            top: '100%',
-            left: '0',
-            right: '0',
+            width: '100%',
             border: '1px solid #ccc',
-            maxHeight: '200px',
+            maxHeight: '300px',
             overflowY: 'auto',
-            padding: '0',
-            margin: '0',
-            listStyle: 'none',
             backgroundColor: '#fff',
             zIndex: '1000',
           }}
         >
           {avatars.map((avatar, index) => (
-            <li
+            <div
               key={index}
               style={{
                 padding: '10px',
                 cursor: 'pointer',
                 display: 'flex',
-                justifyContent: 'center', // Center the image
+                alignItems: 'center',
               }}
               onClick={() => handleSelect(avatar)}
             >
               <img
                 src={avatar.url}
-                alt={`Avatar ${index}`}
-                style={{ width: '50px', height: '50px' }}
+                alt={avatar.name}
+                style={{ width: '100px', height: '100px', marginRight: '10px' }}
               />
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
 }
 
-function AllergiesComp({ register, watch, setValue }) {
-  // Use React Hook Form to manage form state for allergies
-  return (
-    <div>
-      <form>
-        {allergies.map((allergen, index) => (
-          <div key={index}>
-            <label>
-              <input
-                type='checkbox'
-                {...register(allergen.allergen)}
-                checked={watch(allergen.allergen)}
-                onChange={() =>
-                  setValue(allergen.allergen, !watch(allergen.allergen))
-                }
-              />
-              {allergen.allergen}
-            </label>
-          </div>
-        ))}
-      </form>
-    </div>
-  );
-}
+function ChildDataForm() {
+  const { register, handleSubmit, setValue, watch } = useForm();
+  const onSubmit = (data) => console.log(data);
 
-function ChildDataForm({ register, handleSubmit }) {
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <FetchAvatarDropdown onAvatarChange={(url) => setValue('avatar', url)} />
       <input
         type='text'
         placeholder='Förnamn / smeknamn'
@@ -166,36 +137,25 @@ function ChildDataForm({ register, handleSubmit }) {
         placeholder='Födelsedatum'
         {...register('birthDate')}
       />
-      <input type='submit' value='Save Child' />
+
+      <select {...register('allergies')} multiple>
+        {allergies.map((allergy, index) => (
+          <option key={index} value={allergy}>
+            {allergy}
+          </option>
+        ))}
+      </select>
+
+      <Button>Save Child</Button>
     </form>
   );
 }
 
-function AddChildPage() {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm();
-  const onSubmit = (data) => console.log(data);
-
-  const handleAvatarChange = (avatarUrl) => {
-    setValue('avatar', avatarUrl);
-    console.log('Avatar selected:', avatarUrl);
-  };
-
+export default function AddChildPage() {
   return (
     <div>
-      <AvatarDropdown onAvatarChange={handleAvatarChange} />
-      <ChildDataForm
-        register={register}
-        handleSubmit={handleSubmit(onSubmit)}
-      />
-      <AllergiesComp register={register} watch={watch} setValue={setValue} />
+      <h1>Add Child</h1>
+      <ChildDataForm />
     </div>
   );
 }
-
-export default AddChildPage;
