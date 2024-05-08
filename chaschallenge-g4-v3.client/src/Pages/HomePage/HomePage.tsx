@@ -1,5 +1,6 @@
-import '../../scss/Sass-Pages/_HomePage.scss'
+// import '../../scss/Sass-Pages/_HomePage.scss'
 import { Link } from 'react-router-dom';
+import '../../scss/style.scss'
 
 export default function HomePage() {
     return (
