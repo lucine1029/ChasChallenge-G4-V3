@@ -10,7 +10,7 @@ import UserSettings from './Pages/AccountPage/UserSettings';
 import ChildrenManagePage from './Pages/AccountPage/ChildrenManagePage';
 import ChildAddPage from './Pages/AccountPage/ChildAddPage';
 // import BackButton from './Components/BackButton';
-import NavBar from './ResusableComponents/NavBar';
+import {NavBar} from './ResusableComponents/NavBar';
 import {getDataFromSwagger} from './ResusableComponents/RequestDataSwagger'
 
 getDataFromSwagger()
