@@ -115,9 +115,70 @@ function FetchAvatarDropdown({ onAvatarChange }) {
   );
 }
 
+function AllergiesDropdown({ register }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div>
+      <button
+        type='button'
+        onClick={() => setIsOpen(!isOpen)}
+        style={{
+          padding: '10px',
+          border: '1px solid #ccc',
+          borderRadius: '5px',
+          width: '100%',
+          backgroundColor: '#fff',
+          cursor: 'pointer',
+        }}
+      >
+        Select Allergies
+      </button>
+      {isOpen && (
+        <div
+          style={{
+            position: 'absolute',
+            width: '100%',
+            border: '1px solid #ccc',
+            maxHeight: '200px',
+            overflowY: 'auto',
+            backgroundColor: '#fff',
+            zIndex: '1000',
+          }}
+        >
+          {allergies.map((allergy, index) => (
+            <label
+              key={index}
+              style={{ display: 'block', padding: '5px 10px' }}
+            >
+              <input
+                type='checkbox'
+                {...register(`allergies.${allergy}`)}
+                style={{ marginRight: '10px' }}
+              />
+              {allergy}
+            </label>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ChildDataForm() {
-  const { register, handleSubmit, setValue, watch } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const { register, handleSubmit, setValue, watch } = useForm({
+    defaultValues: {
+      allergies: {},
+    },
+  });
+  const onSubmit = (data) => {
+    // Transforming the allergies data from object to array
+    const selectedAllergies = Object.entries(data.allergies)
+      .filter(([key, value]) => value)
+      .map(([key]) => key);
+    console.log('Selected Allergies:', selectedAllergies);
+    console.log(data);
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -137,15 +198,7 @@ function ChildDataForm() {
         placeholder='Födelsedatum'
         {...register('birthDate')}
       />
-
-      <select {...register('allergies')} multiple>
-        {allergies.map((allergy, index) => (
-          <option key={index} value={allergy}>
-            {allergy}
-          </option>
-        ))}
-      </select>
-
+      <AllergiesDropdown register={register} />
       <Button>Save Child</Button>
     </form>
   );
