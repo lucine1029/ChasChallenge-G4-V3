@@ -396,3 +396,5 @@ FodyWeavers.xsd
 ## .Net-crew ⬆ ----------------------------- ⬆
 /ChasChallenge-G4-V3.sln
 
+/ChasChallenge-G4-V3.Server/appsettings.Development.json
+/ChasChallenge-G4-V3.Server/appsettings.Development.json
