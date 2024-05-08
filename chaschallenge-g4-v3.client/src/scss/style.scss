@@ -2,5 +2,8 @@
 
 @use './Abstract/index' as *;
 @use './Sass-Pages/root';
+
+//Pages
 @use './Sass-Pages/ChatPage';
 @use './Reusable-Components/NavBar';
+@use './Sass-Pages/HomePage'

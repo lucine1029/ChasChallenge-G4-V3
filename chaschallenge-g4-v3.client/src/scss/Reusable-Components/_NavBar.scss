@@ -4,11 +4,12 @@
   align-items: center;
   height: 1.5rem;
   margin: 0;
+  display: none;
   ul {
     display: flex;
     justify-content: space-evenly;
     list-style: none;
-    width: 100vw;
+    width: 100%;
     margin: 0;
     padding: 0;
   }
