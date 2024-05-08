@@ -14,9 +14,6 @@ const AccountPage = () => {
           <li>
             <Link to='children'>Manage Children</Link>
           </li>
-          <li>
-            <Link to='children/add'>Add Child</Link>
-          </li>
         </ul>
       </nav>
     </>
