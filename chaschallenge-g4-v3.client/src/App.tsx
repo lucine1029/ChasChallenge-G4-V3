@@ -12,6 +12,7 @@ import AddChild from './Pages/AccountPage/ChildAdd';
 // import BackButton from './Components/BackButton';
 import NavBar from './ResusableComponents/NavBar';
 import {getDataFromSwagger} from './ResusableComponents/RequestDataSwagger'
+import Footer from '../src/ResusableComponents/Footer'
 
 getDataFromSwagger()
 
@@ -42,6 +43,7 @@ const App = () => {
           <Route path='/account/children' element={<ChildProfile />} />
           <Route path='/account/children/add' element={<AddChild />} />
         </Routes>
+        <Footer/>
       </BrowserRouter>
     </>
   );
