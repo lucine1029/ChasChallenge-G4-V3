@@ -10,7 +10,7 @@ const AccountPage = () => {
   return (
     <>
       <h1>Inställningar</h1>
-      <nav>
+      <nav className='accountpage-nav'>
         <ul>
           <li>
             <Link className='link-style card' to='settings'>

@@ -24,7 +24,7 @@ export default function ChildList() {
   const [children, setChildren] = useState(initialChildren);
 
   return (
-    <ul>
+    <ul className='manage-children'>
       {children.map((child) => (
         <Child child={child} key={child.id} />
       ))}
@@ -35,7 +35,7 @@ export default function ChildList() {
 function Child({ child }) {
   return (
     <li className='card column'>
-      <div className='row'>
+      <div className='row row-divider'>
         <div className='avatar-container'>
           <img className='avatar' src={child.image} />
         </div>

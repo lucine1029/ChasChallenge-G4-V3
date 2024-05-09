@@ -1,59 +1,68 @@
 @use '../Abstract/index' as *;
 
-h3,
-p {
-  margin: 0;
-  transform: translateY(10px); /* Adjust the value as needed */
-}
+.manage-children {
+  h3,
+  p {
+    margin: 0;
+    transform: translateY(0.5rem); /* Adjust the value as needed */
+  }
 
-h3 {
-  font-size: 1.25rem;
-  font-weight: bold;
-  padding-bottom: 0.25rem;
-}
+  h3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    padding: 0.25rem 0;
+  }
 
-p {
-  font-size: 0.875rem;
-}
+  p {
+    font-size: 0.875rem;
+  }
 
-.card {
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  margin: 0.5rem 0;
-  background-color: rgba(235, 235, 235, 0.265);
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-}
+  .card {
+    border-radius: 0.5rem;
+    padding: 0rem 0.5rem 1rem 0.5rem;
+    margin: 0.5rem 0;
+    background-color: rgba(235, 235, 235, 0.265);
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  }
 
-.card:hover {
-  box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 4px;
-}
+  .card:hover {
+    box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 4px;
+  }
 
-.column {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
+  .column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-.row {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
 
-.avatar {
-  width: 100%;
-}
+  .row-divider {
+    border-bottom: 1px solid rgb(235, 235, 235); /* Change color as needed */
+    padding-bottom: 10px; /* Adds some space between the border and the content below it */
+    margin-bottom: 10px; /* Additional spacing below the border if needed */
+  }
 
-.avatar-container {
-  display: grid;
-  place-items: center; /* Centering both horizontally and vertically */
-  width: 100px;
-  height: 100px;
-}
+  .avatar {
+    width: 100%;
+  }
 
-.allergy {
-  border: 1px solid rgb(235, 235, 235);
-  border-radius: 0.5rem;
-  padding: 0.75rem;
-  font-size: small;
+  .avatar-container {
+    display: grid;
+    place-items: center; /* Centering both horizontally and vertically */
+    padding-bottom: 0.5rem;
+    width: 100px;
+    height: 100px;
+  }
+
+  .allergy {
+    background-color: rgb(241 245 249);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    font-size: small;
+  }
 }
