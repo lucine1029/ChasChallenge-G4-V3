@@ -1,6 +1,7 @@
 // ModalAccount.tsx
 import React, { MouseEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { RxDividerHorizontal } from 'react-icons/rx';
 
 interface ModalProps {
   onClose: MouseEventHandler<HTMLButtonElement>;
@@ -27,18 +28,17 @@ export const ModalAccount: React.FC<ModalProps> = ({ onClose }) => {
   return (
     <div className='modal-container'>
       <div className='modal-content'>
-        <div className='modal-close'>
-          <button className='modal-close-button' onClick={onClose}>
-            X
-          </button>
-        </div>
         <div className='modal-button-container'>
           <button className='modal-button' onClick={goToSignInPage}>
             Sign In
           </button>
+          <RxDividerHorizontal />
           <button className='modal-button' onClick={goToSignUpPage}>
             Sign Up
           </button>
+          <div className='modal-divider'>
+            <RxDividerHorizontal />
+          </div>
           <button className='modal-button' onClick={goToAccountPage}>
             Account
           </button>
