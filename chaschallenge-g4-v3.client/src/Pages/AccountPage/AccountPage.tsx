@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { LiaUserCogSolid } from 'react-icons/lia';
 import { LiaBabySolid } from 'react-icons/lia';
 import { LiaAngleRightSolid } from 'react-icons/lia';
-import '../../scss/Sass-pages/_AccountPageList.scss';
+import '../../scss/Sass-Pages/_AccountPageList.scss';
 
 const AccountPage = () => {
   return (

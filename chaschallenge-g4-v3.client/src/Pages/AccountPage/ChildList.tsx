@@ -9,12 +9,14 @@ const initialChildren = [
     image: 'https://img.pokemondb.net/sprites/home/normal/charmander.png',
     firstName: 'Zoro',
     birthdate: '14 january, 2022',
+    sex: 'Pojke',
   },
   {
     id: 118846,
     image: 'https://img.pokemondb.net/sprites/home/normal/wartortle.png',
     firstName: 'Zara',
     birthdate: '12 juni, 2020',
+    sex: 'Flicka',
   },
 ];
 
@@ -40,7 +42,9 @@ function Child({ child }) {
 
         <div>
           <h3>{child.firstName}</h3>
-          <p>{child.birthdate}</p>
+          <p>
+            {child.sex}, född {child.birthdate}.
+          </p>
         </div>
       </div>
       <div className='row'>
