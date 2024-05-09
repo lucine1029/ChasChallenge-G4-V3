@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { LiaUserCogSolid } from 'react-icons/lia';
 import { LiaBabySolid } from 'react-icons/lia';
 import { LiaAngleRightSolid } from 'react-icons/lia';
-import '../../scss/Reusable-Components/_list.scss';
+import '../../scss/Sass-pages/_AccountPageList.scss';
 
 const AccountPage = () => {
   return (
@@ -23,7 +23,7 @@ const AccountPage = () => {
             </Link>
           </li>
           <li>
-            <Link className='link-style card' to='settings'>
+            <Link className='link-style card' to='children'>
               <LiaBabySolid className='large-icon' />
 
               <div className='push-right'>

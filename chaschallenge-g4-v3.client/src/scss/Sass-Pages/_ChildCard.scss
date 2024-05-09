@@ -1,63 +1,37 @@
 @use '../Abstract/index' as *;
 
-@import url(https://fonts.googleapis.com/css?family=Roboto:900,300);
-body {
-  //background-color: #f0f0f0;
-  font-family: roboto;
+h3,
+p {
+  margin: 0;
 }
 
-.container {
-  width: 400px;
-  margin: 100px auto 100px;
-  background-color: #fff;
-  padding: 0 1rem 0rem;
-  border-radius: 1rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.075);
-  text-align: left;
-  position: relative;
-}
-
-.avatar {
-  border-radius: 100px;
-  overflow: hidden;
-  height: 120px;
-  width: 120px;
-  position: relative;
-  margin-left: 0.6rem;
-  transform: translateY(-60px);
-  background-color: #fff;
-  box-shadow: 0 0 0 13px #f0f0f0;
-}
-
-.avatar img {
-  position: absolute;
-  width: 60%;
-  height: 60%;
-  top: 20%;
-  left: 20%;
-  object-position: center;
-}
-
-.text-follow-avatar {
-  position: relative;
-  top: -30px; /* Matches the avatar offset */
+.card {
+  gap: 1rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  background-color: rgba(255, 255, 255, 0.265);
 }
 
 .column {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.row {
+  display: flex;
+  align-items: center;
   gap: 1rem;
-  margin-top: 1.5rem;
 }
 
-.allergy {
-  background-color: #f0f0f0;
-  padding: 1rem 1rem;
-  border-radius: 1rem;
+.avatar {
+  width: 100%;
 }
 
-h2 {
-  font-size: 32px;
-  font-weight: 600;
-  margin: 1rem 0 0.4rem 0;
-  //color: #333;
+.avatar-container {
+  display: grid;
+  place-items: center; /* Centering both horizontally and vertically */
+  width: 100px;
+  height: 100px;
 }

@@ -32,20 +32,17 @@ export default function ChildList() {
 
 function Child({ child }) {
   return (
-    <li className='card column'>
-      <div className='row'>
-        <div className='avatar-container'>
-          <img className='avatar' src={child.image} />
-        </div>
-
-        <div>
-          <h3>{child.firstName}</h3>
-          <p>{child.birthdate}</p>
-        </div>
+    <li className='container'>
+      <div className='avatar'>
+        <img src={child.image} />
       </div>
-      <div className='row'>
-        <span className='allergy'>Allergi-1</span>
-        <span className='allergy'>Allergi-2</span>
+      <div className='text-follow-avatar'>
+        <h2>{child.firstName}</h2>
+        <p>{child.birthdate}</p>
+        <div className='column'>
+          <span className='allergy'>Allergi-1</span>
+          <span className='allergy'>Allergi-2</span>
+        </div>
       </div>
     </li>
   );
