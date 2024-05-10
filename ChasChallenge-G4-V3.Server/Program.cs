@@ -110,7 +110,7 @@ namespace ChasChallenge_G4_V3.Server
 
                 var roles = new[] { "Admin", "User" };
 
-                foreach (var role in roles)
+                foreach (var role in roles) // "Admin" and "User" roles will be automatically added when program is run with a new database. 
                 {
                     if (!await roleManager.RoleExistsAsync(role))
                     {
@@ -130,6 +130,8 @@ namespace ChasChallenge_G4_V3.Server
                 if(await userManager.FindByEmailAsync(email) == null)
                 {
                     var admin = new User();
+                    admin.FirstName = "Admin";
+                    admin.LastName = "Admin";
                     admin.UserName = email;
                     admin.Email = email;
 
