@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import '../../scss/Sass-Pages/_ChildCard.scss';
 import BackButton from '../../ResusableComponents/BackButton';
+import { LiaEllipsisHSolid, LiaEdit, LiaTrashAlt } from 'react-icons/lia';
 
 const initialChildren = [
   {
@@ -33,8 +34,24 @@ export default function ChildList() {
 }
 
 function Child({ child }) {
+  const [showMenu, setShowMenu] = useState(false);
+  const toggleMenu = () => setShowMenu(!showMenu);
+
   return (
     <li className='card column'>
+      <div className='menu-container'>
+        <LiaEllipsisHSolid onClick={toggleMenu} />
+        {showMenu && (
+          <ul className='menu'>
+            <li onClick={() => console.log('Edit:', child.id)}>
+              <LiaEdit /> Edit
+            </li>
+            <li onClick={() => console.log('Remove:', child.id)}>
+              <LiaTrashAlt /> Remove
+            </li>
+          </ul>
+        )}
+      </div>
       <div className='row row-divider'>
         <div className='avatar-container'>
           <img className='avatar' src={child.image} />
