@@ -1,0 +1,13 @@
+.back-button {
+    background-color: transparent;
+    border: none;
+    color: #333; /* Färg för texten */
+    cursor: pointer;
+    display: flex;
+    align-items: center; /* Centrera vertikalt */
+  }
+  
+  .back-icon {
+    margin-right: 5px; /* Lite mellanrum mellan ikonen och texten */
+  }
+  

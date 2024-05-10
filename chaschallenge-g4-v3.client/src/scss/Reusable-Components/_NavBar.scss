@@ -42,7 +42,7 @@
   .modal-content {
     padding: 0.5rem;
     background-color: rgb(250, 239, 246);
-    border-radius: 0.3rem 0.3rem 0 0;
+    // border-radius: 0.3rem 0.3rem 0 0;
   }
 
   .modal-close {
@@ -55,6 +55,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  
   }
 
   .modal-button {
@@ -65,5 +66,13 @@
     border-radius: 0.3rem;
     border: none;
     cursor: pointer;
+    min-width: 100%;
+  }
+
+  .modal-divider {
+    width: 100%; /* Adjust the width as needed */
+    height: 1px; /* Adjust the height as needed */
+    background-color: #ccc; /* Adjust the color as needed */
+    margin: 5px 0; /* Adjust the margin as needed */
   }
 }
