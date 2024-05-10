@@ -121,6 +121,24 @@ namespace ChasChallenge_G4_V3.Server
                 }
             }
 
+            using (var scope = app.Services.CreateScope()) // Mock Data so we don't have to keep creating new data all the time when testing the API
+            {
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+
+                string password = "TestPass1";
+
+                var user = new User
+                {
+                    LastName = "Sean",
+                    FirstName = "Schelin",
+                    UserName = "sean@gmail.com",
+                    Email = "sean@gmail.com"
+                };
+
+                var result = await userManager.CreateAsync(user, password);
+
+                await userManager.AddToRoleAsync(user, "User");
+            }
 
             using (var scope = app.Services.CreateScope()) // Creating default admin
             {
@@ -140,11 +158,8 @@ namespace ChasChallenge_G4_V3.Server
                     await userManager.CreateAsync(admin, password);
 
                     await userManager.AddToRoleAsync(admin, "Admin");
-                }
-
-                
+                }            
             }
-
             app.Run();
         }
     }

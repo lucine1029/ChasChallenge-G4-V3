@@ -52,9 +52,11 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             var result = await _userManager.CreateAsync(identityUser, user.Password); // Another built in UserManager Method - Sean
 
+
             if (result.Succeeded)
             {
                 // User created successfully, return Ok
+                await _userManager.AddToRoleAsync(identityUser, "User");
                 return Results.Ok("User created successfully.");
             }
             else
@@ -67,7 +69,6 @@ namespace ChasChallenge_G4_V3.Server.Services
 
         public async Task<LoginResultViewModel> UserLoginAsync(LoginUserDto loginUser) // There could be a built in Identity/UserManager login method. Will check - Sean
         {
-
             var identityUser = await _userManager.FindByEmailAsync(loginUser.Email);
 
             if (identityUser == null)
@@ -91,14 +92,12 @@ namespace ChasChallenge_G4_V3.Server.Services
 
                 };
             }
-      
+          
             return new LoginResultViewModel
             {
                 Success = true,
                 UserId = identityUser.Id
-            };
-
-            
+            };           
         }
         
         public string GenerateTokenString(LoginUserDto user)
