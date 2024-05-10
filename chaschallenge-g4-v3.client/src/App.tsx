@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { fetchAndCombineData } from './ResusableComponents/RequestMockData'; // Import the fetchAndCombineData function from RequestMockData.tsx
+// import { fetchAndCombineData } from './ResusableComponents/RequestMockData'; // Import the fetchAndCombineData function from RequestMockData.tsx
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ChatbotPage from './Pages/ChatbotPage/ChatbotPage';
 import HomePage from './Pages/HomePage/HomePage';
@@ -17,16 +17,17 @@ getDataFromSwagger()
 
 
 const App = () => {
-  //UseEffect for data from json.db
-  useEffect(() => {
-    fetchAndCombineData()
-      .then((data) => {
-        // Handle the combined data as needed
-      })
-      .catch((error) => {
-        // Handle errors if needed
-      });
-  }, []); // Empty dependency array to ensure useEffect runs only once
+
+  // //UseEffect for data from json.db
+  // useEffect(() => {
+  //   fetchAndCombineData()
+  //     .then((data) => {
+  //       // Handle the combined data as needed
+  //     })
+  //     .catch((error) => {
+  //       // Handle errors if needed
+  //     });
+  // }, []); // Empty dependency array to ensure useEffect runs only once
 
   return (
     <>
