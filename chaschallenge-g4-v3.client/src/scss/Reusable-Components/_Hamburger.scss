@@ -22,7 +22,8 @@
     fill: black; /* Green color */
   }
   .hamburger-menu {
-    font-size: 1.5rem;
+    font-size: 2.5rem;
+    color: white;
   }
 
   .modal-container {
@@ -30,17 +31,17 @@
     top: 0;
     left: 0;
     display: flex;
-    align-items: start;
+    align-items: end;
     justify-content: end;
     width: 100%;
-    height: 95%;
+    height: 90%;
     background-color: rgba(0, 0, 0, 0.5);
-    margin-top: 1.8rem;
+    margin-bottom: 10rem;
     border-radius: 0.9rem;
   }
 
   .modal-content {
-    padding: 0.5rem;
+    padding: 2rem;
     background-color: rgb(250, 239, 246);
     // border-radius: 0.3rem 0.3rem 0 0;
   }
@@ -60,7 +61,7 @@
 
   .modal-button {
     margin-bottom: 0.1rem;
-    padding: 0.2rem 0.5rem;
+    padding: 0.5rem 0.5rem;
     color: black;
     background: rgb(227 134 206);
     border-radius: 0.3rem;

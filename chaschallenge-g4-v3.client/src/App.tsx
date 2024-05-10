@@ -10,7 +10,7 @@ import UserSettings from './Pages/AccountPage/UserSettings';
 import ChildrenManagePage from './Pages/AccountPage/ChildrenManagePage';
 import ChildAddPage from './Pages/AccountPage/ChildAddPage';
 // import BackButton from './Components/BackButton';
-import {NavBar} from './ResusableComponents/NavBar';
+
 import {getDataFromSwagger} from './ResusableComponents/RequestDataSwagger'
 import Footer from '../src/ResusableComponents/Footer'
 
@@ -33,7 +33,7 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        <NavBar />
+        
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/chat' element={<ChatbotPage />} />

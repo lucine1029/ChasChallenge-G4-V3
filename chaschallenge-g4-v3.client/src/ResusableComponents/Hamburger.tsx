@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ModalAccount } from './ModalAccount';
 
 // Menu icons
-import { RxHamburgerMenu } from 'react-icons/rx';
+import { GiHamburgerMenu } from 'react-icons/gi';
 import { IoMdClose } from 'react-icons/io';
 
 interface NavBarProps {
@@ -14,7 +14,7 @@ interface NavBarProps {
 
 // HandleSignOut and handleSignIn are firebase solutions and we need to find another way to check if user
 // is signed to be able to toggle the colour of the user-icon, kanske sätta en cookie, och om cookien är valid så är user inloggad.
-export function NavBar({ isSignedIn, HandleSignOut, handleSignIn }: NavBarProps) {
+export function Hamburger({ isSignedIn, HandleSignOut, handleSignIn }: NavBarProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -67,7 +67,8 @@ export function NavBar({ isSignedIn, HandleSignOut, handleSignIn }: NavBarProps)
             {isModalOpen ? (
               <IoMdClose className='hamburger-menu' />
             ) : (
-              <RxHamburgerMenu className='hamburger-menu' />
+              // <GiHamburgerMenu style={{ color: 'white', fontSize: 45 }} />
+              <GiHamburgerMenu  className='hamburger-menu'/>
             )}
           </button>
         </div>
