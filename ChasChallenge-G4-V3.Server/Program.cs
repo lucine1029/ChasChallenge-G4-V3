@@ -3,6 +3,7 @@ using ChasChallenge_G4_V3.Server.Data;
 using ChasChallenge_G4_V3.Server.Handlers;
 using ChasChallenge_G4_V3.Server.Models;
 using ChasChallenge_G4_V3.Server.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,7 @@ namespace ChasChallenge_G4_V3.Server
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args) // Changed return from "Void" to "Task"
         {
             var builder = WebApplication.CreateBuilder(args);
             //db connection
@@ -29,10 +30,29 @@ namespace ChasChallenge_G4_V3.Server
                 options.Password.RequireNonAlphanumeric = false; // Remove non-alphanumeric requirement           
                 options.Password.RequiredUniqueChars = 0; // Set minimum unique characters in password (if needed)
 
-            })
+            })          
             .AddEntityFrameworkStores<ApplicationContext>()
+            .AddRoles<IdentityRole>()
             .AddDefaultTokenProviders();
 
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                {
+                    ValidateActor = true,
+                    ValidateIssuer = true, 
+                    ValidateAudience = true,
+                    RequireExpirationTime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration.GetSection("Jwt:Issuer").Value,
+                    ValidAudience = builder.Configuration.GetSection("Jwt:Audience").Value
+
+                };
+            });
             
 
             //Dependency injection
@@ -83,6 +103,43 @@ namespace ChasChallenge_G4_V3.Server
             app.MapControllers();
 
             app.MapFallbackToFile("/index.html");
+
+            using (var scope = app.Services.CreateScope()) // Role creator 
+            {
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                var roles = new[] { "Admin", "User" };
+
+                foreach (var role in roles)
+                {
+                    if (!await roleManager.RoleExistsAsync(role))
+                    {
+                        await roleManager.CreateAsync(new IdentityRole(role));
+                    }
+                }
+            }
+
+
+            using (var scope = app.Services.CreateScope()) // Creating default admin
+            {
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+
+                string email = "admin@admin.com";
+                string password = "AdminTest1234";
+
+                if(await userManager.FindByEmailAsync(email) == null)
+                {
+                    var admin = new User();
+                    admin.UserName = email;
+                    admin.Email = email;
+
+                    await userManager.CreateAsync(admin, password);
+
+                    await userManager.AddToRoleAsync(admin, "Admin");
+                }
+
+                
+            }
 
             app.Run();
         }
