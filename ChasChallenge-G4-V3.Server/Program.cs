@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using static Org.BouncyCastle.Math.EC.ECCurve;
+using System.Text;
 
 namespace ChasChallenge_G4_V3.Server
 {
@@ -49,11 +52,13 @@ namespace ChasChallenge_G4_V3.Server
                     RequireExpirationTime = true,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = builder.Configuration.GetSection("Jwt:Issuer").Value,
-                    ValidAudience = builder.Configuration.GetSection("Jwt:Audience").Value
+                    ValidAudience = builder.Configuration.GetSection("Jwt:Audience").Value,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes
+                    (builder.Configuration.GetSection("Jwt:Key").Value))
 
-                };
+            };
             });
-            
+           
 
             //Dependency injection
             builder.Services.AddScoped<IUserServices,UserServices>();
@@ -84,7 +89,8 @@ namespace ChasChallenge_G4_V3.Server
 
             //Post
             //app.MapPost("/user", UserHandler.AddUser);
-            app.MapPost("/user/child", UserHandler.AddChild);
+            app.MapPost("/user/child", UserHandler.AddChild).RequireAuthorization();
+            //app.MapPost("/user/{userId}/child", UserHandler.AddChild).RequireAuthorization(); // Needed to input userId to test authorization. - Sean
             //app.MapPost("/user/existingChild", UserHandler.AddExistingChild);
             app.MapPost("/user/child/allergy", UserHandler.AddAllergy);
             app.MapPost("/user/child/measurement", UserHandler.AddMeasurement);
