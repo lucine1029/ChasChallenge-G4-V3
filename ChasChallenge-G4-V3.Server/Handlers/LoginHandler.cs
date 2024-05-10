@@ -6,16 +6,20 @@ namespace ChasChallenge_G4_V3.Server.Handlers
 {
     public class LoginHandler
     {
-        public static async Task<IResult> UserLoginAsync(ILoginServices loginService, LoginUserDto loginUser)
+        public static async Task<IResult> UserLoginAsync(HttpContext context, ILoginServices loginService, LoginUserDto loginUser)
         {
-            var result = await loginService.UserLoginAsync(loginUser);
+            var user = await loginService.UserLoginAsync(loginUser);
 
-            if (!result.Success)
+            if (!user.Success)
             {
-                return Results.BadRequest(result.ErrorMessage);
+                return Results.BadRequest(user.ErrorMessage);
             }
 
-            return Results.Json(result.UserId);
+            var token = loginService.GenerateTokenString(loginUser);
+
+            context.Response.StatusCode = 200;
+
+            return Results.Ok(new { Token = token, UserId = user.UserId });
         }
 
         public static async Task<IResult> RegisterUserAsync(ILoginServices loginService, UserDto newUser)

@@ -79,6 +79,7 @@ namespace ChasChallenge_G4_V3.Server
             }
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             //Post
@@ -89,6 +90,7 @@ namespace ChasChallenge_G4_V3.Server
             app.MapPost("/user/child/measurement", UserHandler.AddMeasurement);
 
             app.MapPost("/register", LoginHandler.RegisterUserAsync);
+            
             app.MapPost("/login", LoginHandler.UserLoginAsync);
 
 
