@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { addNewUser } from '../../../ResusableComponents/RequestMockData'; // Import addNewUser function
+// import { addNewUser } from '../../../ResusableComponents/RequestMockData'; // Import addNewUser function
 import '../../../scss/Sass-Pages/_SignUpPage.scss';
 
 interface FormValues {

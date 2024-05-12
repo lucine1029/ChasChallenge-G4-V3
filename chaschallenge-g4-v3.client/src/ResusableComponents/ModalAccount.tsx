@@ -33,18 +33,16 @@ export const ModalAccount: React.FC<ModalProps> = ({ onClose }) => {
   return (
     <div className='modal-container'>
       <div className='modal-content'>
-        <div className='modal-close'>
-          <button className='modal-close-button' onClick={onClose}>
-            X
-          </button>
-        </div>
         <div className='modal-button-container'>
           <button className='modal-button' onClick={goToSignInPage}>
             Sign In
           </button>
+          <div className='modal-divider'></div>
           <button className='modal-button' onClick={goToSignUpPage}>
             Sign Up
           </button>
+
+          <div className='modal-divider'></div>
           <button className='modal-button' onClick={goToAccountPage}>
             Inställningar
           </button>

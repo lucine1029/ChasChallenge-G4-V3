@@ -2,10 +2,9 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ModalAccount } from './ModalAccount';
 
-// Kebab menu icons
-import { VscKebabVertical } from 'react-icons/vsc';
-import { CiMenuKebab } from 'react-icons/ci';
-import { GoKebabHorizontal } from 'react-icons/go';
+// Menu icons
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { IoMdClose } from 'react-icons/io';
 
 interface NavBarProps {
   isSignedIn: boolean;
@@ -15,7 +14,7 @@ interface NavBarProps {
 
 // HandleSignOut and handleSignIn are firebase solutions and we need to find another way to check if user
 // is signed to be able to toggle the colour of the user-icon, kanske sätta en cookie, och om cookien är valid så är user inloggad.
-export function NavBar({ isSignedIn, HandleSignOut, handleSignIn }: NavBarProps) {
+export function Hamburger({ isSignedIn, HandleSignOut, handleSignIn }: NavBarProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -27,11 +26,8 @@ export function NavBar({ isSignedIn, HandleSignOut, handleSignIn }: NavBarProps)
   };
 
   const [links] = useState([
-    { label: 'Home', url: '/' },
-    // { label: 'Sign Up', url: '/signup' },
-    // { label: 'Sign In', url: '/signin' },
-    // { label: 'Account', url: '/account' },
-    { label: 'Chat', url: '/chat' },
+    // { label: 'Home', url: '/' },
+    // { label: 'Chat', url: '/chat' },
   ]);
 
   return (
@@ -65,12 +61,15 @@ export function NavBar({ isSignedIn, HandleSignOut, handleSignIn }: NavBarProps)
 
         <div className='flex items-center text-xl text-blue-600'>
           <button
-            onClick={handleOpenModal}
+            onClick={isModalOpen ? handleCloseModal : handleOpenModal}
             style={{ padding: 0, background: 'none', border: 'none' }}
           >
-            {/* <VscKebabVertical className='kebab-menu' /> */}
-            {/* <CiMenuKebab className='kebab-menu' /> */}
-            <GoKebabHorizontal className='kebab-menu' />
+            {isModalOpen ? (
+              <IoMdClose className='hamburger-menu' />
+            ) : (
+              // <GiHamburgerMenu style={{ color: 'white', fontSize: 45 }} />
+              <GiHamburgerMenu  className='hamburger-menu'/>
+            )}
           </button>
         </div>
       </ul>

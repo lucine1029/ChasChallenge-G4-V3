@@ -1,11 +1,11 @@
-// @ts-nocheck
 import { useNavigate } from 'react-router-dom';
+import './BackButton.css';
 
 export default function BackButton() {
   const navigate = useNavigate();
   return (
-    <button onClick={() => navigate(-1)} style={{ position: 'sticky', top: 0 }}>
-      Back
+    <button className='back-button' onClick={() => navigate(-1)}>
+      <span className='back-icon'>&#8592;</span> Back
     </button>
   );
 }

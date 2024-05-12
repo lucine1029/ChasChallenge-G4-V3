@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { fetchAndCombineData } from './ResusableComponents/RequestMockData'; // Import the fetchAndCombineData function from RequestMockData.tsx
+// import { fetchAndCombineData } from './ResusableComponents/RequestMockData'; // Import the fetchAndCombineData function from RequestMockData.tsx
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ChatbotPage from './Pages/ChatbotPage/ChatbotPage';
 import HomePage from './Pages/HomePage/HomePage';
@@ -13,24 +13,26 @@ import AddKidsPage from './Pages/Settings/AddKids/Index';
 import { NavBar } from './ResusableComponents/NavBar';
 import { getDataFromSwagger } from './ResusableComponents/RequestDataSwagger';
 
+import { getDataFromSwagger } from './ResusableComponents/RequestDataSwagger';
+import Footer from '../src/ResusableComponents/Footer';
+
 getDataFromSwagger();
 
 const App = () => {
-  //UseEffect for data from json.db
-  useEffect(() => {
-    fetchAndCombineData()
-      .then((data) => {
-        // Handle the combined data as needed
-      })
-      .catch((error) => {
-        // Handle errors if needed
-      });
-  }, []); // Empty dependency array to ensure useEffect runs only once
+  // //UseEffect for data from json.db
+  // useEffect(() => {
+  //   fetchAndCombineData()
+  //     .then((data) => {
+  //       // Handle the combined data as needed
+  //     })
+  //     .catch((error) => {
+  //       // Handle errors if needed
+  //     });
+  // }, []); // Empty dependency array to ensure useEffect runs only once
 
   return (
     <>
       <BrowserRouter>
-        <NavBar />
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/chat' element={<ChatbotPage />} />
@@ -41,6 +43,7 @@ const App = () => {
           <Route path='/settings/kids' element={<ManageKidsPage />} />
           <Route path='/settings/kids/add' element={<AddKidsPage />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </>
   );
