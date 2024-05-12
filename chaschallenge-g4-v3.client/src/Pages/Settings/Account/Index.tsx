@@ -1,4 +1,4 @@
-import BackButton from '../../ResusableComponents/BackButton';
+import BackButton from '../../../ResusableComponents/BackButton';
 
 const UserSettings = () => {
   return (

@@ -5,16 +5,15 @@ import ChatbotPage from './Pages/ChatbotPage/ChatbotPage';
 import HomePage from './Pages/HomePage/HomePage';
 import SignUpPage from './Pages/UserAuthentication/SignUpPage/SignUpPage';
 import SignInPage from './Pages/UserAuthentication/SingInPage/SingInPage';
-import AccountPage from './Pages/AccountPage/AccountPage';
-import UserSettings from './Pages/AccountPage/UserSettings';
-import ChildrenManagePage from './Pages/AccountPage/ChildrenManagePage';
-import ChildAddPage from './Pages/AccountPage/ChildAddPage';
+import SettingsPage from './Pages/Settings/Index';
+import AccountPage from './Pages/Settings/Account/Index';
+import ManageKidsPage from './Pages/Settings/ManageKids/Index';
+import AddKidsPage from './Pages/Settings/AddKids/Index';
 // import BackButton from './Components/BackButton';
-import {NavBar} from './ResusableComponents/NavBar';
-import {getDataFromSwagger} from './ResusableComponents/RequestDataSwagger'
+import { NavBar } from './ResusableComponents/NavBar';
+import { getDataFromSwagger } from './ResusableComponents/RequestDataSwagger';
 
-getDataFromSwagger()
-
+getDataFromSwagger();
 
 const App = () => {
   //UseEffect for data from json.db
@@ -37,10 +36,10 @@ const App = () => {
           <Route path='/chat' element={<ChatbotPage />} />
           <Route path='/signup' element={<SignUpPage />} />
           <Route path='/signin' element={<SignInPage />} />
-          <Route path='/account' element={<AccountPage />} />
-          <Route path='/account/settings' element={<UserSettings />} />
-          <Route path='/account/children' element={<ChildrenManagePage />} />
-          <Route path='/account/children/add' element={<ChildAddPage />} />
+          <Route path='/settings' element={<SettingsPage />} />
+          <Route path='/settings/account' element={<AccountPage />} />
+          <Route path='/settings/kids' element={<ManageKidsPage />} />
+          <Route path='/settings/kids/add' element={<AddKidsPage />} />
         </Routes>
       </BrowserRouter>
     </>

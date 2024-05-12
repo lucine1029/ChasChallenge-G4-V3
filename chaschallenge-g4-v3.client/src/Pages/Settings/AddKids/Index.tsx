@@ -205,7 +205,7 @@ function ChildDataForm() {
   );
 }
 
-export default function AddChildPage() {
+export default function AddKidsPage() {
   return (
     <div>
       <h1>Add Child</h1>

@@ -9,19 +9,25 @@ interface ModalProps {
 export const ModalAccount: React.FC<ModalProps> = ({ onClose }) => {
   const navigate = useNavigate(); // Initialize useNavigate
 
-  const goToSignInPage = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const goToSignInPage = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     onClose(event); // Close the modal by passing the event
     navigate('/signin'); // Navigate to '/signin' route
   };
 
-  const goToSignUpPage = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const goToSignUpPage = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     onClose(event); // Close the modal by passing the event
     navigate('/signup'); // Navigate to '/signin' route
   };
 
-  const goToAccountPage = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const goToAccountPage = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     onClose(event); // Close the modal by passing the event
-    navigate('/account'); // Navigate to '/signin' route
+    navigate('/settings'); // Navigate to '/signin' route
   };
 
   return (
@@ -40,7 +46,7 @@ export const ModalAccount: React.FC<ModalProps> = ({ onClose }) => {
             Sign Up
           </button>
           <button className='modal-button' onClick={goToAccountPage}>
-            Account
+            Inställningar
           </button>
         </div>
       </div>
