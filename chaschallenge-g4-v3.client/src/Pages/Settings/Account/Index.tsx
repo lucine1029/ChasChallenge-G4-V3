@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import BackButton from '../../../ResusableComponents/BackButton';
-import './UseSettings.css';
+import '../../../scss/Sass-Pages/_AccountPage.css';
 
 const UserSettings = () => {
   const [showPassword, setShowPassword] = useState(false);

@@ -10,9 +10,7 @@ import AccountPage from './Pages/Settings/Account/Index';
 import ManageKidsPage from './Pages/Settings/ManageKids/Index';
 import AddKidsPage from './Pages/Settings/AddKids/Index';
 // import BackButton from './Components/BackButton';
-import { NavBar } from './ResusableComponents/NavBar';
-import { getDataFromSwagger } from './ResusableComponents/RequestDataSwagger';
-
+//import { NavBar } from './ResusableComponents/NavBar';
 import { getDataFromSwagger } from './ResusableComponents/RequestDataSwagger';
 import Footer from '../src/ResusableComponents/Footer';
 
