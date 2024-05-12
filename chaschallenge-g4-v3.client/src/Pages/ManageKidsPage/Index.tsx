@@ -1,8 +1,8 @@
 //@ts-nocheck
 import { useState } from 'react';
-import BackButton from '../../../ResusableComponents/HeaderWithBackButton';
+import '../../scss/Sass-Pages/_ChildCard.scss';
+import BackButton from '../../ResusableComponents/HeaderWithBackButton';
 import { LiaEllipsisHSolid, LiaEdit, LiaTrashAlt } from 'react-icons/lia';
-import '../../../scss/Sass-Pages/_KidsList.scss';
 
 const initialChildren = [
   {
@@ -21,7 +21,7 @@ const initialChildren = [
   },
 ];
 
-export default function KidsList() {
+export default function ChildList() {
   const [children, setChildren] = useState(initialChildren);
 
   return (

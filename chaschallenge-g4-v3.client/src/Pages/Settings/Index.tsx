@@ -5,11 +5,12 @@ import { LiaUserCogSolid } from 'react-icons/lia';
 import { LiaBabySolid } from 'react-icons/lia';
 import { LiaAngleRightSolid } from 'react-icons/lia';
 import '../../scss/Sass-Pages/_SettingsPage.scss';
+import HeaderWithBackButton from '../../ResusableComponents/HeaderWithBackButton';
 
 export default function SettingsPage() {
   return (
     <>
-      <h1>Inställningar</h1>
+      <HeaderWithBackButton title='Inställningar' />
       <nav className='accountpage-nav'>
         <ul>
           <li>

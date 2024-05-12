@@ -1,4 +1,4 @@
-import BackButton from '../../../ResusableComponents/BackButton.tsx';
+import HeaderWithBackButton from '../../../ResusableComponents/HeaderWithBackButton.tsx';
 import KidsList from './KidsList.tsx';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,9 +15,9 @@ export default function ManageKidsPage() {
 
   return (
     <>
-      <BackButton />
-      <Button onClick={handleAddchildClick}>Add Child</Button>
+      <HeaderWithBackButton title='Barn' />
       <KidsList />
+      <Button onClick={handleAddchildClick}>Add Child</Button>
     </>
   );
 }
