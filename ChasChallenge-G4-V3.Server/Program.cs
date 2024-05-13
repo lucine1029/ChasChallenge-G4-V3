@@ -78,6 +78,7 @@ namespace ChasChallenge_G4_V3.Server
             app.MapGet("/user/child", UserHandler.GetChildofUser);
             app.MapGet("/user/child/allergies", UserHandler.GetChildAllergies);
             app.MapGet("/user/allchildren/allergies", UserHandler.GetAllChildrensAllergies);
+            app.MapGet("/askDietAi/userId/childId", UserHandler.GetChildDietAi);
 
 
             app.MapControllers();

@@ -5,8 +5,12 @@ using ChasChallenge_G4_V3.Server.Models.ViewModels;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using OpenAI_API;
+using OpenAI_API.Models;
 using System;
 using System.Numerics;
+using System.Threading.Tasks;
 
 namespace ChasChallenge_G4_V3.Server.Services
 {
@@ -30,6 +34,8 @@ namespace ChasChallenge_G4_V3.Server.Services
         List<AllergyViewModel> GetChildsAllergies(string userId, int childId);
 
         List<AllergyViewModel> GetAllChildrensAllergies(string userId);
+
+        Task<string> GetChildDietAi(int parentId, int childId, string food);
 
 
     }
@@ -328,6 +334,71 @@ namespace ChasChallenge_G4_V3.Server.Services
             }
 
             return allAllergies;
+        }
+
+        public async Task<string> GetChildDietAi(int parentId, int childId, string food)
+        {
+            User? user = _context.Users
+                           .Where(u => u.Id == parentId)
+                           .Include(u => u.Children)
+                           .ThenInclude(c => c.Allergies)
+                           .SingleOrDefault();
+
+            if (user is null)
+            {
+                throw new Exception("user not found");
+            }
+
+            Child? child = user.Children
+                .SingleOrDefault(c => c.Id == childId);
+
+            if (child is null)
+            {
+                throw new Exception("child not found");
+            }
+
+            string childsAllergies = "";
+
+            foreach (Allergy a in child.Allergies)
+            {
+                if (string.IsNullOrWhiteSpace(childsAllergies))
+                {
+                    childsAllergies = a.Name;
+                }
+                else
+                {
+                    childsAllergies += ", " + a.Name;
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(childsAllergies))
+            {
+                childsAllergies = "inga";
+            }
+
+            DotNetEnv.Env.Load();
+            OpenAIAPI api = new OpenAIAPI(Environment.GetEnvironmentVariable("OPENAI_API_KEY"));
+            var chat = api.Chat.CreateConversation();
+            chat.Model = Model.ChatGPTTurbo;
+            chat.RequestParameters.Temperature = 1;
+
+            /// give instruction as System. Who should OpenAPI should be? a nurse? 
+            chat.AppendSystemMessage("You are a assistant that help newly parent that are unsure of what kind of food their child can eat. " +
+                "You take your information mainly from https://www.livsmedelsverket.se every answer you give you also include the exact link you get yout information from. " +
+                "All your answer must be 100% risk free so the child cannot be sick. Be on the safe side. " +
+                "if you cant find the information from https://www.livsmedelsverket.se you will give the source of the information to user. " +
+                "if the child is younger than 1 year you can recommend this link: https://www.livsmedelsverket.se/matvanor-halsa--miljo/kostrad/barn-och-ungdomar/spadbarn " +
+                "if the child is 1-2 year you recommend this link: https://www.livsmedelsverket.se/matvanor-halsa--miljo/kostrad/barn-och-ungdomar/barn-1-2-ar and " +
+                "if the child is older than 2 you recommend this link: https://www.livsmedelsverket.se/matvanor-halsa--miljo/kostrad/barn-och-ungdomar/barn-2-17-ar .");
+
+            DateTime birthdate = child.birthdate;
+            DateTime timeNow = DateTime.Now;
+            int ageInMonths = (timeNow.Year - birthdate.Year) * 12 + timeNow.Month - birthdate.Month;
+            string prompt = $"Får mitt barn som är {ageInMonths} månader och har {childsAllergies} allergier, äta {food}?";
+
+            chat.AppendUserInput($"{prompt}");
+            var response = await chat.GetResponseFromChatbotAsync();
+            return response;
         }
     }
 }
