@@ -130,7 +130,7 @@ namespace ChasChallenge_G4_V3.Server.Handlers
             }
         }
 
-        public static async Task<IResult> GetChildDietAi(IUserServices userServices, int userId, int childId, string food)
+        public static async Task<IResult> GetChildDietAi(IUserServices userServices, string userId, int childId, string food)
         {
             try
             {

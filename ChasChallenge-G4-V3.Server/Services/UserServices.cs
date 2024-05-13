@@ -35,7 +35,7 @@ namespace ChasChallenge_G4_V3.Server.Services
 
         List<AllergyViewModel> GetAllChildrensAllergies(string userId);
 
-        Task<string> GetChildDietAi(int parentId, int childId, string food);
+        Task<string> GetChildDietAi(string parentId, int childId, string food);
 
 
     }
@@ -336,7 +336,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             return allAllergies;
         }
 
-        public async Task<string> GetChildDietAi(int parentId, int childId, string food)
+        public async Task<string> GetChildDietAi(string parentId, int childId, string food)
         {
             User? user = _context.Users
                            .Where(u => u.Id == parentId)
