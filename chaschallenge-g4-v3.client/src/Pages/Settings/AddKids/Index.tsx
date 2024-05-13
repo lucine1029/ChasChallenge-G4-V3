@@ -85,7 +85,10 @@ function FetchAvatarDropdown({ onAvatarChange }) {
 
       {isModalOpen && (
         <div className='avatar-modal'>
-          <HeaderWithBackButton title='Välj avatar' onBack={closeModal} />
+          <HeaderWithBackButton
+            title='Välj avatar'
+            customBackAction={() => setIsModalOpen(false)}
+          />
           <div className='avatar-grid'>
             {avatars.map((avatar, index) => (
               <div
@@ -122,10 +125,7 @@ function AllergiesDropdown({ register }) {
       {isOpen && (
         <div className='dropdown-content'>
           {allergies.map((allergy, index) => (
-            <label
-              key={index}
-              style={{ display: 'block', padding: '5px 10px' }}
-            >
+            <label key={index}>
               <input
                 type='checkbox'
                 {...register(`allergies.${allergy}`)}
@@ -183,9 +183,11 @@ function ChildDataForm() {
 
 export default function AddKidsPage() {
   return (
-    <div>
+    <>
       <HeaderWithBackButton title='Lägg till barn' />
-      <ChildDataForm />
-    </div>
+      <main>
+        <ChildDataForm />
+      </main>
+    </>
   );
 }

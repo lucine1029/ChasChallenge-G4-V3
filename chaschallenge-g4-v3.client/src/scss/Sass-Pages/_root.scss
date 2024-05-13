@@ -1,16 +1,26 @@
 @use '../Abstract/index' as *;
 
+// Global reset styles
+*,
+*::before,
+*::after {
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box; // Ensures padding and borders are included in the width and height
+}
+
 // Root styles
 :root {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box; // Ensures padding and borders are included in the element's total width and height
-  font-family: $mainfont;
-};
+  font-family: $mainfont; // Assuming $mainfont is defined in your abstract/index
+}
 
-body{
-  width: 95vw;
+body {
+  width: 100vw;
   // height: 90vh;
-  background-image: url('/Baby-Background.png');
+  //background-image: url('/Baby-Background.png');
   background-size: cover;
-};
+}
+
+main {
+  padding: 0 1rem;
+}
