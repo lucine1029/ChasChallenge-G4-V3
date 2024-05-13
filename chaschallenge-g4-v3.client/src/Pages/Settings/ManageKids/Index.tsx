@@ -10,14 +10,14 @@ export default function ManageKidsPage() {
   const navigate = useNavigate();
 
   const handleAddchildClick = () => {
-    navigate('/account/children/add');
+    navigate('/settings/kids/add');
   };
 
   return (
     <>
       <HeaderWithBackButton title='Barn' />
       <KidsList />
-      <Button onClick={handleAddchildClick}>Add Child</Button>
+      <Button onClick={handleAddchildClick}>Lägg till barn</Button>
     </>
   );
 }
