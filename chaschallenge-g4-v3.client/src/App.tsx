@@ -9,10 +9,12 @@ import SettingsPage from './Pages/Settings/Index';
 import AccountPage from './Pages/Settings/Account/Index';
 import ManageKidsPage from './Pages/Settings/ManageKids/Index';
 import AddKidsPage from './Pages/Settings/AddKids/Index';
+import SleepTracking from './Pages/Sleep/SleepTracking';
 // import BackButton from './Components/BackButton';
 //import { NavBar } from './ResusableComponents/NavBar';
 import { getDataFromSwagger } from './ResusableComponents/RequestDataSwagger';
 import Footer from '../src/ResusableComponents/Footer';
+
 
 getDataFromSwagger();
 
@@ -40,6 +42,7 @@ const App = () => {
           <Route path='/settings/account' element={<AccountPage />} />
           <Route path='/settings/kids' element={<ManageKidsPage />} />
           <Route path='/settings/kids/add' element={<AddKidsPage />} />
+          <Route path='/sleeptracking' element={<SleepTracking />} />
         </Routes>
         <Footer />
       </BrowserRouter>
