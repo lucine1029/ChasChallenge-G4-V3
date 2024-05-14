@@ -15,7 +15,9 @@ namespace ChasChallenge_G4_V3.Server.Handlers
                 return Results.BadRequest(user.ErrorMessage);
             }
 
-            var token = loginService.GenerateTokenString(loginUser);
+            bool isAdmin = user.isAdmin;
+
+            var token = loginService.GenerateTokenString(loginUser, isAdmin);
 
             context.Response.StatusCode = 200;
 

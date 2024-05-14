@@ -17,7 +17,7 @@ namespace ChasChallenge_G4_V3.Server.Handlers
             }
             catch (Exception ex)
             {
-                return Results.BadRequest(ex);
+                return Results.BadRequest("Something went wrong");
             }
         }
 

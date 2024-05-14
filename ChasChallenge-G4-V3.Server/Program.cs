@@ -38,6 +38,7 @@ namespace ChasChallenge_G4_V3.Server
             .AddRoles<IdentityRole>()
             .AddDefaultTokenProviders();
 
+            // Service adding authentication requirements to access certain endpoints. 
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -58,6 +59,13 @@ namespace ChasChallenge_G4_V3.Server
 
             };
             });
+
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdmin", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("RequireUser", policy => policy.RequireRole("User"));
+            });
+
            
 
             //Dependency injection
@@ -90,7 +98,7 @@ namespace ChasChallenge_G4_V3.Server
             //Post
             //app.MapPost("/user", UserHandler.AddUser);
             app.MapPost("/user/child", UserHandler.AddChild).RequireAuthorization();
-            //app.MapPost("/user/{userId}/child", UserHandler.AddChild).RequireAuthorization(); // Needed to input userId to test authorization. - Sean
+            
             //app.MapPost("/user/existingChild", UserHandler.AddExistingChild);
             app.MapPost("/user/child/allergy", UserHandler.AddAllergy);
             app.MapPost("/user/child/measurement", UserHandler.AddMeasurement);
@@ -102,11 +110,14 @@ namespace ChasChallenge_G4_V3.Server
 
             ////Gets
             app.MapGet("/user", UserHandler.GetUser);
-            app.MapGet("/allusers", UserHandler.GetAllUsers);
+            //app.MapGet("/allusers", UserHandler.GetAllUsers);
             app.MapGet("/user/child", UserHandler.GetChildofUser);
             app.MapGet("/user/child/allergies", UserHandler.GetChildAllergies);
             app.MapGet("/user/allchildren/allergies", UserHandler.GetAllChildrensAllergies);
 
+            // Insomnia Test Endpoints
+            app.MapPost("/user/{userId}/child", UserHandler.AddChild).RequireAuthorization("RequireUser"); // Needed to input userId to test authorization. - Sean
+            app.MapGet("/allusers", UserHandler.GetAllUsers).RequireAuthorization("RequireAdmin");
 
             app.MapControllers();
 
@@ -170,3 +181,8 @@ namespace ChasChallenge_G4_V3.Server
         }
     }
 }
+
+//{
+//    "email": "sean@gmail.com",
+//  "password": "TestPass1"
+//}

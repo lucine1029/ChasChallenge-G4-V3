@@ -16,7 +16,7 @@ namespace ChasChallenge_G4_V3.Server.Services
         Task<IResult> RegisterUserAsync(UserDto user);
         Task<LoginResultViewModel> UserLoginAsync(LoginUserDto User);
 
-        string GenerateTokenString(LoginUserDto user);
+        string GenerateTokenString(LoginUserDto user, bool isAdmin);
 
         
     }
@@ -92,22 +92,39 @@ namespace ChasChallenge_G4_V3.Server.Services
 
                 };
             }
-          
+
+            var roles = await _userManager.GetRolesAsync(identityUser);
+
+            bool isAdmin = roles.Contains("Admin");
+
             return new LoginResultViewModel
             {
                 Success = true,
-                UserId = identityUser.Id
+                UserId = identityUser.Id,
+                isAdmin = isAdmin
             };           
         }
         
-        public string GenerateTokenString(LoginUserDto user)
+        public string GenerateTokenString(LoginUserDto user, bool isAdmin)
         {
+            string role;
+
+            if (isAdmin)
+            {
+                role = "Admin";
+            }
+            else
+            {
+                role = "User";
+            }
+
             IEnumerable<System.Security.Claims.Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, "User"),
+                new Claim(ClaimTypes.Role, $"{role}"),
             };
 
+           
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("Jwt:Key").Value));
 
             var signingCred = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
