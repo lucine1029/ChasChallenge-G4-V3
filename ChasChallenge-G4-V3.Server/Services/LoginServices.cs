@@ -3,6 +3,7 @@ using ChasChallenge_G4_V3.Server.Models;
 using ChasChallenge_G4_V3.Server.Models.DTOs;
 using ChasChallenge_G4_V3.Server.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -15,10 +16,9 @@ namespace ChasChallenge_G4_V3.Server.Services
     {
         Task<IResult> RegisterUserAsync(UserDto user);
         Task<LoginResultViewModel> UserLoginAsync(LoginUserDto User);
-
         string GenerateTokenString(LoginUserDto user, bool isAdmin);
-
-        Task<IResult> LogoutAsync();                   
+        Task<IResult> LogoutAsync();
+        public Task<bool> IsUserLoggedIn();
     }
     public class LoginServices : ILoginServices
     {
@@ -149,6 +149,13 @@ namespace ChasChallenge_G4_V3.Server.Services
             return Results.Ok("Logout Successful");
         }
 
+        public async Task<bool> IsUserLoggedIn()
+        {
+            HttpContext httpContext = _httpContextAccessor.HttpContext;
+
+            return httpContext.User.Identity.IsAuthenticated;
+
+        }
      
     }
 
