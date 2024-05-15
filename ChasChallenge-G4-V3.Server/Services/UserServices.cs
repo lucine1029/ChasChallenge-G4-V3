@@ -50,7 +50,7 @@ namespace ChasChallenge_G4_V3.Server.Services
 
         public void AddChild(string userId, ChildDto childDto) // userId input parameters are now strings because Identity's own UserID are strings.
         {
-            User? user = _context.Users
+            User? user = _context.Users // Nicknames cannot be duplicated. How to allow nickname duplicates?
                 .Include(u => u.Children)
                 .SingleOrDefault(u => u.Id == userId);
 

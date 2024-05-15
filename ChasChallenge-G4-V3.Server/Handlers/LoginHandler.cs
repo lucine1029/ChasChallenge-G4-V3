@@ -33,5 +33,14 @@ namespace ChasChallenge_G4_V3.Server.Handlers
 
 
         }
+
+        public static async Task<IResult> LogoutAsync(ILoginServices loginService)
+        {
+            var result = await loginService.LogoutAsync();
+
+            return result;
+        }
+
+       
     }
 }

@@ -114,10 +114,24 @@ namespace ChasChallenge_G4_V3.Server
             app.MapGet("/user/child", UserHandler.GetChildofUser);
             app.MapGet("/user/child/allergies", UserHandler.GetChildAllergies);
             app.MapGet("/user/allchildren/allergies", UserHandler.GetAllChildrensAllergies);
+            app.MapGet("/allusers", UserHandler.GetAllUsers);
 
-            // Insomnia Test Endpoints
-            app.MapPost("/user/{userId}/child", UserHandler.AddChild).RequireAuthorization("RequireUser"); // Needed to input userId to test authorization. - Sean
-            app.MapGet("/allusers", UserHandler.GetAllUsers).RequireAuthorization("RequireAdmin");
+            // Sean/Insomnia Test Endpoints
+            app.MapPost("/user/{userId}/child", UserHandler.AddChild).RequireAuthorization("RequireUser"); // Needed to input userId to test authorization. - Sean         
+            app.MapPost("/logout", LoginHandler.LogoutAsync);
+            
+
+            app.MapGet("/check-auth", (HttpContext httpContext) =>
+            {
+                if (httpContext.User.Identity.IsAuthenticated)
+                {
+                    return Results.Ok("User is signed in");
+                }
+                else
+                {
+                    return Results.Ok("User is not signed in");
+                }
+            });
 
             app.MapControllers();
 
@@ -143,18 +157,22 @@ namespace ChasChallenge_G4_V3.Server
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
                 string password = "TestPass1";
+                string email = "sean@gmail.com";
 
-                var user = new User
+                if (await userManager.FindByEmailAsync(email) == null)
                 {
-                    LastName = "Sean",
-                    FirstName = "Schelin",
-                    UserName = "sean@gmail.com",
-                    Email = "sean@gmail.com"
-                };
+                    var user = new User
+                    {
+                        LastName = "Sean",
+                        FirstName = "Schelin",
+                        UserName = email,
+                        Email = "sean@gmail.com"
+                    };
 
-                var result = await userManager.CreateAsync(user, password);
+                    var result = await userManager.CreateAsync(user, password);
 
-                await userManager.AddToRoleAsync(user, "User");
+                    await userManager.AddToRoleAsync(user, "User");
+                }                    
             }
 
             using (var scope = app.Services.CreateScope()) // Creating default admin
@@ -182,7 +200,9 @@ namespace ChasChallenge_G4_V3.Server
     }
 }
 
-//{
-//    "email": "sean@gmail.com",
-//  "password": "TestPass1"
-//}
+/*
+  {
+    "email": "sean@gmail.com",
+  "password": "TestPass1"
+    }
+*/

@@ -18,18 +18,21 @@ namespace ChasChallenge_G4_V3.Server.Services
 
         string GenerateTokenString(LoginUserDto user, bool isAdmin);
 
-        
+        Task<IResult> LogoutAsync();                   
     }
     public class LoginServices : ILoginServices
     {
         private UserManager<User> _userManager; // UserManager is a built-in Identity class that manages the User objects in the program. - Sean
         private IConfiguration _config;
+        private SignInManager<User> _signInManager;
+        private IHttpContextAccessor _httpContextAccessor;
 
-
-        public LoginServices(UserManager<User> userManager, IConfiguration config)
+        public LoginServices(UserManager<User> userManager, IConfiguration config, SignInManager<User> signInManager, IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _config = config;
+            _signInManager = signInManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IResult> RegisterUserAsync(UserDto user)
@@ -81,18 +84,17 @@ namespace ChasChallenge_G4_V3.Server.Services
              
             }
 
-            var isPasswordValid = await _userManager.CheckPasswordAsync(identityUser, loginUser.Password);
-
-            if (!isPasswordValid)
+            var result = await _signInManager.PasswordSignInAsync(identityUser, loginUser.Password, isPersistent: false, lockoutOnFailure: false);
+          
+            if (!result.Succeeded)
             {
                 return new LoginResultViewModel
                 {
                     Success = false,
                     ErrorMessage = "Invalid email address or password."
-
                 };
             }
-
+         
             var roles = await _userManager.GetRolesAsync(identityUser);
 
             bool isAdmin = roles.Contains("Admin");
@@ -104,7 +106,7 @@ namespace ChasChallenge_G4_V3.Server.Services
                 isAdmin = isAdmin
             };           
         }
-        
+             
         public string GenerateTokenString(LoginUserDto user, bool isAdmin)
         {
             string role;
@@ -139,6 +141,15 @@ namespace ChasChallenge_G4_V3.Server.Services
             string tokenString = new JwtSecurityTokenHandler().WriteToken(securityToken);
             return tokenString;
         }
+
+        public async Task<IResult> LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
+
+            return Results.Ok("Logout Successful");
+        }
+
+     
     }
 
 }
