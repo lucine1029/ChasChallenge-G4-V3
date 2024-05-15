@@ -27,7 +27,7 @@ namespace ChasChallenge_G4_V3.Server.Services
 
         UserViewModel GetUser(string userId);
 
-        List<UserViewModel> GetAllUsers();
+        List<PrintAllUsersViewModel> GetAllUsers();
 
         ChildViewModel GetChildOfUser(string userId, int childId);
 
@@ -241,9 +241,16 @@ namespace ChasChallenge_G4_V3.Server.Services
             return userViewModel;
         }
 
-        public List<UserViewModel> GetAllUsers() // Integrate to Identity
+        public List<PrintAllUsersViewModel> GetAllUsers() // Integrate to Identity
         {
-            var userViewModels = _context.Users.Select(u => new UserViewModel { LastName = u.LastName ,FirstName = u.FirstName, Email = u.Email }).ToList();
+            var userViewModels = _context.Users.Include(u => u.Children)
+                .Select(u => new PrintAllUsersViewModel
+                {
+                    Id = u.Id,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Children = u.Children.Select(c => new PrintAllUsersChildViewModel { Id = c.Id, Name = c.Name }).ToList()
+                }).ToList();
 
             return userViewModels;
         }
@@ -253,6 +260,9 @@ namespace ChasChallenge_G4_V3.Server.Services
             User? user = _context.Users
                 .Where(u => u.Id == userId)
                 .Include(u => u.Children)
+                .ThenInclude(c => c.Allergies)
+                .Include(u => u.Children)
+                .ThenInclude(c => c.Measurements)
                 .SingleOrDefault();
 
             if (user is null)
@@ -263,19 +273,21 @@ namespace ChasChallenge_G4_V3.Server.Services
             Child? child = user.Children
                 .SingleOrDefault(c => c.Id == childId);
 
-
             if (child is null)
             {
                 throw new Exception("child not found");
             }
 
-            ChildViewModel childViewModel = new ChildViewModel()
-            {
-                Name = child.Name,
-                NickName = child.NickName,
-                birthdate = child.birthdate,
-                Gender = child.Gender
-            };
+            ChildViewModel childViewModel = new ChildViewModel
+                {
+                    Name = child.Name,
+                    NickName = child.NickName,
+                    birthdate = child.birthdate,
+                    Gender = child.Gender,
+                    Allergies = child.Allergies.Select(a => new AllergyViewModel { Name = a.Name }).ToList(),
+                    Measurements = child.Measurements.Select(m => new MeasurementViewModel { DateOfMeasurement = m.DateOfMeasurement, Weight = m.Weight, Height = m.Height, HeadCircumference = m.HeadCircumference }).ToList()
+
+                };
 
             return childViewModel;
         }
