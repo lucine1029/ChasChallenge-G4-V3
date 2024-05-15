@@ -237,7 +237,7 @@ namespace ChasChallenge_G4_V3.Server.Services
 
         public List<UserViewModel> GetAllUsers() // Integrate to Identity
         {
-            var userViewModels = _context.Users.Select(u => new UserViewModel { LastName = u.LastName ,FirstName = u.FirstName, Email = u.Email }).ToList();
+            var userViewModels = _context.Users.Select(u => new UserViewModel { LastName = u.LastName ,FirstName = u.FirstName, Email = u.Email}).ToList();
 
             return userViewModels;
         }
