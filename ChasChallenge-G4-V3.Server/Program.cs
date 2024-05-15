@@ -41,7 +41,9 @@ namespace ChasChallenge_G4_V3.Server
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   policy =>
                                   {
-                                      policy.WithOrigins("http://localhost:3000")
+                                    //   policy.WithOrigins("http://localhost:3000")
+                                    policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
+                                    
                                                           .AllowAnyHeader()
                                                           .AllowAnyMethod()
                                                           .AllowCredentials();

@@ -60,7 +60,8 @@ import axios from 'axios';
 export const getDataFromSwagger = async () => {
   try {
     const response = await axios.get(
-      'http://localhost:5148/user?userId=b8cc8b99-848b-49c3-b4fb-0784e9ee0f06'
+      // 'http://localhost:5148/user?userId=b8cc8b99-848b-49c3-b4fb-0784e9ee0f06'
+      'http://localhost:5148/allusers'
     );
 
     console.log(response.data);
@@ -70,3 +71,5 @@ export const getDataFromSwagger = async () => {
     throw error; // Rethrow the error for handling elsewhere if needed
   }
 };
+
+
