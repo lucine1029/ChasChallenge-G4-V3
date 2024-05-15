@@ -114,7 +114,7 @@ namespace ChasChallenge_G4_V3.Server
             app.MapGet("/user/child", UserHandler.GetChildofUser);
             app.MapGet("/user/child/allergies", UserHandler.GetChildAllergies);
             app.MapGet("/user/allchildren/allergies", UserHandler.GetAllChildrensAllergies);
-            app.MapGet("/allusers", UserHandler.GetAllUsers);
+            app.MapGet("/allusers", UserHandler.GetAllUsers).RequireAuthorization("RequireAdmin");
 
             // Sean/Insomnia Test Endpoints
             app.MapPost("/user/{userId}/child", UserHandler.AddChild).RequireAuthorization("RequireUser"); // Needed to input userId to test authorization. - Sean         
