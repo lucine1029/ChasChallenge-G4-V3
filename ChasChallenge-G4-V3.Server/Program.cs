@@ -41,8 +41,8 @@ namespace ChasChallenge_G4_V3.Server
             // Service adding authentication requirements to access certain endpoints. 
             builder.Services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                //options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                //options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
@@ -123,18 +123,20 @@ namespace ChasChallenge_G4_V3.Server
             app.MapGet("/askDietAi/userId/childId", UserHandler.GetChildDietAi);
 
 
-            app.MapGet("/check-auth", (HttpContext httpContext) =>
+            app.MapGet("/check-authentication", async (ILoginServices service) =>
             {
-                if (httpContext.User.Identity.IsAuthenticated)
+                bool isLoggedIn = await service.IsUserLoggedIn();
+
+                if (isLoggedIn)
                 {
-                    return Results.Ok("User is signed in");
+                    return Results.Ok("User is logged in.");
                 }
                 else
                 {
-                    return Results.Ok("User is not signed in");
+                    return Results.BadRequest("User is not logged in.");
                 }
             });
-
+           
             app.MapControllers();
 
             app.MapFallbackToFile("/index.html");
@@ -204,7 +206,7 @@ namespace ChasChallenge_G4_V3.Server
 
 /*
   {
-    "email": "sean@gmail.com",
-  "password": "TestPass1"
-    }
+   "email": "sean@gmail.com",
+   "password": "TestPass1"
+  }
 */
