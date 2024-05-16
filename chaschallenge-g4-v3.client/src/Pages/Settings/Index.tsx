@@ -4,16 +4,17 @@ import { Link } from 'react-router-dom';
 import { LiaUserCogSolid } from 'react-icons/lia';
 import { LiaBabySolid } from 'react-icons/lia';
 import { LiaAngleRightSolid } from 'react-icons/lia';
-import '../../scss/Sass-Pages/_AccountPageList.scss';
+import '../../scss/Sass-Pages/_SettingsPage.scss';
+import HeaderWithBackButton from '../../ResusableComponents/HeaderWithBackButton';
 
-const AccountPage = () => {
+export default function SettingsPage() {
   return (
     <>
-      <h1>Inställningar</h1>
+      <HeaderWithBackButton title='Inställningar' />
       <nav className='accountpage-nav'>
         <ul>
           <li>
-            <Link className='link-style card' to='settings'>
+            <Link className='link-style card' to='account'>
               <LiaUserCogSolid className='large-icon' />
               <div className='push-right'>
                 <h3>Konto</h3>
@@ -23,7 +24,7 @@ const AccountPage = () => {
             </Link>
           </li>
           <li>
-            <Link className='link-style card' to='children'>
+            <Link className='link-style card' to='Kids'>
               <LiaBabySolid className='large-icon' />
 
               <div className='push-right'>
@@ -37,6 +38,4 @@ const AccountPage = () => {
       </nav>
     </>
   );
-};
-
-export default AccountPage;
+}

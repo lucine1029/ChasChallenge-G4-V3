@@ -17,7 +17,7 @@ namespace ChasChallenge_G4_V3.Server.Handlers
             }
             catch (Exception ex)
             {
-                return Results.BadRequest(ex);
+                return Results.BadRequest("Something went wrong");
             }
         }
 
@@ -130,6 +130,17 @@ namespace ChasChallenge_G4_V3.Server.Handlers
             }
         }
 
-
+        public static async Task<IResult> GetChildDietAi(IUserServices userServices, string userId, int childId, string food)
+        {
+            try
+            {
+                var childDiet = await userServices.GetChildDietAi(userId, childId, food);
+                return Results.Json(childDiet);
+            }
+            catch (Exception ex)
+            {
+                return Results.NotFound($"Exception {ex.Message}");
+            }
+        }
     }
 }
