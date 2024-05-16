@@ -29,6 +29,9 @@ namespace ChasChallenge_G4_V3.Server
                 options.Password.RequireNonAlphanumeric = false; // Remove non-alphanumeric requirement           
                 options.Password.RequiredUniqueChars = 0; // Set minimum unique characters in password (if needed)
 
+                /*options.SignIn.RequireConfirmedEmail = true;
+                options.User.RequireUniqueEmail= true;*/
+
             })
             .AddEntityFrameworkStores<ApplicationContext>()
             .AddDefaultTokenProviders();

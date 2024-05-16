@@ -45,6 +45,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             {
                 // User created successfully, return Ok
                 return Results.Ok("User created successfully.");
+                
             }
             else
             {
@@ -59,6 +60,11 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             var identityUser = await _userManager.FindByEmailAsync(loginUser.Email);
 
+            /*if (identityUser != null)
+            {
+                return redirectToLocal(returnUserUrl)
+            }*/
+
             if (identityUser == null)
             {
                 return new LoginResultViewModel
@@ -66,6 +72,8 @@ namespace ChasChallenge_G4_V3.Server.Services
                     Success = false,
                     ErrorMessage = "User not found."
                 };
+
+               
              
             }
 
