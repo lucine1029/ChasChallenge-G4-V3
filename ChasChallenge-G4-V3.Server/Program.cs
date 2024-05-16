@@ -2,9 +2,11 @@
 using ChasChallenge_G4_V3.Server.Data;
 using ChasChallenge_G4_V3.Server.Handlers;
 using ChasChallenge_G4_V3.Server.Models;
+using ChasChallenge_G4_V3.Server.Models.DTOs;
 using ChasChallenge_G4_V3.Server.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace ChasChallenge_G4_V3.Server
@@ -33,10 +35,20 @@ namespace ChasChallenge_G4_V3.Server
             .AddEntityFrameworkStores<ApplicationContext>()
             .AddDefaultTokenProviders();
 
-            
+            //Add Email Configs
+            var emailConfig = builder.Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
+            builder.Services.AddSingleton(emailConfig);
+            builder.Services.AddScoped<IEmailService, EmailService>();
 
+            //add config for required email 
+            builder.Services.Configure<IdentityOptions>(
+                options => options.SignIn.RequireConfirmedEmail = true);
+
+            builder.Services.Configure<DataProtectionTokenProviderOptions>(
+                options => options.TokenLifespan = TimeSpan.FromHours(10)); //token will be valid for 10h
+            
             //Dependency injection
-            builder.Services.AddScoped<IUserServices,UserServices>();
+            builder.Services.AddScoped<IUserServices, UserServices>();
             builder.Services.AddScoped<ILoginServices, LoginServices>();
 
             // Add services to the container.
@@ -71,6 +83,8 @@ namespace ChasChallenge_G4_V3.Server
             app.MapPost("/register", LoginHandler.RegisterUserAsync);
             app.MapPost("/login", LoginHandler.UserLoginAsync);
 
+            //endpoint for testing email
+            app.MapGet("/test-email", EmailHandler.TestEmailAsync);
 
             ////Gets
             app.MapGet("/user", UserHandler.GetUser);
