@@ -1,20 +1,17 @@
 @use '../Abstract/index' as *;
 
-// Global styles
-* {
+// Root styles
+:root {
   margin: 0;
   padding: 0;
   box-sizing: border-box; // Ensures padding and borders are included in the element's total width and height
-}
-
-// Root styles
-:root {
   font-family: $mainfont;
-}
+};
 
-/* :root{
-    padding: 0;
-    margin: 0;
-    font-family: $mainfont;
-    background: linear-gradient(to bottom, $gradient);
-} */
+body{
+  width: 100vw;
+  margin: auto;
+
+  background-image: url('/Baby-Background.png');
+  background-size: cover;
+};

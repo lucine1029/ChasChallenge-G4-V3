@@ -38,6 +38,26 @@ namespace ChasChallenge_G4_V3.Server
             .AddRoles<IdentityRole>()
             .AddDefaultTokenProviders();
 
+            //CORS-setup
+            var MyAllowSpecificOrigins = "_allowLocalhostOrigin";
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  policy =>
+                                  {
+                                    //   policy.WithOrigins("http://localhost:3000")
+                                    policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
+                                    
+                                                          .AllowAnyHeader()
+                                                          .AllowAnyMethod()
+                                                          .AllowCredentials();
+                                  });
+            });
+
+
+            builder.Services.AddControllers();
+
             // Service adding authentication requirements to access certain endpoints. 
             builder.Services.AddAuthentication(options =>
             {
@@ -73,16 +93,21 @@ namespace ChasChallenge_G4_V3.Server
             builder.Services.AddScoped<ILoginServices, LoginServices>();
 
             // Add services to the container.
-
             builder.Services.AddControllers();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
+
+            //CORS-setup
+            app.UseRouting();
+            app.UseCors(MyAllowSpecificOrigins);
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -119,6 +144,9 @@ namespace ChasChallenge_G4_V3.Server
             // Sean/Insomnia Test Endpoints
             app.MapPost("/user/{userId}/child", UserHandler.AddChild).RequireAuthorization("RequireUser"); // Needed to input userId to test authorization. - Sean         
             app.MapPost("/logout", LoginHandler.LogoutAsync);
+            
+            app.MapGet("/askDietAi/userId/childId", UserHandler.GetChildDietAi);
+
 
             app.MapGet("/check-authentication", async (ILoginServices service) =>
             {

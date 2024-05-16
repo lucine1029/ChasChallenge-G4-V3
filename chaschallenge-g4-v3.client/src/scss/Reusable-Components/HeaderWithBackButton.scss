@@ -1,0 +1,32 @@
+@use '../abstract/index' as *;
+
+.header-with-back-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+
+  .back-button {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+  }
+
+  h1 {
+    flex-grow: 1;
+    text-align: center;
+    font-size: 1rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  .spacer {
+    width: 24px; // Match this width to the back button's width to keep the header balanced
+  }
+}

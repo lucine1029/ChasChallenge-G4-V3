@@ -1,0 +1,49 @@
+@use '../abstract/index' as *;
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px; // Adjust padding as needed
+}
+
+p {
+  text-align: center;
+  flex-grow: 1;
+}
+
+.accountpage-nav {
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .link-style {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .push-right {
+    margin-right: auto;
+  }
+
+  h3,
+  p {
+    margin: 0;
+  }
+
+  .large-icon {
+    font-size: 2rem;
+  }
+
+  .card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    background-color: rgba(235, 235, 235, 0.265);
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  }
+}
