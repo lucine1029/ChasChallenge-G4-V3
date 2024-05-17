@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using static Org.BouncyCastle.Math.EC.ECCurve;
 using System.Text;
+using Microsoft.Extensions.Configuration;
+using static ChasChallenge_G4_V3.Server.Services.EmailServices;
 
 namespace ChasChallenge_G4_V3.Server
 {
@@ -18,6 +20,10 @@ namespace ChasChallenge_G4_V3.Server
         public static async Task Main(string[] args) // Changed return from "Void" to "Task"
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            //Configure EmailConfiguration settings ---Jing
+            builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
+            
             //db connection
             string connectionString = builder.Configuration.GetConnectionString("ApplicationContext");
             builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
@@ -33,13 +39,14 @@ namespace ChasChallenge_G4_V3.Server
                 options.Password.RequireNonAlphanumeric = false; // Remove non-alphanumeric requirement           
                 options.Password.RequiredUniqueChars = 0; // Set minimum unique characters in password (if needed)
 
-                /*options.SignIn.RequireConfirmedEmail = true;
-                options.User.RequireUniqueEmail= true;*/
+                //options.SignIn.RequireConfirmedEmail = true; //---- Jing
+
+                /*options.User.RequireUniqueEmail= true;*/
 
             })
             .AddEntityFrameworkStores<ApplicationContext>()
             .AddRoles<IdentityRole>()
-            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders();                 //Sean, good you have this one added :)
 
             //CORS-setup
             var MyAllowSpecificOrigins = "_allowLocalhostOrigin";
@@ -94,6 +101,9 @@ namespace ChasChallenge_G4_V3.Server
             //Dependency injection
             builder.Services.AddScoped<IUserServices,UserServices>();
             builder.Services.AddScoped<ILoginServices, LoginServices>();
+            builder.Services.AddScoped<IEmailServices, EmailServices>();  //----Jing
+
+            
 
             // Add services to the container.
             builder.Services.AddControllers();
@@ -131,8 +141,10 @@ namespace ChasChallenge_G4_V3.Server
             app.MapPost("/user/child/allergy", UserHandler.AddAllergy);
             app.MapPost("/user/child/measurement", UserHandler.AddMeasurement);
 
-            app.MapPost("/register", LoginHandler.RegisterUserAsync);
-            
+            app.MapPost("/register", LoginHandler.RegisterUserAsync); //this is shared by Sean and Jing
+
+            //app.MapGet("/confirmEmail", loginHandler.Confirmemail);  //----Jing
+
             app.MapPost("/login", LoginHandler.UserLoginAsync);
 
 
