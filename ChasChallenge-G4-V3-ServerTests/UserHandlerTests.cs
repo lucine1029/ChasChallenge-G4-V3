@@ -48,5 +48,45 @@ namespace ChasChallenge_G4_V3_ServerTests
             //Assert
             Assert.AreEqual(1, context.Children.Count());
         }
+
+        [TestMethod]
+        public void AddChild_Correct_Info_Gets_Added()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationContext>().UseInMemoryDatabase(databaseName: "test-db1").Options;
+            var context = new ApplicationContext(options);
+            var userStore = new UserStore<User>(context);
+            var userManager = new UserManager<User>(userStore, null, null, null, null, null, null, null, null);
+            var userServices = new UserServices(userManager, context);
+            var user = new User
+            {
+                Id = "2",
+                FirstName = "Test-FirstName",
+                LastName = "Test-LastName",
+
+            };
+            context.Users.Add(user);
+            context.SaveChanges();
+
+            var childDto = new ChildDto
+            {
+                Name = "test-name",
+                NickName = "test-nickname",
+                birthdate = DateTime.Now,
+                Gender = "male"
+            };
+            userServices.AddChild("2", childDto);
+            context.SaveChanges();
+
+            // Act
+            var theChild = context.Children.FirstOrDefault();
+            Assert.IsNotNull(theChild);
+
+
+            //Assert
+            Assert.AreEqual(childDto.Name, theChild.Name);
+            Assert.AreEqual(childDto.NickName, theChild.NickName);
+            Assert.AreEqual(childDto.birthdate.Date, theChild.birthdate.Date);
+            Assert.AreEqual(childDto.Gender, theChild.Gender);
+        }
     }
 }
