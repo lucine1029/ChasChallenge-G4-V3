@@ -10,6 +10,7 @@ namespace ChasChallenge_G4_V3.Server
     public class MailController : ControllerBase  //----Jing
     {
         private readonly IEmailServices _emailServices;
+
         //injecting the IEMailService into the constructor
         public MailController(IEmailServices emailServices) 
         {

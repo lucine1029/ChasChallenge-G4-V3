@@ -17,12 +17,17 @@ using static System.Net.WebRequestMethods;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net.NetworkInformation;
 using Org.BouncyCastle.Asn1.Pkcs;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text.Encodings.Web;
 
 namespace ChasChallenge_G4_V3.Server.Services
 {
     public interface ILoginServices
     {
-        Task<IResult> RegisterUserAsync(UserDto usere); //---Jing added string scheme
+        Task<IResult> RegisterUserAsync(UserDto usere);
+        Task<IResult> ConfirmEmailAsync(string userId, string token); //---Jing
         Task<LoginResultViewModel> UserLoginAsync(LoginUserDto User);
         string GenerateTokenString(LoginUserDto user, bool isAdmin);
         Task<IResult> LogoutAsync();
@@ -35,11 +40,16 @@ namespace ChasChallenge_G4_V3.Server.Services
         private SignInManager<User> _signInManager;
         private IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<LoginServices> _logger;  //----Jing
-        private readonly IUrlHelperFactory _urlHelperFactory;  ////----Jing
+        private readonly IUrlHelperFactory _urlHelperFactory;  //---Jing
         private readonly IEmailServices _emailServices; //----Jing
 
-        public LoginServices(UserManager<User> userManager, IConfiguration config, SignInManager<User> signInManager, IHttpContextAccessor httpContextAccessor,
-            ILogger<LoginServices> logger, IUrlHelperFactory urlHelperFactory,
+        public LoginServices(
+            UserManager<User> userManager, 
+            IConfiguration config, 
+            SignInManager<User> signInManager, 
+            IHttpContextAccessor httpContextAccessor,
+            ILogger<LoginServices> logger, 
+            IUrlHelperFactory urlHelperFactory,
             IEmailServices emailServices) //Jing added ILogger<LoginServices> logger, IUrlHelperFactory urlHelperFactory, IEmailServices emailServices
         {
             _userManager = userManager;
@@ -51,7 +61,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             _emailServices = emailServices; //--Jing
         }
 
-        public async Task<IResult> RegisterUserAsync(UserDto user) //Jing added string scheme
+        public async Task<IResult> RegisterUserAsync(UserDto user) 
         {
 
             User existingUser = await _userManager.FindByEmailAsync(user.Email); // Example of UserManager using some built in methods. - Sean
@@ -74,57 +84,30 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             if (result.Succeeded)
             {
+                await _userManager.AddToRoleAsync(identityUser, "User"); //---- Sean
+
                 // User created successfully, generate email confirmation token           ----Jing
-                /*var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
+                var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
+                //emailConfirmationToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(emailConfirmationToken));
+
+                var context = _httpContextAccessor.HttpContext;
+                var scheme = context.Request.Scheme;
+                var urlHelper = _urlHelperFactory.GetUrlHelper(new ActionContext(context, context.GetRouteData(), new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()));
 
                 // Generate confirmation link  ----Jing
+                var confirmatonLink = urlHelper.Action(
+                    nameof(ConfirmEmailAsync),
+                    "register",
+                    new {userId = identityUser.Id, token = emailConfirmationToken}, scheme);
 
-                var confirmationLink = Uri.EscapeDataString(emailConfirmationToken);
-                    Action("ConfirmEmail", "Account",
-                    new { userId = identityUser.Id, token = emailConfirmationToken }, Request.Scheme);
+                await _emailServices.SendEmailAsync(identityUser.Email, "Confirm your email",
+                        $"Please confirm your account by <a href='{confirmatonLink}'>clicking here</a>.");
 
-                _logger.LogWarning(confirmationLink);  //Log the confirmation link*/
+                _logger.LogInformation("User registered. Please check your email to confirm your account.");
 
+                return Results.Ok("User registered. Please check your email to confirm your account.");  
 
                 // User created successfully, return Ok
-                await _userManager.AddToRoleAsync(identityUser, "User");
-                await _emailServices.SendEmailAsync(identityUser.Email, "Welcome", "Great, you are registed!");
-
-                //return Results.Ok("User created successfully."); ----Sean, I changed it , see below
-
-                //var confirmationLink = $"{scheme}://localhost:5173/confirmEmail?userId={identityUser.Id}&token={emailConfirmationToken}";
-
-
-
-                return Results.Ok("User registered. Please check your email to confirm your account.");  //---Jing
-
-
-
-
-
-
-
-                //Send email to the registed user ---Jing
-                /*await _emailServices.SendEmailAsync(MailData mailData);
-
-                //return success message ----Jing
-                return Results.Ok("User registered. Please check your email to confirm your account.");  //---Jing
-
-                Generate confirmation link using UrlHelper ----Jing
-               var urlHelper = _urlHelperFactory.GetUrlHelper(ViewContext);
-               var confirmationLink = urlHelper.Action("ConfirmEmail", "Account",
-                   new { userId = identityUser.Id, token = emailConfirmationToken},HttpContext.Request.Scheme);
-               _logger.LogWarning(confirmationLink);  //Log the confirmation link
-
-                //Create the redirect url that need to have an action to send in the email  ----Jing
-                //create an object 
-                /*var callbackUrl = Url.Action(
-                "ConfirmEmail",
-                    "Account",
-                    new { userId = user.Id, code = Token },
-                    protocol: HttpContext.Request.Scheme);
-                await _emailSender.SendEmailAsync(model.Email, "Confirm your email",
-                                    $"Please confirm your account by <a href='{callbackUrl}'>clicking here</a>.");*/
                 //Send email to users email with message(please click here to confirm) and confirmation link   ----Jing
 
                 //when the user click on the link, the variable EmailConfirmed should change from fale to true ----Jing
@@ -139,7 +122,29 @@ namespace ChasChallenge_G4_V3.Server.Services
             }
 
         }
+        public async Task<IResult> ConfirmEmailAsync(string userId, string token)  //--Jing
+        {
+            if (userId == null || token == null)
+            {
+                return Results.BadRequest("Invalid token");
+            }
 
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return Results.BadRequest("User not found");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            if (result.Succeeded)
+            {
+                //user.EmailConfirmed = true;
+                await _emailServices.SendEmailAsync(user.Email, "Email Confirmed", "Thank you for confirming your email.");
+                return Results.Ok("Email confirmed successfully.");
+            }
+
+            return Results.BadRequest("Email confirmation failed");
+        }
 
         public async Task<LoginResultViewModel> UserLoginAsync(LoginUserDto loginUser) // There could be a built in Identity/UserManager login method. Will check - Sean
         {

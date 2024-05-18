@@ -143,7 +143,7 @@ namespace ChasChallenge_G4_V3.Server
 
             app.MapPost("/register", LoginHandler.RegisterUserAsync); //this is shared by Sean and Jing
 
-            //app.MapGet("/confirmEmail", loginHandler.Confirmemail);  //----Jing
+            app.MapGet("/confirmEmail", LoginHandler.ConfirmEmailAsync);  //----Jing
 
             app.MapPost("/login", LoginHandler.UserLoginAsync);
 
