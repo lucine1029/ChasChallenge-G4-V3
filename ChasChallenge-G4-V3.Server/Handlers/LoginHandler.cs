@@ -24,10 +24,10 @@ namespace ChasChallenge_G4_V3.Server.Handlers
             return Results.Ok(new { Token = token, UserId = user.UserId });
         }
 
-        public static async Task<IResult> RegisterUserAsync(ILoginServices loginService, UserDto newUser)
+        public static async Task<IResult> RegisterUserAsync(ILoginServices loginService, IEmailService emailService, UserDto newUser)
         {
 
-            var result = await loginService.RegisterUserAsync(newUser);
+            var result = await loginService.RegisterUserAsync(newUser, emailService);
 
             return result;
 
