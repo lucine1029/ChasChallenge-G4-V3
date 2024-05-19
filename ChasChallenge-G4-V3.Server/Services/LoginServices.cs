@@ -88,22 +88,28 @@ namespace ChasChallenge_G4_V3.Server.Services
 
                 // User created successfully, generate email confirmation token           ----Jing
                 var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
-                //emailConfirmationToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(emailConfirmationToken));
+                //_userManager.GeneratePasswordResetTokenAsync
 
-                var context = _httpContextAccessor.HttpContext;
+
+
+
+
+               //emailConfirmationToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(emailConfirmationToken));
+
+               var context = _httpContextAccessor.HttpContext;
                 var scheme = context.Request.Scheme;
                 var urlHelper = _urlHelperFactory.GetUrlHelper(new ActionContext(context, context.GetRouteData(), new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()));
 
                 // Generate confirmation link  ----Jing
                 var confirmatonLink = urlHelper.Action(
-                    nameof(ConfirmEmailAsync),
-                    "register",
+                    nameof(ConfirmEmailAsync),  //endpoint
+                    "LoginHandler",  //controller name
                     new {userId = identityUser.Id, token = emailConfirmationToken}, scheme);
+
+                //_logger.LogInformation("User registered. Please check your email to confirm your account.");
 
                 await _emailServices.SendEmailAsync(identityUser.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{confirmatonLink}'>clicking here</a>.");
-
-                _logger.LogInformation("User registered. Please check your email to confirm your account.");
 
                 return Results.Ok("User registered. Please check your email to confirm your account.");  
 

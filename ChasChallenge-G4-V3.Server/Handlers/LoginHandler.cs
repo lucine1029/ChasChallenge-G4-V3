@@ -24,12 +24,6 @@ namespace ChasChallenge_G4_V3.Server.Handlers
             return Results.Ok(new { Token = token, UserId = user.UserId });
         }
 
-        public static async Task<IResult> ConfirmEmailAsync(ILoginServices loginService, string userId, string token)   //---Jing
-        {
-            var result = await loginService.ConfirmEmailAsync(userId, token);
-            return result;
-        }
-
         public static async Task<IResult> RegisterUserAsync(ILoginServices loginService, UserDto newUser)
         {
 
@@ -37,6 +31,13 @@ namespace ChasChallenge_G4_V3.Server.Handlers
 
             return result;
         }
+
+        public static async Task<IResult> ConfirmEmailAsync(ILoginServices loginService, string userId, string token)   //---Jing
+        {
+            var result = await loginService.ConfirmEmailAsync(userId, token);
+            return result;
+        }
+
 
         public static async Task<IResult> LogoutAsync(ILoginServices loginService)
         {

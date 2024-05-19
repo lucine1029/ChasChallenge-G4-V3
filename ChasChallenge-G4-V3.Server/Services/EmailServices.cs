@@ -38,8 +38,10 @@ namespace ChasChallenge_G4_V3.Server.Services
                 emailMessage.To.Add(emailTo);
                 emailMessage.Subject = subject;
 
-                BodyBuilder emailBodyBuilder = new BodyBuilder();
-                emailBodyBuilder.TextBody = message;
+                BodyBuilder emailBodyBuilder = new BodyBuilder()
+                {
+                    HtmlBody = message
+                };
 
                 emailMessage.Body = emailBodyBuilder.ToMessageBody();
                 //this is the SmtpClient from the Mailkit.Net.Smtp namespace, not the System.Net.Mail one

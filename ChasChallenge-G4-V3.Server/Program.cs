@@ -12,6 +12,9 @@ using static Org.BouncyCastle.Math.EC.ECCurve;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using static ChasChallenge_G4_V3.Server.Services.EmailServices;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ChasChallenge_G4_V3.Server
 {
@@ -47,6 +50,7 @@ namespace ChasChallenge_G4_V3.Server
             .AddEntityFrameworkStores<ApplicationContext>()
             .AddRoles<IdentityRole>()
             .AddDefaultTokenProviders();                 //Sean, good you have this one added :)
+          
 
             //CORS-setup
             var MyAllowSpecificOrigins = "_allowLocalhostOrigin";
@@ -67,6 +71,20 @@ namespace ChasChallenge_G4_V3.Server
 
 
             builder.Services.AddControllers();
+
+            // Add services to the container ---Jing
+            builder.Services.AddControllersWithViews();
+            builder.Services.AddRazorPages();
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            builder.Services.AddScoped<IUrlHelper>(x => {
+                var actionContext = x.GetRequiredService<IActionContextAccessor>().ActionContext;
+                return new UrlHelper(actionContext);
+            });
+            builder.Services.AddScoped<IUserServices, UserServices>();
+            builder.Services.AddScoped<ILoginServices, LoginServices>();
+            builder.Services.AddScoped<IEmailServices, EmailServices>();
+
 
             // Service adding authentication requirements to access certain endpoints. 
             builder.Services.AddAuthentication(options =>
@@ -96,14 +114,6 @@ namespace ChasChallenge_G4_V3.Server
                 options.AddPolicy("RequireUser", policy => policy.RequireRole("User"));
             });
 
-           
-
-            //Dependency injection
-            builder.Services.AddScoped<IUserServices,UserServices>();
-            builder.Services.AddScoped<ILoginServices, LoginServices>();
-            builder.Services.AddScoped<IEmailServices, EmailServices>();  //----Jing
-
-            
 
             // Add services to the container.
             builder.Services.AddControllers();
@@ -125,30 +135,67 @@ namespace ChasChallenge_G4_V3.Server
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                app.UseDeveloperExceptionPage();//--Jing
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            else  //--Jing
+            {
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
+            }
+
+            app.UseRouting(); //--Jing
+            app.UseCors(MyAllowSpecificOrigins);  //--Jing
+
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseEndpoints(endpoints =>    //Jing
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+
+                // Your endpoint mappings
+               //endpoints.MapPost("/register", LoginHandler.RegisterUserAsync);
+               //endpoints.MapGet("/confirmEmail", LoginHandler.ConfirmEmailAsync);
+                endpoints.MapControllers();
+            });
+
             //Post
-            //app.MapPost("/user", UserHandler.AddUser);
+            //app.MapPost("/user", UserHandler.AddUser); 
             app.MapPost("/user/child", UserHandler.AddChild).RequireAuthorization();
             
             //app.MapPost("/user/existingChild", UserHandler.AddExistingChild);
             app.MapPost("/user/child/allergy", UserHandler.AddAllergy);
             app.MapPost("/user/child/measurement", UserHandler.AddMeasurement);
 
-            app.MapPost("/register", LoginHandler.RegisterUserAsync); //this is shared by Sean and Jing
+            app.MapPost("/register", LoginHandler.RegisterUserAsync); //this is shared by Sean and Jing, Jing changed to the above UseEndpoints
 
-            app.MapGet("/confirmEmail", LoginHandler.ConfirmEmailAsync);  //----Jing
+            //app.MapGet("/confirmEmail", LoginHandler.ConfirmEmailAsync);  //----Jing changed to the above UseEndpoints
 
             app.MapPost("/login", LoginHandler.UserLoginAsync);
 
 
             ////Gets
+            /// ----Jing
+
+            app.MapGet("/LoginHandler/ConfirmEmailAsync", async(string userId, string token, ILoginServices loginServices) =>
+            {
+                var result = await loginServices.ConfirmEmailAsync(userId, token);
+                if (result == null) 
+                {
+                    return Results.BadRequest("Something is wrong!......");
+                }
+                return Results.Ok(new { message = "Email Confirmed" });
+            });
+
+            //2 endpoints, reset
+
             app.MapGet("/user", UserHandler.GetUser);
             //app.MapGet("/allusers", UserHandler.GetAllUsers);
             app.MapGet("/user/child", UserHandler.GetChildofUser);
