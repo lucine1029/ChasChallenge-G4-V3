@@ -16,7 +16,7 @@ namespace ChasChallenge_G4_V3.Server.Services
         {
             _configuration = configuration;
         }
-        public Task SendEmailAsync(string toEmail, string subject, string body, bool isBodyHTML)
+        public Task SendEmailAsync(string toEmail, string subject, string body, bool isBodyHTML)    //Method that enables me to send an email 
         {
             string MailServer = _configuration["EmailConfiguration:SmtpServer"];
             string FromEmail = _configuration["EmailConfiguration:Username"];

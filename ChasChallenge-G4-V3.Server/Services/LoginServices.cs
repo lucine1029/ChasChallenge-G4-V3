@@ -16,28 +16,33 @@ namespace ChasChallenge_G4_V3.Server.Services
 {
     public interface ILoginServices
     {
-        Task<IResult> RegisterUserAsync(UserDto user, IEmailService emailService);
+        Task<IResult> RegisterUserAsync(UserDto user, IEmailService emailService);  //Added IEmailService
         Task<LoginResultViewModel> UserLoginAsync(LoginUserDto User);
         string GenerateTokenString(LoginUserDto user, bool isAdmin);
         Task<IResult> LogoutAsync();
         public Task<bool> IsUserLoggedIn();
+        Task<bool> SendForgotPasswordEmailAsync(string email);  //Send email for resetting password
+        Task<bool> ResetPasswordAsync(ResetPasswordRequestViewModel model); //Reset the password
     }
     public class LoginServices : ILoginServices
     {
         private UserManager<User> _userManager; // UserManager is a built-in Identity class that manages the User objects in the program. - Sean
         private IConfiguration _config;
         private SignInManager<User> _signInManager;
-        private IHttpContextAccessor _httpContextAccessor;
+        private IHttpContextAccessor _httpContextAccessor;  //Acces HTTP context
+        private readonly IPasswordService _passwordService; //Service to handle password related options
 
-        public LoginServices(UserManager<User> userManager, IConfiguration config, SignInManager<User> signInManager, IHttpContextAccessor httpContextAccessor)
+       
+        public LoginServices(UserManager<User> userManager, IConfiguration config, SignInManager<User> signInManager, IHttpContextAccessor httpContextAccessor, IPasswordService passwordService)
         {
             _userManager = userManager;
             _config = config;
             _signInManager = signInManager;
             _httpContextAccessor = httpContextAccessor;
+            _passwordService=passwordService;
         }
 
-        public async Task<IResult> RegisterUserAsync(UserDto user, IEmailService emailService)
+        public async Task<IResult> RegisterUserAsync(UserDto user, IEmailService emailService)  //Register a new user and sends a confirmation email
         {
 
             User existingUser = await _userManager.FindByEmailAsync(user.Email); // Example of UserManager using some built in methods. - Sean
@@ -64,11 +69,9 @@ namespace ChasChallenge_G4_V3.Server.Services
                 //await _userManager.AddToRoleAsync(identityUser, "User");
                 //return Results.Ok("User created successfully.");
 
-                //Generate email confirmation token
+                //Generate email confirmation token and sends email
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
                 var confirmationLink = $"https://localhost:7287/confirmemail?userId={identityUser.Id}&token={HttpUtility.UrlEncode(token)}";
-
-                //Send email
                 await emailService.SendEmailAsync(identityUser.Email, "Confirm your email",
                     $"Please confirm your account by clicking this link: <a href= '{confirmationLink}'>link</a>", true);
 
@@ -169,6 +172,16 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             return httpContext.User.Identity.IsAuthenticated;
 
+        }
+
+        public Task<bool>SendForgotPasswordEmailAsync(string email) //Sends email for resetting password
+        {
+            return _passwordService.SendForgotPasswordEmailAsync(email);
+        }
+       
+        public Task<bool> ResetPasswordAsync(ResetPasswordRequestViewModel model)   //Sends email for resetting password 
+        {
+            return _passwordService.ResetPasswordAsync(model);
         }
 
     }

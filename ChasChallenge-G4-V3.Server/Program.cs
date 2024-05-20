@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using static Org.BouncyCastle.Math.EC.ECCurve;
 using System.Text;
 using ChasChallenge_G4_V3.Server.Models.DTOs;
+using ChasChallenge_G4_V3.Server.Models.ViewModels;
 
 namespace ChasChallenge_G4_V3.Server
 {
@@ -90,10 +91,12 @@ namespace ChasChallenge_G4_V3.Server
             //Email injection/////////////////////////////////////////////////////////////
             builder.Services.AddTransient<IEmailService, EmailService>();
 
+
             //Dependency injection
             builder.Services.AddScoped<IUserServices,UserServices>();
             builder.Services.AddScoped<ILoginServices, LoginServices>();
             builder.Services.AddScoped<UserManager<User>>();
+            builder.Services.AddScoped<IPasswordService, PasswordService>();
 
             // Add services to the container.
             builder.Services.AddControllers();
@@ -131,14 +134,23 @@ namespace ChasChallenge_G4_V3.Server
             app.MapPost("/user/child/allergy", UserHandler.AddAllergy);
             app.MapPost("/user/child/measurement", UserHandler.AddMeasurement);
 
-            app.MapPost("/register", async (UserDto newUser, ILoginServices loginService, IEmailService emailService)=>
+            app.MapPost("/register", async (UserDto newUser, ILoginServices loginService, IEmailService emailService) => 
             {
                 return await LoginHandler.RegisterUserAsync(loginService, emailService, newUser);
             });
             
             app.MapPost("/login", LoginHandler.UserLoginAsync);
 
-            
+            //Forgot password endpoints////////////
+            app.MapPost("/forgotPassword", async (ForgotPasswordViewModel model, ILoginServices loginService) =>
+            {
+                return await PasswordHandler.ForgotPassword(model, loginService);
+            });
+
+            app.MapPost("/resetPassword", async (ResetPasswordRequestViewModel model, ILoginServices loginService) =>
+            {
+                return await PasswordHandler.Resetpassword(model, loginService);
+            });
 
             ////Gets
             app.MapGet("/user", UserHandler.GetUser);
