@@ -12,7 +12,7 @@ interface NavBarProps {
   HandleSignOut: () => void;
 }
 
-export function NavBar({ isSignedIn, HandleSignOut, handleSignIn }: NavBarProps) {
+export function NavBar({  }: NavBarProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {

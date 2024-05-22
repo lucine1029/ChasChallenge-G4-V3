@@ -33,6 +33,14 @@ export const ModalAccount: React.FC<ModalProps> = ({ onClose }) => {
     onClose(event); // Close the modal by passing the event
     navigate('/sleeptracking'); // Navigate to '/signin' route
   };
+  const goToMeasurementPage = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    onClose(event); // Close the modal by passing the event
+    navigate('/measurement'); // Navigate to '/signin' route
+  };
+  
+ 
 
   return (
     <div className='modal-container'>
@@ -54,8 +62,18 @@ export const ModalAccount: React.FC<ModalProps> = ({ onClose }) => {
           <button className='modal-button' onClick={goToSleepTracking}>
             Sleep
           </button>
+          <div className='modal-divider'></div>
+          
+          <div className='modal-divider'></div>
+          <button className='modal-button' onClick={goToMeasurementPage}>
+            Measutement
+          </button>
+          
         </div>
       </div>
     </div>
   );
 };
+
+
+

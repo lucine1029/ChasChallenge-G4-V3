@@ -77,3 +77,6 @@ export function Hamburger({ isSignedIn, HandleSignOut, handleSignIn }: NavBarPro
     </nav>
   );
 }
+
+
+

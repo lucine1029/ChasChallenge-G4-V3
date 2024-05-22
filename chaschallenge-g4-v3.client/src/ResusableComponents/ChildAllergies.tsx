@@ -72,3 +72,5 @@ export default function AllergiesComp(): React.FC {
     </div>
   );
 }
+
+
