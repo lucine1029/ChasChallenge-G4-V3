@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+//import { useEffect } from 'react';
 // import { fetchAndCombineData } from './ResusableComponents/RequestMockData'; // Import the fetchAndCombineData function from RequestMockData.tsx
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ChatbotPage from './Pages/ChatbotPage/ChatbotPage';
@@ -14,11 +14,14 @@ import SleepTracking from './Pages/Sleep/SleepTracking';
 //import { NavBar } from './ResusableComponents/NavBar';
 import { getDataFromSwagger } from './ResusableComponents/RequestDataSwagger';
 import Footer from '../src/ResusableComponents/Footer';
-
+import ProtectedRoutes from './ResusableComponents/ProtectedRoutes'; // Import the ProtectedRoutes component
+import { AuthProvider } from './ResusableComponents/AuthContext';
+import { useAuth } from './ResusableComponents/authUtils';
 
 getDataFromSwagger();
 
-const App = () => {
+function AppContent() {
+  const { isAuthenticated } = useAuth(); // Use the auth context
   // //UseEffect for data from json.db
   // useEffect(() => {
   //   fetchAndCombineData()
@@ -32,22 +35,32 @@ const App = () => {
 
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<HomePage />} />
+      <Routes>
+        <Route path='/' element={<HomePage />} />
+        <Route path='/signup' element={<SignUpPage />} />
+        <Route path='/signin' element={<SignInPage />} />
+
+        {/* Protected routes */}
+        <Route element={<ProtectedRoutes />}>
           <Route path='/chat' element={<ChatbotPage />} />
-          <Route path='/signup' element={<SignUpPage />} />
-          <Route path='/signin' element={<SignInPage />} />
           <Route path='/settings' element={<SettingsPage />} />
           <Route path='/settings/account' element={<AccountPage />} />
           <Route path='/settings/kids' element={<ManageKidsPage />} />
           <Route path='/settings/kids/add' element={<AddKidsPage />} />
           <Route path='/sleeptracking' element={<SleepTracking />} />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
+        </Route>
+      </Routes>
+      {isAuthenticated && <Footer />} {/* Conditionally render the Footer */}
     </>
   );
-};
+}
 
-export default App;
+export default function App() {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
+    </AuthProvider>
+  );
+}

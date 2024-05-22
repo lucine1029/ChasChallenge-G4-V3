@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const BASE_URL = 'http://localhost:5148';
 
-
 export const getDataFromSwagger = async () => {
   try {
     const response = await axios.get(
@@ -18,7 +17,6 @@ export const getDataFromSwagger = async () => {
   }
 };
 
-
 // hur curlen ser ut för register i swagger:
 // curl -X 'POST' \
 //   'http://localhost:5148/register' \
@@ -31,15 +29,9 @@ export const getDataFromSwagger = async () => {
 //   "email": "string"
 // }'
 
-
-
 export const registerUser = async () => {
-
   try {
-    const response = await axios.post(
-      
-      'http://localhost:5148/register'
-    );
+    const response = await axios.post('http://localhost:5148/register');
 
     console.log(response.data);
     return response.data; // Return the data for further processing
@@ -48,9 +40,6 @@ export const registerUser = async () => {
     throw error; // Rethrow the error for handling elsewhere if needed
   }
 };
-
-
-
 
 // hur curlen ser ut för login i swagger:
 // curl -X 'POST' \
@@ -66,18 +55,21 @@ export const registerUser = async () => {
 
 // Base URL for the API
 
-
-const login = async (email, password) => {
+export const login = async (email, password) => {
   try {
-    const response = await axios.post(`${BASE_URL}/login`, {
-      email,
-      password,
-    }, {
-      headers: {
-        'accept': '*/*',
-        'Content-Type': 'application/json',
+    const response = await axios.post(
+      `${BASE_URL}/login`,
+      {
+        email,
+        password,
       },
-    });
+      {
+        headers: {
+          accept: '*/*',
+          'Content-Type': 'application/json',
+        },
+      }
+    );
 
     // Return the response data
     return response.data;
