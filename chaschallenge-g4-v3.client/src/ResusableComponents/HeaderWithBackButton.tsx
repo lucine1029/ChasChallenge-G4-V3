@@ -5,7 +5,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import { LiaAngleLeftSolid } from 'react-icons/lia';
-import '../scss/Reusable-Components/HeaderWithBackButton.scss';
+import '../scss/Reusable-Components/_HeaderWithBackButton.scss';
 
 export default function HeaderWithBackButton({
   title,
