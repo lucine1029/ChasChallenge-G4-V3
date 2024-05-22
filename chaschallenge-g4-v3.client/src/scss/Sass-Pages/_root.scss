@@ -4,7 +4,7 @@
 *,
 *::before,
 *::after {
-  margin: 0 auto;
+  //margin: 0 auto; //Anderes removed this because it did create problems in my layout, Anders
   padding: 0;
   box-sizing: border-box; // Ensures padding and borders are included in the width and height
 }

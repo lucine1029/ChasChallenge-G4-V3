@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { FaBed } from 'react-icons/fa'
- import './SleepTracking.css'; 
-
+import { FaBed } from 'react-icons/fa';
+import './SleepTracking.scss';
 
 interface SleepData {
   startTime: string;
@@ -21,7 +20,7 @@ const SleepTracking: React.FC = () => {
 
     if (sleeping) {
       interval = setInterval(() => {
-        setElapsedTime(prevElapsedTime => prevElapsedTime + 1);
+        setElapsedTime((prevElapsedTime) => prevElapsedTime + 1);
       }, 60000);
     }
 
@@ -51,16 +50,19 @@ const SleepTracking: React.FC = () => {
 
   const handleStartSleep = () => {
     const now = new Date();
-    setStartTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    setStartTime(
+      now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    );
     setSleeping(true);
   };
-  
+
   const handleEndSleep = () => {
     const now = new Date();
-    setEndTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    setEndTime(
+      now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    );
     setSleeping(false);
   };
-  
 
   const handleSubmit = async () => {
     if (!startTime || !endTime) {
@@ -80,34 +82,50 @@ const SleepTracking: React.FC = () => {
   };
 
   return (
-    <div className="sleep-tracking-container">
+    <div className='sleep-tracking-container'>
       <h2>Spåra sömn</h2>
 
-      <div className="button-container">
+      <div className='button-container'>
         {!sleeping && (
-          <button className="start-button" onClick={handleStartSleep}>
-            <FaBed className="icon" />
+          <button className='start-button' onClick={handleStartSleep}>
+            <FaBed className='icon' />
             Start sleep
           </button>
         )}
 
         {sleeping && (
-          <button className="end-button" onClick={handleEndSleep}>
-            <FaBed className="icon" />
+          <button className='end-button' onClick={handleEndSleep}>
+            <FaBed className='icon' />
             End sleep
           </button>
         )}
       </div>
 
-      <div className="input-container">
-        <label htmlFor="startTime">Starttid:</label>
-        <input type="time" id="startTime" value={startTime} onChange={e => setStartTime(e.target.value)} disabled={sleeping} />
+      <div className='input-container'>
+        <label htmlFor='startTime'>Starttid:</label>
+        <input
+          type='time'
+          id='startTime'
+          value={startTime}
+          onChange={(e) => setStartTime(e.target.value)}
+          disabled={sleeping}
+        />
 
-        <label htmlFor="endTime">Sluttid:</label>
-        <input type="time" id="endTime" value={endTime} onChange={e => setEndTime(e.target.value)} disabled={sleeping} />
+        <label htmlFor='endTime'>Sluttid:</label>
+        <input
+          type='time'
+          id='endTime'
+          value={endTime}
+          onChange={(e) => setEndTime(e.target.value)}
+          disabled={sleeping}
+        />
       </div>
 
-      <button className="save-button" onClick={handleSubmit} disabled={sleeping}>
+      <button
+        className='save-button'
+        onClick={handleSubmit}
+        disabled={sleeping}
+      >
         Spara sömninformation
       </button>
 

@@ -35,4 +35,13 @@
   .spacer {
     width: 24px; // Match this width to the back button's width to keep the header balanced
   }
+
+  button {
+    border: none;
+    background: none;
+  }
+
+  button:hover {
+    cursor: pointer;
+  }
 }

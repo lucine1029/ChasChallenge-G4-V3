@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import HeaderWithBackButton from '../../../ResusableComponents/HeaderWithBackButton.tsx';
 import '../../../scss/Sass-Pages/_AddKidsPage.scss';
+import { Multiselect } from 'multiselect-react-dropdown';
 
 // Define the structure of a single allergy
 const allergies = [
@@ -67,7 +68,7 @@ function FetchAvatarDropdown({ onAvatarChange }) {
   };
 
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  //onst closeModal = () => setIsModalOpen(false);
 
   return (
     <div className='avatar-dropdown'>
@@ -111,31 +112,28 @@ function FetchAvatarDropdown({ onAvatarChange }) {
 }
 
 function AllergiesDropdown({ register }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [selectedValues, setSelectedValues] = useState([]);
+
+  const onSelect = (selectedList, selectedItem) => {
+    setSelectedValues(selectedList);
+    register({ name: `allergies.${selectedItem}`, value: true });
+  };
+
+  const onRemove = (selectedList, removedItem) => {
+    setSelectedValues(selectedList);
+    register({ name: `allergies.${removedItem}`, value: false });
+  };
 
   return (
-    <div>
-      <button
-        type='button'
-        onClick={() => setIsOpen(!isOpen)}
-        className='dropdown-button'
-      >
-        Select Allergies
-      </button>
-      {isOpen && (
-        <div className='dropdown-content'>
-          {allergies.map((allergy, index) => (
-            <label key={index}>
-              <input
-                type='checkbox'
-                {...register(`allergies.${allergy}`)}
-                style={{ marginRight: '10px' }}
-              />
-              {allergy}
-            </label>
-          ))}
-        </div>
-      )}
+    <div className='allergies-dropdown'>
+      <Multiselect
+        options={allergies}
+        isObject={false}
+        selectedValues={selectedValues}
+        onSelect={onSelect}
+        onRemove={onRemove}
+        placeholder='Allergier, om några'
+      />
     </div>
   );
 }
