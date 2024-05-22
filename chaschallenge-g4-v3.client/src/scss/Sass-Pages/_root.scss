@@ -5,9 +5,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box; // Ensures padding and borders are included in the element's total width and height
-  font-family: $mainfont;
 };
-
+:root{
+  font-family: $mainfont;
+}
 body{
   width: 95vw;
   // height: 90vh;
