@@ -17,7 +17,7 @@ const SignUpForm: React.FC = () => {
   // Function to check if email exists
   const checkEmailExists = async (email: string) => {
     try {
-      const response = await fetch('http://localhost:3000/users');
+      const response = await fetch('http://localhost:5148/register');
       const users = await response.json();
       const existingUser = users.some((user: any) => user.email === email);
       setEmailExists(existingUser);
