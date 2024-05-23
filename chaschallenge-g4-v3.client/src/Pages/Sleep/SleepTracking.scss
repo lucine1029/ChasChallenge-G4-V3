@@ -1,42 +1,41 @@
 .sleep-tracking-container {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-family: 'Comic Sans MS', cursive;
-    margin-top: 90px;
-  }
-  
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: 'Comic Sans MS', cursive;
+  margin-top: 90px;
+
   h2 {
     font-size: 24px;
     color: #22a3d6;
   }
-  
+
   h3 {
     font-size: 20px;
-    color:#22a3d6;
+    color: #22a3d6;
   }
-  
+
   p {
     font-size: 16px;
     color: #5a5a5a;
   }
-  
+
   label {
     display: block;
     margin-bottom: 5px;
     font-size: 18px;
     color: #22a3d6;
   }
-  
+
   input {
     width: 100%;
     padding: 8px;
     border-radius: 8px;
     border: 1px solid #ccc;
   }
-  
+
   button {
     display: flex;
     align-items: center;
@@ -45,27 +44,27 @@
     font-weight: bold;
     text-transform: uppercase;
     border-radius: 8px;
-    background: linear-gradient(to bottom, #A35EBB, #FFA0A0);
+    background: linear-gradient(to bottom, #a35ebb, #ffa0a0);
     color: #fff;
     cursor: pointer;
   }
-  
+
   .icon {
     margin-right: 8px;
   }
-  
+
   .button-container {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
   }
-  
+
   .start-button:hover,
   .end-button:hover,
   .save-button:hover {
     background-color: #303f9f;
   }
-  
+
   .save-button {
     padding: 10px;
     font-size: 18px;
@@ -74,4 +73,4 @@
     color: #fff;
     cursor: pointer;
   }
-  
+}

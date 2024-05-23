@@ -10,7 +10,7 @@ import HeaderWithBackButton from '../../ResusableComponents/HeaderWithBackButton
 export default function SettingsPage() {
   return (
     <>
-      <HeaderWithBackButton title='Inställningar' />
+      <HeaderWithBackButton title='Inställningar' isSettingsPage={true} />
       <nav className='accountpage-nav'>
         <ul>
           <li>
