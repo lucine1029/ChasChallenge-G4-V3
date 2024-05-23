@@ -1,8 +1,9 @@
 // SignInForm.tsx
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import '../../../scss/Sass-Pages/_SignUpPage.scss'; // Importera din CSS-fil för att använda klasserna
+import { userLogIn } from '../../../ResusableComponents/RequestDataSwagger';
 
 interface FormValues {
   email: string;
@@ -16,8 +17,21 @@ const SignInForm: React.FC = () => {
     formState: { errors }
   } = useForm<FormValues>();
 
-  const formSubmit: SubmitHandler<FormValues> = (data) => {
+  const navigate = useNavigate();
+
+  const formSubmit: SubmitHandler<FormValues> = async (data) => {
     console.log('Form submitted', data);
+    const user: { token: string } | null = await userLogIn(data);
+
+    if (user) {
+      console.log('User logged in successfully', user);
+      localStorage.setItem('userToken', user.token)
+      navigate('/chat')
+    } else {
+      console.log('Failed to log in!');
+
+      alert('Failed to log in, please check your email and password');
+    }
   };
 
   return (

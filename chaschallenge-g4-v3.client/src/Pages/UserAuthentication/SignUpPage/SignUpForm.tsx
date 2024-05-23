@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
-// import { addNewUser } from '../../../ResusableComponents/RequestMockData'; // Import addNewUser function
+import { addNewUser } from '../../../ResusableComponents/RequestDataSwagger'; // Import addNewUser function
 import '../../../scss/Sass-Pages/_SignUpPage.scss';
 
+
 interface FormValues {
+  firstname: string;
+  lastname: string;
   email: string;
   password: string;
-  confirmPassword: string;
+  // confirmPassword: string;
 }
 
 const SignUpForm: React.FC = () => {
@@ -15,42 +18,34 @@ const SignUpForm: React.FC = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormValues>();
 
   // Function to check if email exists
-  const checkEmailExists = async (email: string) => {
-    try {
-      const response = await fetch('http://localhost:3000/users');
-      const users = await response.json();
-      const existingUser = users.some((user: any) => user.email === email);
-      setEmailExists(existingUser);
-    } catch (error) {
-      console.error('Error checking email existence:', error);
-    }
-  };
+  // const checkEmailExists = async (email: string) => {
+  //   try {
+  //     const response = await fetch('http://localhost:3000/users');
+  //     const users = await response.json();
+  //     const existingUser = users.some((user: any) => user.email === email);
+  //     setEmailExists(existingUser);
+  //   } catch (error) {
+  //     console.error('Error checking email existence:', error);
+  //   }
+  // };
 
-  useEffect(() => {
-    // Check if email exists when the component mounts
-    checkEmailExists('');
-    // Cleanup function to reset emailExists state
-    return () => setEmailExists(false);
-  }, []);
+  // useEffect(() => {
+  //   // Check if email exists when the component mounts
+  //   checkEmailExists('');
+  //   // Cleanup function to reset emailExists state
+  //   return () => setEmailExists(false);
+  // }, []);
 
-  const handleEmailChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    checkEmailExists(value);
-  };
+  // const handleEmailChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { value } = event.target;
+  //   checkEmailExists(value);
+  // };
 
   const formSubmit: SubmitHandler<FormValues> = async (data) => {
-    try {
-      if (emailExists) {
-        console.log('Email in use');
-        setValue('email', ''); // Clear the email field
-        return;
-      }
 
-      await addNewUser({ email: data.email, password: data.password });
-      console.log('User registered successfully:', data);
-    } catch (error) {
-      console.error('Error registering user:', error);
-    }
+    console.log('Form submitted', data);
+    addNewUser(data);
+
   };
 
   return (
@@ -58,9 +53,23 @@ const SignUpForm: React.FC = () => {
       <h2 className='login-text'>Registrera dig</h2>
       <form onSubmit={handleSubmit(formSubmit)} className='form-container'>
         <div className='input-container'>
-          {/* <label htmlFor='email' className='input-label'>
-            Email:
-          </label> */}
+          <input 
+          id='firstname'
+          type="text"
+          placeholder='Förnamn'
+          className={`input-field`} 
+          {...register('firstname', { required: 'Förnamn är obligatoriskt' })}
+
+          />
+                    <input 
+          id='lastname'
+          type="text"
+          placeholder='Efternamn'
+          className={`input-field`} 
+          {...register('lastname', { required: 'Efternamn är obligatoriskt' })}
+
+          />
+
           <input
             id='email'
             type='email'
@@ -79,7 +88,7 @@ const SignUpForm: React.FC = () => {
             
             placeholder={emailExists ? 'Email Already in use!' : 'E-postadress'}
             
-            onChange={handleEmailChange}
+            // onChange={handleEmailChange}
           />
           {errors.email && <span className='error-message'>{errors.email.message}</span>}
         </div>
@@ -102,7 +111,8 @@ const SignUpForm: React.FC = () => {
           {/* <label htmlFor='confirmPassword' className='input-label'>
             Confirm Password:
           </label> */}
-          <input
+
+          {/* <input
             id='confirmPassword'
             type='password'
             placeholder='Bekräfta lösenord'
@@ -113,7 +123,7 @@ const SignUpForm: React.FC = () => {
           />
           {errors.confirmPassword && (
             <span className='error-message'>{errors.confirmPassword.message}</span>
-          )}
+          )} */}
         </div>
         <button type='submit' className='login-button'>
           Sign Up
