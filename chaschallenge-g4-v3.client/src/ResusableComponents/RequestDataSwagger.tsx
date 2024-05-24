@@ -99,36 +99,4 @@ export const addNewUser = async (userData: userData) => {
       console.error('An unexpected error occurred:', error);
     }
   }
-}
-
-//Log In Request
-
-interface logInUser{
-  email: string,
-  password: string,
-}
-
-export const userLogIn = async (logInUser: logInUser)=> {
-  try {
-    const response = await axios.post('http://localhost:5148/login', logInUser,{
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    if (response.status === 200){
-      console.log('Log in succesful:', response.data);
-      return response.data;
-    } else {
-      console.log('Log in failed', response.data);
-      return null
-    }
-  } catch (error) {
-    if (axios.isAxiosError(error)){
-      console.error('Error response from server:', error.response?.data);
-      return null;
-    } else {
-      console.error('An unexpected error occurred:', error);
-      return null;
-    }
-  }
-}
+};
