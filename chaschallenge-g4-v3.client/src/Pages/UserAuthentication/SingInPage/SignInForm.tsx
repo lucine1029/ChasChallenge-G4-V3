@@ -1,7 +1,7 @@
 // SignInForm.tsx
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { login } from '../../../ResusableComponents/RequestDataSwagger';
+import { login as loginRequest } from '../../../ResusableComponents/Requests/loginRequest';
 import '../../../scss/Sass-Pages/_SignUpPage.scss';
 import { useAuth } from '../../../ResusableComponents/authUtils';
 
@@ -24,9 +24,10 @@ function SignInForm(): React.FC {
 
     try {
       // Call the login function
-      const response = await login(data);
+      const response = await loginRequest(data);
       console.log('Login successful:', response);
 
+      //Saves the token and the userID in session using function in authutils
       auth.login(response.token, response.userId);
 
       navigate('/chat');

@@ -5,7 +5,13 @@ import {
   ReactNode,
   useEffect,
 } from 'react';
-import { getToken, clearAuthTokens } from './authUtils';
+import {
+  getToken,
+  getUserId,
+  clearAuthData,
+  setToken,
+  setUserId,
+} from './authUtils';
 
 interface AuthContextProps {
   isAuthenticated: boolean;
@@ -21,13 +27,13 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   );
 
   const login = (token: string, userId: string) => {
-    localStorage.setItem('token', token);
-    localStorage.setItem('userId', userId);
+    setToken(token);
+    setUserId(userId);
     setIsAuthenticated(true);
   };
 
   const logout = () => {
-    clearAuthTokens();
+    clearAuthData();
     setIsAuthenticated(false);
   };
 
