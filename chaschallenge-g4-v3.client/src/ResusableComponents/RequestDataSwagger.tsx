@@ -78,7 +78,24 @@ export const login = async ({ email, password }: UserData) => {
     // Return the response data
     return response.data;
   } catch (error: any) {
-    console.error('Error logging in:', error.response?.data || error.message);
-    throw error;
+    if (axios.isAxiosError(error)) {
+      console.error(
+        'Axios error response:',
+        error.response?.data || error.message
+      );
+      // You can add custom handling here based on the status code
+      if (error.response?.status === 500) {
+        throw new Error('Internal server error. Please try again later.');
+      } else {
+        throw new Error(
+          `Error: ${error.response?.status}. ${
+            error.response?.data?.message || error.message
+          }`
+        );
+      }
+    } else {
+      console.error('Unexpected error:', error);
+      throw new Error('An unexpected error occurred. Please try again later.');
+    }
   }
 };
