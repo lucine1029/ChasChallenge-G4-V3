@@ -12,13 +12,14 @@ import AddKidsPage from './Pages/Settings/AddKids/Index';
 import SleepTracking from './Pages/Sleep/SleepTracking';
 // import BackButton from './Components/BackButton';
 //import { NavBar } from './ResusableComponents/NavBar';
-import { getDataFromSwagger } from './ResusableComponents/RequestDataSwagger';
+import { getAllUsers, getUser } from './ResusableComponents/Requests/userRequest';
 import Footer from '../src/ResusableComponents/Footer';
 import ProtectedRoutes from './ResusableComponents/ProtectedRoutes'; // Import the ProtectedRoutes component
 import { AuthProvider } from './ResusableComponents/AuthContext';
 import { useAuth } from './ResusableComponents/authUtils';
 
-getDataFromSwagger();
+getAllUsers();
+getUser();
 
 function AppContent() {
   const { isAuthenticated } = useAuth(); // Use the auth context
