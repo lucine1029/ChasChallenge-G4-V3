@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { addNewUser } from '../../../ResusableComponents/Requests/authRequest'; // Import addNewUser function
+import { registerUser } from '../../../ResusableComponents/Requests/authRequest'; // Import addNewUser function
 import '../../../scss/Sass-Pages/_SignUpPage.scss';
 
 
@@ -61,7 +61,7 @@ const SignUpForm: React.FC = () => {
   const formSubmit: SubmitHandler<FormValues> = async (data) => {
 
     console.log('Form submitted', data);
-    addNewUser(data);
+    registerUser(data);
     navigate('/signin')
   };
 
@@ -127,12 +127,12 @@ const SignUpForm: React.FC = () => {
             <span className='error-message'>{errors.password.message}</span>
           )}
         </div>
-        <div className='input-container'>
-          {/* <label htmlFor='confirmPassword' className='input-label'>
+        {/* <div className='input-container'>
+          <label htmlFor='confirmPassword' className='input-label'>
             Confirm Password:
-          </label> */}
+          </label>
 
-          {/* <input
+          <input
             id='confirmPassword'
             type='password'
             placeholder='Bekräfta lösenord'
@@ -144,7 +144,7 @@ const SignUpForm: React.FC = () => {
           {errors.confirmPassword && (
             <span className='error-message'>{errors.confirmPassword.message}</span>
           )}
-        </div>
+        </div> */}
         <button type='submit' className='login-button'>
           Sign Up
         </button>

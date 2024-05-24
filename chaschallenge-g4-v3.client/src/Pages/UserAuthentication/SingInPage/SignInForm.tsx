@@ -9,7 +9,7 @@ interface FormValues {
   password: string;
 }
 
-function SignInForm(): React.FC {
+function SignInForm() {
   const {
     register,
     handleSubmit,
@@ -23,7 +23,7 @@ function SignInForm(): React.FC {
 
     try {
       // Call the login function
-      const response = await login(data);
+      const response = await signIn(data);
       console.log('Login successful:', response);
 
       auth.login(response.token, response.userId);
