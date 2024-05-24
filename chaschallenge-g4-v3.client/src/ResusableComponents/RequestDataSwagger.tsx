@@ -5,8 +5,7 @@ const BASE_URL = 'http://localhost:5148';
 export const getDataFromSwagger = async () => {
   try {
     const response = await axios.get(
-      // 'http://localhost:5148/user?userId=b8cc8b99-848b-49c3-b4fb-0784e9ee0f06'
-      'http://localhost:5148/allusers'
+      `${BASE_URL}allusers`
     );
 
     console.log(response.data);
@@ -57,7 +56,7 @@ interface userData {
 
 export const addNewUser = async (userData: userData) => {
   try {
-    const response = await axios.post('http://localhost:5148/register', userData, {
+    const response = await axios.post(`${BASE_URL}/register`, userData, {
       headers: {
         'Content-Type': 'application/json',
       }
