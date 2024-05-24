@@ -17,7 +17,12 @@ const navigate = useNavigate();
 
 const SignUpForm: React.FC = () => {
   const [emailExists, setEmailExists] = useState<boolean>(false); // State variable to track if email already exists
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormValues>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<FormValues>();
 
   // Function to check if email exists
   // const checkEmailExists = async (email: string) => {
@@ -37,7 +42,17 @@ const SignUpForm: React.FC = () => {
   //   // Cleanup function to reset emailExists state
   //   return () => setEmailExists(false);
   // }, []);
+  // useEffect(() => {
+  //   // Check if email exists when the component mounts
+  //   checkEmailExists('');
+  //   // Cleanup function to reset emailExists state
+  //   return () => setEmailExists(false);
+  // }, []);
 
+  // const handleEmailChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { value } = event.target;
+  //   checkEmailExists(value);
+  // };
   // const handleEmailChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
   //   const { value } = event.target;
   //   checkEmailExists(value);
@@ -83,16 +98,17 @@ const SignUpForm: React.FC = () => {
               },
             })}
             className={`input-field ${emailExists ? 'email-taken' : ''}`}
-            style={{ 
-              border: emailExists ? '1px solid red' : '', 
+            style={{
+              border: emailExists ? '1px solid red' : '',
               color: emailExists ? 'red' : '#000',
             }}
-            
             placeholder={emailExists ? 'Email Already in use!' : 'E-postadress'}
             
             // onChange={handleEmailChange}
           />
-          {errors.email && <span className='error-message'>{errors.email.message}</span>}
+          {errors.email && (
+            <span className='error-message'>{errors.email.message}</span>
+          )}
         </div>
         <div className='input-container'>
           {/* <label htmlFor='password' className='input-label'>
@@ -107,7 +123,9 @@ const SignUpForm: React.FC = () => {
             })}
             className='input-field'
           />
-          {errors.password && <span className='error-message'>{errors.password.message}</span>}
+          {errors.password && (
+            <span className='error-message'>{errors.password.message}</span>
+          )}
         </div>
         <div className='input-container'>
           {/* <label htmlFor='confirmPassword' className='input-label'>

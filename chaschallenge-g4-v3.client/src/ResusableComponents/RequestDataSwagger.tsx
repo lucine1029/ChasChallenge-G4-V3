@@ -23,14 +23,18 @@ export const getDataFromSwagger = async () => {
 interface sessionData{
   email: string,
   password: string,
+interface UserData {
+  email: string;
+  password: string;
 }
 
-export const login = async (sessionData: sessionData) => {
+export const login = async ({ email, password }: UserData) => {
   try {
     const response = await axios.post(
       `${BASE_URL}/login`,
       {
-        sessionData
+        email,
+        password,
       },
       {
         headers: {
@@ -39,12 +43,28 @@ export const login = async (sessionData: sessionData) => {
         },
       }
     );
-
     // Return the response data
     return response.data;
-  } catch (error) {
-    console.error('Error logging in:', error);
-    throw error;
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      console.error(
+        'Axios error response:',
+        error.response?.data || error.message
+      );
+      // You can add custom handling here based on the status code
+      if (error.response?.status === 500) {
+        throw new Error('Internal server error. Please try again later.');
+      } else {
+        throw new Error(
+          `Error: ${error.response?.status}. ${
+            error.response?.data?.message || error.message
+          }`
+        );
+      }
+    } else {
+      console.error('Unexpected error:', error);
+      throw new Error('An unexpected error occurred. Please try again later.');
+    }
   }
 };// Register Request
 interface userData {
