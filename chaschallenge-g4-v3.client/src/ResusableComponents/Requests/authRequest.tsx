@@ -57,3 +57,29 @@ interface userData {
   }
 
 // Reset Password
+
+interface userResetPassword{
+    email: string,
+    token: string,
+    password: string,
+    confrimPassword: string,
+}
+
+export const resetPassword = async (userResetPassword: userResetPassword) => {
+    try {
+        const response = await axios.post(`${BASE_URL}/forgotPassword`, userResetPassword,
+            {headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        if (response.status === 200){
+            console.log('Rest link sent to your email', response.data);
+        }
+    } catch (error){
+        if (axios.isAxiosError(error)){
+            console.error('Error response from server:', error.response?.data);
+        } else {
+            console.error('An unexpected error occured:', error);
+        }
+    }
+  }
