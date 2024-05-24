@@ -14,44 +14,44 @@ const SignUpForm: React.FC = () => {
   const [emailExists, setEmailExists] = useState<boolean>(false); // State variable to track if email already exists
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormValues>();
 
-  // Function to check if email exists
-  const checkEmailExists = async (email: string) => {
-    try {
-      const response = await fetch('http://localhost:3000/users');
-      const users = await response.json();
-      const existingUser = users.some((user: any) => user.email === email);
-      setEmailExists(existingUser);
-    } catch (error) {
-      console.error('Error checking email existence:', error);
-    }
-  };
+  // // Function to check if email exists
+  // const checkEmailExists = async (email: string) => {
+  //   try {
+  //     const response = await fetch('http://localhost:3000/users');
+  //     const users = await response.json();
+  //     const existingUser = users.some((user: any) => user.email === email);
+  //     setEmailExists(existingUser);
+  //   } catch (error) {
+  //     console.error('Error checking email existence:', error);
+  //   }
+  // };
 
-  useEffect(() => {
-    // Check if email exists when the component mounts
-    checkEmailExists('');
-    // Cleanup function to reset emailExists state
-    return () => setEmailExists(false);
-  }, []);
+  // useEffect(() => {
+  //   // Check if email exists when the component mounts
+  //   checkEmailExists('');
+  //   // Cleanup function to reset emailExists state
+  //   return () => setEmailExists(false);
+  // }, []);
 
-  const handleEmailChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    checkEmailExists(value);
-  };
+  // const handleEmailChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { value } = event.target;
+  //   checkEmailExists(value);
+  // };
 
-  const formSubmit: SubmitHandler<FormValues> = async (data) => {
-    try {
-      if (emailExists) {
-        console.log('Email in use');
-        setValue('email', ''); // Clear the email field
-        return;
-      }
+  // const formSubmit: SubmitHandler<FormValues> = async (data) => {
+  //   try {
+  //     if (emailExists) {
+  //       console.log('Email in use');
+  //       setValue('email', ''); // Clear the email field
+  //       return;
+  //     }
 
-      await addNewUser({ email: data.email, password: data.password });
-      console.log('User registered successfully:', data);
-    } catch (error) {
-      console.error('Error registering user:', error);
-    }
-  };
+  //     await addNewUser({ email: data.email, password: data.password });
+  //     console.log('User registered successfully:', data);
+  //   } catch (error) {
+  //     console.error('Error registering user:', error);
+  //   }
+  // };
 
   return (
     <div className='login-container'>
