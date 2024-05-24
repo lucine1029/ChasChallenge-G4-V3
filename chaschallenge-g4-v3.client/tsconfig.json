@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "Not in use/RequestMockData.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
