@@ -60,13 +60,12 @@ interface userData{
   password: string,
 }
 
-export const login = async (email, password) => {
+export const login = async (userData: userData) => {
   try {
     const response = await axios.post(
       `${BASE_URL}/login`,
       {
-        email,
-        password,
+        userData
       },
       {
         headers: {
