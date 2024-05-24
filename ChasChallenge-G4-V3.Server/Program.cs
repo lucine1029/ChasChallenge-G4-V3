@@ -63,8 +63,8 @@ namespace ChasChallenge_G4_V3.Server
             // Service adding authentication requirements to access certain endpoints. 
             builder.Services.AddAuthentication(options =>
             {
-                //options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                //options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
@@ -158,7 +158,7 @@ namespace ChasChallenge_G4_V3.Server
             app.MapGet("/user/child", UserHandler.GetChildofUser);
             app.MapGet("/user/child/allergies", UserHandler.GetChildAllergies);
             app.MapGet("/user/allchildren/allergies", UserHandler.GetAllChildrensAllergies);
-            app.MapGet("/allusers", UserHandler.GetAllUsers);
+            app.MapGet("/allusers", UserHandler.GetAllUsers)/*.RequireAuthorization("RequireAdmin")*/;
 
             //Jonzys confirm email//////////////
             app.MapGet("/confirmemail", async (string userId, string token, UserManager<User> userManager) =>
