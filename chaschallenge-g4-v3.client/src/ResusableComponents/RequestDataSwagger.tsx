@@ -55,17 +55,17 @@ export const registerUser = async () => {
 
 // Base URL for the API
 
-interface userData{
-  email: string,
-  password: string,
+interface userData {
+  email: string;
+  password: string;
 }
 
-export const login = async (userData: userData) => {
+export const login = async ({ email, password }: userData) => {
   try {
     const response = await axios.post(
       `${BASE_URL}/login`,
       {
-        userData
+        userData,
       },
       {
         headers: {
