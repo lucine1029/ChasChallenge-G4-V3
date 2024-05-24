@@ -55,6 +55,11 @@ export const registerUser = async () => {
 
 // Base URL for the API
 
+interface userData{
+  email: string,
+  password: string,
+}
+
 export const login = async (email, password) => {
   try {
     const response = await axios.post(
