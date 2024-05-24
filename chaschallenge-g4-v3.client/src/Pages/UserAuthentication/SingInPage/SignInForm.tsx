@@ -3,7 +3,6 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import '../../../scss/Sass-Pages/_SignUpPage.scss'; // Importera din CSS-fil för att använda klasserna
-import { userLogIn } from '../../../ResusableComponents/RequestDataSwagger';
 
 interface FormValues {
   email: string;

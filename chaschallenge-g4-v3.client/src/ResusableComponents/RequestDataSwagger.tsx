@@ -73,7 +73,6 @@ export const getDataFromSwagger = async () => {
 };
 
 // Register Request
-
 interface userData {
   firstname: string,
   lastname: string,
