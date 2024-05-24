@@ -55,17 +55,18 @@ export const registerUser = async () => {
 
 // Base URL for the API
 
-interface userData {
+interface UserData {
   email: string;
   password: string;
 }
 
-export const login = async ({ email, password }: userData) => {
+export const login = async ({ email, password }: UserData) => {
   try {
     const response = await axios.post(
       `${BASE_URL}/login`,
       {
-        userData,
+        email,
+        password,
       },
       {
         headers: {
@@ -74,11 +75,10 @@ export const login = async ({ email, password }: userData) => {
         },
       }
     );
-
     // Return the response data
     return response.data;
-  } catch (error) {
-    console.error('Error logging in:', error);
+  } catch (error: any) {
+    console.error('Error logging in:', error.response?.data || error.message);
     throw error;
   }
 };
