@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import '../scss/Reusable-Components/_HamburgerTwo.scss';
 
 export default function HamburgerMenuTwo() {
@@ -20,35 +20,35 @@ export default function HamburgerMenuTwo() {
       <nav className={isMenuOpen ? 'show' : ''}>
         <ul>
           <li>
-            <Link to='/recipes' onClick={handleToggleMenu}>
+            <NavLink to='/recipes' onClick={handleToggleMenu}>
               Recept
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to='/family' onClick={handleToggleMenu}>
+            <NavLink to='/family' onClick={handleToggleMenu}>
               Familj
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to='/chat' onClick={handleToggleMenu}>
+            <NavLink to='/chat' onClick={handleToggleMenu}>
               Chatta
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to='/journal' onClick={handleToggleMenu}>
+            <NavLink to='/journal' onClick={handleToggleMenu}>
               Journal
-            </Link>
+            </NavLink>
           </li>
           <hr />
           <li>
-            <Link to='/settings' onClick={handleToggleMenu}>
+            <NavLink to='/settings' onClick={handleToggleMenu}>
               Inställningar
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to='/' onClick={handleToggleMenu}>
+            <NavLink to='/' onClick={handleToggleMenu}>
               Logga ut
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </nav>
