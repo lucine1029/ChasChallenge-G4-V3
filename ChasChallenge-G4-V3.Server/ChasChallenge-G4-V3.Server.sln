@@ -7,11 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChasChallenge-G4-V3.Server"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChasChallenge-G4-V3-ServerTests", "..\ChasChallenge-G4-V3-ServerTests\ChasChallenge-G4-V3-ServerTests.csproj", "{A2C0DE4A-188F-4A6D-BBFA-990BA788203F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5230B4BB-6049-4C27-A4B3-427B8CEF40D7}"
-	ProjectSection(SolutionItems) = preProject
-		appsettings.Development.json = appsettings.Development.json
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
