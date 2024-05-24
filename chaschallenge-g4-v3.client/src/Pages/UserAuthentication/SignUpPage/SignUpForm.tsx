@@ -12,19 +12,24 @@ interface FormValues {
 
 const SignUpForm: React.FC = () => {
   const [emailExists, setEmailExists] = useState<boolean>(false); // State variable to track if email already exists
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormValues>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<FormValues>();
 
-  // // Function to check if email exists
-  // const checkEmailExists = async (email: string) => {
-  //   try {
-  //     const response = await fetch('http://localhost:3000/users');
-  //     const users = await response.json();
-  //     const existingUser = users.some((user: any) => user.email === email);
-  //     setEmailExists(existingUser);
-  //   } catch (error) {
-  //     console.error('Error checking email existence:', error);
-  //   }
-  // };
+  // Function to check if email exists
+  const checkEmailExists = async (email: string) => {
+    try {
+      const response = await fetch('http://localhost:5148/register');
+      const users = await response.json();
+      const existingUser = users.some((user: any) => user.email === email);
+      setEmailExists(existingUser);
+    } catch (error) {
+      console.error('Error checking email existence:', error);
+    }
+  };
 
   // useEffect(() => {
   //   // Check if email exists when the component mounts
@@ -72,16 +77,16 @@ const SignUpForm: React.FC = () => {
               },
             })}
             className={`input-field ${emailExists ? 'email-taken' : ''}`}
-            style={{ 
-              border: emailExists ? '1px solid red' : '', 
+            style={{
+              border: emailExists ? '1px solid red' : '',
               color: emailExists ? 'red' : '#000',
             }}
-            
             placeholder={emailExists ? 'Email Already in use!' : 'E-postadress'}
-            
             onChange={handleEmailChange}
           />
-          {errors.email && <span className='error-message'>{errors.email.message}</span>}
+          {errors.email && (
+            <span className='error-message'>{errors.email.message}</span>
+          )}
         </div>
         <div className='input-container'>
           {/* <label htmlFor='password' className='input-label'>
@@ -96,7 +101,9 @@ const SignUpForm: React.FC = () => {
             })}
             className='input-field'
           />
-          {errors.password && <span className='error-message'>{errors.password.message}</span>}
+          {errors.password && (
+            <span className='error-message'>{errors.password.message}</span>
+          )}
         </div>
         <div className='input-container'>
           {/* <label htmlFor='confirmPassword' className='input-label'>
@@ -112,7 +119,9 @@ const SignUpForm: React.FC = () => {
             className='input-field'
           />
           {errors.confirmPassword && (
-            <span className='error-message'>{errors.confirmPassword.message}</span>
+            <span className='error-message'>
+              {errors.confirmPassword.message}
+            </span>
           )}
         </div>
         <button type='submit' className='login-button'>
