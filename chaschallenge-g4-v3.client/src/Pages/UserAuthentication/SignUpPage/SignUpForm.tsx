@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { addNewUser } from '../../../ResusableComponents/RequestDataSwagger'; // Import addNewUser function
+import { addNewUser } from '../../../ResusableComponents/Requests/authRequest'; // Import addNewUser function
 import '../../../scss/Sass-Pages/_SignUpPage.scss';
 
 
@@ -143,7 +143,7 @@ const SignUpForm: React.FC = () => {
           />
           {errors.confirmPassword && (
             <span className='error-message'>{errors.confirmPassword.message}</span>
-          )} */}
+          )}
         </div>
         <button type='submit' className='login-button'>
           Sign Up
