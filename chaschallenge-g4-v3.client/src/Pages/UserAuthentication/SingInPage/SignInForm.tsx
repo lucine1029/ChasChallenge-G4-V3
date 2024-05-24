@@ -24,7 +24,7 @@ function SignInForm(): React.FC {
 
     try {
       // Call the login function
-      const response = await login(data.email, data.password);
+      const response = await login(data);
       console.log('Login successful:', response);
 
       auth.login(response.token, response.userId);
