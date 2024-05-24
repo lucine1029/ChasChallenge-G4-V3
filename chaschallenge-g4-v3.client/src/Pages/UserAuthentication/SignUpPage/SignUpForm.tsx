@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { addNewUser } from '../../../ResusableComponents/RequestDataSwagger'; // Import addNewUser function
 import '../../../scss/Sass-Pages/_SignUpPage.scss';
@@ -12,6 +12,8 @@ interface FormValues {
   password: string;
   // confirmPassword: string;
 }
+
+const navigate = useNavigate();
 
 const SignUpForm: React.FC = () => {
   const [emailExists, setEmailExists] = useState<boolean>(false); // State variable to track if email already exists
@@ -45,7 +47,7 @@ const SignUpForm: React.FC = () => {
 
     console.log('Form submitted', data);
     addNewUser(data);
-
+    navigate('/signin')
   };
 
   return (
