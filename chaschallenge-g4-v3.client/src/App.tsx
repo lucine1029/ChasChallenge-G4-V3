@@ -13,10 +13,11 @@ import SleepTracking from './Pages/Sleep/SleepTracking';
 // import BackButton from './Components/BackButton';
 //import { NavBar } from './ResusableComponents/NavBar';
 import { getDataFromSwagger } from './ResusableComponents/RequestDataSwagger';
-import Footer from '../src/ResusableComponents/Footer';
+//import Footer from '../src/ResusableComponents/Footer';
 import ProtectedRoutes from './ResusableComponents/ProtectedRoutes'; // Import the ProtectedRoutes component
 import { AuthProvider } from './ResusableComponents/AuthContext';
 import { useAuth } from './ResusableComponents/authUtils';
+import HamburgerMenuTwo from './ResusableComponents/HamBurgerTwo';
 
 getDataFromSwagger();
 
@@ -50,7 +51,8 @@ function AppContent() {
           <Route path='/sleeptracking' element={<SleepTracking />} />
         </Route>
       </Routes>
-      {isAuthenticated && <Footer />} {/* Conditionally render the Footer */}
+      {isAuthenticated && <HamburgerMenuTwo />}{' '}
+      {/* Conditionally render the Footer */}
     </>
   );
 }

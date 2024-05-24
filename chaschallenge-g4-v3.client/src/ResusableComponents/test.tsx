@@ -1,10 +1,8 @@
-
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ModalAccount } from './ModalAccount';
-import { RxHamburgerMenu } from "react-icons/rx";
-import { IoMdClose } from "react-icons/io";
+import { ModalAccount } from './HamburgerModal';
+import { RxHamburgerMenu } from 'react-icons/rx';
+import { IoMdClose } from 'react-icons/io';
 
 interface NavBarProps {
   isSignedIn: boolean;
@@ -12,7 +10,11 @@ interface NavBarProps {
   HandleSignOut: () => void;
 }
 
-export function NavBar({ isSignedIn, HandleSignOut, handleSignIn }: NavBarProps) {
+export function NavBar({
+  isSignedIn,
+  HandleSignOut,
+  handleSignIn,
+}: NavBarProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -41,7 +43,11 @@ export function NavBar({ isSignedIn, HandleSignOut, handleSignIn }: NavBarProps)
             onClick={isModalOpen ? handleCloseModal : handleOpenModal}
             style={{ padding: 0, background: 'none', border: 'none' }}
           >
-            {isModalOpen ? <IoMdClose className='hamburger-menu'/> : <RxHamburgerMenu className='hamburger-menu'/>}
+            {isModalOpen ? (
+              <IoMdClose className='hamburger-menu' />
+            ) : (
+              <RxHamburgerMenu className='hamburger-menu' />
+            )}
           </button>
         </div>
       </ul>
