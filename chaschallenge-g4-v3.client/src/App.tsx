@@ -3,6 +3,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ChatbotPage from './Pages/ChatbotPage/ChatbotPage';
 import HomePage from './Pages/HomePage/HomePage';
+import HomePageTwo from './Pages/HomePage/index';
 import SignUpPage from './Pages/UserAuthentication/SignUpPage/SignUpPage';
 import SignInPage from './Pages/UserAuthentication/SingInPage/SingInPage';
 import SettingsPage from './Pages/Settings/Index';
@@ -38,6 +39,7 @@ function AppContent() {
     <>
       <Routes>
         <Route path='/' element={<HomePage />} />
+        <Route path='/two' element={<HomePageTwo />} />
         <Route path='/signup' element={<SignUpPage />} />
         <Route path='/signin' element={<SignInPage />} />
 

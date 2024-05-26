@@ -1,0 +1,145 @@
+.babster {
+  font-family: Arial, sans-serif;
+  background-color: white;
+
+  .header {
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    //text-align: center;
+    border-bottom: 1px solid #858484;
+    position: relative;
+
+    .logo {
+      color: #9b59b6;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .header-button {
+      //position: absolute;
+      right: 10px;
+      top: 10px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  }
+
+  .main-image-container {
+    text-align: center;
+    position: relative;
+    border-radius: 0 0 120px 120px; // Round the lower corners
+    overflow: hidden;
+    max-width: 100%;
+
+    .image-overlay {
+      display: inline-block;
+      position: relative;
+      width: 100%;
+      height: auto;
+    }
+
+    .main-image {
+      display: block;
+      width: 40%;
+      height: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .image-overlay::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(
+        155,
+        89,
+        182,
+        0.5
+      ); // The color to multiply with the image
+      mix-blend-mode: multiply; // Apply the multiply blend mode to the overlay
+      z-index: 2;
+    }
+  }
+
+  .main-image {
+    width: 50%;
+    margin: auto;
+    height: auto;
+  }
+
+  .content {
+    padding: 20px;
+
+    h1 {
+      font-size: 2rem;
+      color: #333;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #555;
+      text-align: left;
+      line-height: 1.3rem;
+    }
+
+    .buttons {
+      margin-top: 20px;
+
+      .primary-button,
+      .secondary-button {
+        display: block;
+        text-align: center;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        text-decoration: none;
+      }
+
+      .primary-button {
+        background-color: #9b59b6;
+        color: #fff;
+      }
+
+      .secondary-button {
+        background-color: #ffffff;
+        color: #9b59b6;
+        border: 2px solid #9b59b6;
+      }
+    }
+
+    .question-section {
+      margin-top: 30px;
+
+      h2 {
+        font-size: 1.5rem;
+
+        color: #333;
+        display: flex;
+        align-items: center;
+
+        //align-items: center;
+
+        .question-icon {
+          width: 70px;
+          margin-right: 10px;
+        }
+      }
+
+      p {
+        font-size: 1rem;
+        line-height: 1.3rem;
+        color: #555;
+        margin-top: 10px;
+      }
+    }
+  }
+}
