@@ -1,12 +1,21 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from './authUtils';
 import '../scss/Reusable-Components/_HamburgerTwo.scss';
 
 export default function HamburgerMenuTwo() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleToggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = () => {
+    logout();
+    handleToggleMenu();
+    navigate('signin');
   };
 
   return (
@@ -46,7 +55,7 @@ export default function HamburgerMenuTwo() {
             </NavLink>
           </li>
           <li>
-            <NavLink to='/' onClick={handleToggleMenu}>
+            <NavLink to='/' onClick={handleLogout}>
               Logga ut
             </NavLink>
           </li>
