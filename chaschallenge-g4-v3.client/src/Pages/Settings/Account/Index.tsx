@@ -9,6 +9,7 @@ import '../../../scss/Sass-Pages/_AccountPage.scss';
 const UserSettings = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
   const { userId } = useAuth();
 
   const togglePasswordVisibility = () => {
@@ -21,6 +22,7 @@ const UserSettings = () => {
         .then((user) => {
           console.log('User data:', user);
           setUserName(`${user.firstName} ${user.lastName}`); // Assuming the user object has 'firstName' and 'lastName' properties
+          setUserEmail(`${user.email}`);
         })
         .catch((err) => {
           console.error('Failed to fetch user:', err);
@@ -35,12 +37,15 @@ const UserSettings = () => {
         <div className='user-name'>{userName}</div>
         <form className='user-settings-form'>
           <label>
-            Email: <input type='email' />
+            Namn: <input type='email' value={userName} />
+          </label>
+          <label>
+            Epost: <input type='email' value={userEmail} />
           </label>
           <label className='password-label'>
-            Password:
+            Lösenord:
             <div className='password-input-container'>
-              <input type={showPassword ? 'text' : 'password'} placeholder='Password' />
+              <input type={showPassword ? 'text' : 'password'} placeholder='Lösenord' />
               <FontAwesomeIcon
                 icon={showPassword ? faEye : faEyeSlash}
                 onClick={togglePasswordVisibility}
@@ -49,9 +54,9 @@ const UserSettings = () => {
             </div>
           </label>
           <label className='password-label'>
-            Confirm password:
+            Bekräfta lösenord
             <div className='password-input-container'>
-              <input type={showPassword ? 'text' : 'password'} placeholder='Confirm password' />
+              <input type={showPassword ? 'text' : 'password'} placeholder='Bekräfta lösenord' />
               <FontAwesomeIcon
                 icon={showPassword ? faEye : faEyeSlash}
                 onClick={togglePasswordVisibility}
