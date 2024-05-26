@@ -66,7 +66,7 @@ export const ModalAccount: React.FC<ModalProps> = ({ onClose }) => {
           
           <div className='modal-divider'></div>
           <button className='modal-button' onClick={goToMeasurementPage}>
-            Measutement
+            Measurement
           </button>
           
         </div>

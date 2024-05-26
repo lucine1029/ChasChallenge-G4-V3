@@ -1,178 +1,18 @@
-/* 
+
+ 
 
 import React, { useState, useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import 'chartjs-adapter-date-fns';
-import '../LenghTracking.css';
+import '../Measurment.css'
 
 interface LengthData {
-  week: number; // Ändrat till number
-  length: string; // Behåller string för att inkludera längdenheten (cm)
+  week: number;
+  length: string;
 }
 
 interface StandardLengthData {
-  week: number; // Ändrat till number
-  minus1SD: number;
-  normal: number;
-  plus1SD: number;
-}
-
-const Length: React.FC = () => {
-  const [lengthData, setLengthData] = useState<LengthData[]>([]);
-  const [week, setWeek] = useState<string>(''); // Veckonummer som string för input
-  const [length, setLength] = useState<string>(''); // Ändrad till string för att inkludera längdenheten (cm)
-  const [chartKey, setChartKey] = useState<number>(0); // State to force re-render of the chart
-
-  const chartRef = useRef<Chart<"line"> | null>(null); // Ref to hold the chart instance
-
-  // Funktion för att validera längden
-  const isValidLength = (len: string): boolean => {
-    const regex = /^\d+(\.\d+)?cm$/; // Regex för att matcha numeriskt värde med cm-enhet
-    return regex.test(len);
-  };
-
-  useEffect(() => {
-    return () => {
-      // Clean up on unmount to avoid memory leaks
-      destroyChart();
-    };
-  }, []); // Empty dependency array to run only once on mount
-
-  const destroyChart = () => {
-    // Destroy the chart when component unmounts
-    if (chartRef.current) {
-      chartRef.current.destroy();
-    }
-  };
-
-  const standardLengthData: StandardLengthData[] = [
-    { week: 0, minus1SD: 45, normal: 49, plus1SD: 53 },
-    { week: 1, minus1SD: 46.5, normal: 50.5, plus1SD: 54 },
-    { week: 2, minus1SD: 48, normal: 51.5, plus1SD: 55 },
-    { week: 3, minus1SD: 48.5, normal: 52.5, plus1SD: 55.5 },
-    { week: 4, minus1SD: 50.5, normal: 53.5, plus1SD: 57 },
-    { week: 5, minus1SD: 50.5, normal: 54.5, plus1SD: 58.2 },
-    { week: 6, minus1SD: 51, normal: 55, plus1SD: 59 },
-    { week: 7, minus1SD: 52, normal: 56, plus1SD: 60 },
-    { week: 8, minus1SD: 53.5, normal: 56.5, plus1SD: 60.5 },
-    { week: 13, minus1SD: 56.5, normal: 61, plus1SD: 65.5 },
-    { week: 26, minus1SD: 61, normal: 66, plus1SD: 71 },
-    { week: 36, minus1SD: 65.5, normal: 70, plus1SD: 75 },
-    { week: 52, minus1SD: 70, normal: 76, plus1SD: 82 },
-    { week: 78, minus1SD: 75, normal: 81, plus1SD: 87 },
-    { week: 104, minus1SD: 80, normal: 86, plus1SD: 93 },
-  ];
-
-  const handleSaveLength = () => {
-    const weekNumber = parseInt(week);
-    if (isNaN(weekNumber) || weekNumber < 0 || weekNumber > 104 || !length || !isValidLength(length)) { // Validera längden innan du sparar
-      alert('Please enter a valid positive length in cm and a valid week number between 0 and 104');
-      return;
-    }
-
-    const newLengthData = [...lengthData, { week: weekNumber, length }];
-    newLengthData.sort((a, b) => a.week - b.week); // Sortera längddata efter vecka
-    setLengthData(newLengthData);
-    setWeek('');
-    setLength('');
-    setChartKey(prevKey => prevKey + 1); // Trigger chart update
-  };
-
-  const userChartData = lengthData.map(data => ({ x: data.week, y: parseFloat(data.length) }));
-
-  const getStandardData = (key: keyof StandardLengthData) => {
-    return standardLengthData.map(data => ({ x: data.week, y: data[key] }));
-  };
-
-  const chartData = {
-    labels: Array.from({ length: 105 }, (_, i) => i), // Skapa en array med veckor från 0 till 104
-    datasets: [
-      {
-        label: 'User Length',
-        data: userChartData,
-        fill: false,
-        borderColor: 'black',
-        tension: 0.1,
-        pointRadius: 10
-      },
-      { label: '-1SD', data: getStandardData('minus1SD'), borderColor: 'blue', fill: false },
-      { label: 'Normal', data: getStandardData('normal'), borderColor: 'green', fill: false },
-      { label: '+1SD', data: getStandardData('plus1SD'), borderColor: 'red', fill: false },
-    ],
-  };
-
-  useEffect(() => {
-    // If the chart exists, destroy it before rendering a new one
-    if (chartRef.current) {
-      chartRef.current.destroy();
-    }
-
-    // Render the new chart
-    chartRef.current = new Chart(document.getElementById('lengthChart') as HTMLCanvasElement, {
-      type: 'line',
-      data: chartData,
-      options: {
-        scales: {
-          y: {
-            title: {
-              display: true,
-              text: 'Length (cm)'
-            }
-          },
-          x: {
-            title: {
-              display: true,
-              text: 'Week'
-            },
-            ticks: {
-              stepSize: 1 // Visa varje vecka
-            }
-          }
-        }
-      }
-    });
-
-    // Return a cleanup function to destroy the chart on component unmount
-    return () => {
-      if (chartRef.current) {
-        chartRef.current.destroy();
-      }
-    };
-  }, [lengthData, chartKey]); // Trigger re-render when lengthData or chartKey changes
-
-  return (
-    <div className="measurement-tracking-container">
-      <h2>Track Length</h2>
-      <div className="input-container">
-        <label htmlFor="week">Week:</label>
-        <input type="number" id="week" value={week} onChange={(e) => setWeek(e.target.value)} />
-        <label htmlFor="lengthValue">Length:</label>
-        <input type="text" id="lengthValue" value={length} onChange={(e) => setLength(e.target.value)} />
-        <button onClick={handleSaveLength}>Save</button>
-      </div>
-      <div className="chart-container">
-        <canvas id="lengthChart"></canvas>
-      </div>
-    </div>
-  );
-};
-
-export default Length;
- */
-
-
-import React, { useState, useEffect, useRef } from 'react';
-import Chart from 'chart.js/auto';
-import 'chartjs-adapter-date-fns';
-import '../LenghTracking.css';
-
-interface LengthData {
-  week: number; // Ändrat till number
-  length: string; // Behåller string för att inkludera längdenheten (cm)
-}
-
-interface StandardLengthData {
-  week: number; // Ändrat till number
+  week: number;
   minus1SD: number;
   normal: number;
   plus1SD: number;
@@ -180,27 +20,24 @@ interface StandardLengthData {
 
 const Height: React.FC = () => {
   const [lengthData, setLengthData] = useState<LengthData[]>([]);
-  const [week, setWeek] = useState<string>(''); // Veckonummer som string för input
-  const [length, setLength] = useState<string>(''); // Ändrad till string för att inkludera längdenheten (cm)
-  const [chartKey, setChartKey] = useState<number>(0); // State to force re-render of the chart
+  const [week, setWeek] = useState<string>('');
+  const [length, setLength] = useState<string>('');
+  const [chartKey, setChartKey] = useState<number>(0);
 
-  const chartRef = useRef<Chart<"line"> | null>(null); // Ref to hold the chart instance
+  const chartRef = useRef<Chart<"line"> | null>(null);
 
-  // Funktion för att validera längden
   const isValidLength = (len: string): boolean => {
-    const regex = /^\d+(\.\d+)?cm$/; // Regex för att matcha numeriskt värde med cm-enhet
+    const regex = /^\d+(\.\d+)?cm$/;
     return regex.test(len);
   };
 
   useEffect(() => {
     return () => {
-      // Clean up on unmount to avoid memory leaks
       destroyChart();
     };
-  }, []); // Empty dependency array to run only once on mount
+  }, []);
 
   const destroyChart = () => {
-    // Destroy the chart when component unmounts
     if (chartRef.current) {
       chartRef.current.destroy();
     }
@@ -208,37 +45,49 @@ const Height: React.FC = () => {
 
   const standardLengthData: StandardLengthData[] = [
     { week: 0, minus1SD: 45, normal: 49, plus1SD: 53 },
-    { week: 1, minus1SD: 46.5, normal: 50.5, plus1SD: 54 },
-    { week: 2, minus1SD: 48, normal: 51.5, plus1SD: 55 },
-    { week: 3, minus1SD: 48.5, normal: 52.5, plus1SD: 55.5 },
-    { week: 4, minus1SD: 50.5, normal: 53.5, plus1SD: 57 },
-    { week: 5, minus1SD: 50.5, normal: 54.5, plus1SD: 58.2 },
-    { week: 6, minus1SD: 51, normal: 55, plus1SD: 59 },
-    { week: 7, minus1SD: 52, normal: 56, plus1SD: 60 },
-    { week: 8, minus1SD: 53.5, normal: 56.5, plus1SD: 60.5 },
-    { week: 13, minus1SD: 56.5, normal: 61, plus1SD: 65.5 },
-    { week: 26, minus1SD: 61, normal: 66, plus1SD: 71 },
-    { week: 36, minus1SD: 65.5, normal: 70, plus1SD: 75 },
-    { week: 52, minus1SD: 70, normal: 76, plus1SD: 82 },
-    { week: 78, minus1SD: 75, normal: 81, plus1SD: 87 },
-    { week: 104, minus1SD: 80, normal: 86, plus1SD: 93 },
+    { week: 4, minus1SD: 50.5, normal: 53.5, plus1SD: 56.5 },
+    { week: 8, minus1SD: 53.5, normal: 56.5, plus1SD: 59.5 },
+    { week: 12, minus1SD: 56, normal: 59, plus1SD: 62 },
+    { week: 16, minus1SD: 58, normal: 61, plus1SD: 64 },
+    { week: 20, minus1SD: 60, normal: 63, plus1SD: 66 },
+    { week: 24, minus1SD: 62, normal: 65, plus1SD: 68 },
+    { week: 28, minus1SD: 64, normal: 67, plus1SD: 70 },
+    { week: 32, minus1SD: 66, normal: 69, plus1SD: 72 },
+    { week: 36, minus1SD: 68, normal: 71, plus1SD: 74 },
+    { week: 40, minus1SD: 70, normal: 73, plus1SD: 76 },
+    { week: 44, minus1SD: 72, normal: 75, plus1SD: 78 },
+    { week: 48, minus1SD: 73, normal: 76, plus1SD: 79 },
+    { week: 52, minus1SD: 74, normal: 77, plus1SD: 80 },
+    { week: 56, minus1SD: 75, normal: 78, plus1SD: 81 },
+    { week: 60, minus1SD: 76, normal: 79, plus1SD: 82 },
+    { week: 64, minus1SD: 77, normal: 80, plus1SD: 83 },
+    { week: 68, minus1SD: 78, normal: 81, plus1SD: 84 },
+    { week: 72, minus1SD: 79, normal: 82, plus1SD: 85 },
+    { week: 76, minus1SD: 80, normal: 83, plus1SD: 86 },
+    { week: 80, minus1SD: 81, normal: 84, plus1SD: 87 },
+    { week: 84, minus1SD: 82, normal: 85, plus1SD: 88 },
+    { week: 88, minus1SD: 83, normal: 86, plus1SD: 89 },
+    { week: 92, minus1SD: 84, normal: 87, plus1SD: 90 },
+    { week: 96, minus1SD: 85, normal: 88, plus1SD: 91 },
+    { week: 100, minus1SD: 86, normal: 89, plus1SD: 92 },
+    { week: 104, minus1SD: 87, normal: 90, plus1SD: 93 },
   ];
 
   const handleSaveLength = () => {
     const weekNumber = parseInt(week);
-    if (isNaN(weekNumber) || weekNumber < 0 || weekNumber > 104 || !length || !isValidLength(length)) { // Validera längden innan du sparar
+    if (isNaN(weekNumber) || weekNumber < 0 || weekNumber > 104 || !length || !isValidLength(length)) {
       alert('Please enter a valid positive length in cm and a valid week number between 0 and 104');
       return;
     }
 
     const newLengthData = [...lengthData, { week: weekNumber, length }];
-    newLengthData.sort((a, b) => a.week - b.week); // Sortera längddata efter vecka
+    newLengthData.sort((a, b) => a.week - b.week);
     setLengthData(newLengthData);
     setWeek('');
     setLength('');
-    setChartKey(prevKey => prevKey + 1); // Trigger chart update
+    setChartKey(prevKey => prevKey + 1);
   };
-
+  
   const userChartData = lengthData.map(data => ({ x: data.week, y: parseFloat(data.length) }));
 
   const getStandardData = (key: keyof StandardLengthData) => {
@@ -246,76 +95,146 @@ const Height: React.FC = () => {
   };
 
   const chartData = {
-    labels: Array.from({ length: 105 }, (_, i) => i), // Skapa en array med veckor från 0 till 104
+    labels: Array.from({ length: 105 }, (_, i) => i),
     datasets: [
       {
         label: 'User Length',
         data: userChartData,
         fill: false,
         borderColor: 'black',
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
         tension: 0.1,
-        pointRadius: 10
+        pointRadius: 6,
+        pointBackgroundColor: 'black',
       },
-      { label: '-1SD', data: getStandardData('minus1SD'), borderColor: 'blue', fill: false },
-      { label: 'Normal', data: getStandardData('normal'), borderColor: 'green', fill: false },
-      { label: '+1SD', data: getStandardData('plus1SD'), borderColor: 'red', fill: false },
+      {
+        label: '-1SD',
+        data: getStandardData('minus1SD'),
+        borderColor: 'rgba(192, 192, 192, 1)',
+        backgroundColor: 'rgba(192, 192, 192, 0.1)',
+        fill: false,
+      },
+      {
+        label: 'Normal',
+        data: getStandardData('normal'),
+        borderColor: 'rgba(0, 255, 0, 1)',
+        backgroundColor: 'rgba(0, 255, 0, 0.1)',
+        fill: false,
+      },
+      {
+        label: '+1SD',
+        data: getStandardData('plus1SD'),
+        borderColor: 'rgba(192, 192, 192, 1)',
+        backgroundColor: 'rgba(192, 192, 192, 0.1)',
+        fill: false,
+      },
     ],
   };
 
   useEffect(() => {
-    // If the chart exists, destroy it before rendering a new one
     if (chartRef.current) {
       chartRef.current.destroy();
     }
 
-    // Render the new chart
-    chartRef.current = new Chart(document.getElementById('lengthChart') as HTMLCanvasElement, {
+    const ctx = document.getElementById('lengthChart') as HTMLCanvasElement;
+
+    chartRef.current = new Chart(ctx, {
       type: 'line',
       data: chartData,
       options: {
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
           y: {
             title: {
               display: true,
-              text: 'Length (cm)'
-            }
+              text: 'Length (cm)',
+            },
           },
           x: {
             title: {
               display: true,
-              text: 'Week'
+              text: 'Week',
             },
             ticks: {
-              stepSize: 1 // Visa varje vecka
+              stepSize: 4,
+            },
+          },
+        },
+        plugins: {
+          annotation: {
+            annotations: {
+              minus1SD: {
+                type: 'label',
+                xValue: 104,
+                yValue: 79, // Anpassa detta till det exakta värdet för -1SD i din data
+                content: '-1SD',
+                color: 'gainsboro',
+                //backgroundColor: 'transparent',
+                borderColor: 'gainsboro',
+                //borderWidth: 1,
+                position: 'end',
+                font: {
+                  size: 12
+                }
+              },
+              plus1SD: {
+                type: 'label',
+                xValue: 104,
+                yValue: 89, // Anpassa detta till det exakta värdet för +1SD i din data
+                content: '+1SD',
+                color: 'gainsboro',
+               // backgroundColor: 'transparent',
+                borderColor: 'gainsboro',
+               // borderWidth: 1,
+                position: 'end',
+                font: {
+                  size: 14
+                }
+              }
             }
           }
         }
       }
     });
 
-    // Return a cleanup function to destroy the chart on component unmount
     return () => {
       if (chartRef.current) {
         chartRef.current.destroy();
       }
     };
-  }, [lengthData, chartKey]); // Trigger re-render when lengthData or chartKey changes
+  }, [lengthData, chartKey]);
 
   return (
-    <div className="measurement-tracking-container">
-      <h2>Track Length</h2>
-      <div className="input-container">
-        <label htmlFor="week">Week:</label>
-        <input type="number" id="week" value={week} onChange={(e) => setWeek(e.target.value)} />
-        <label htmlFor="lengthValue">Length:</label>
-        <input type="text" id="lengthValue" value={length} onChange={(e) => setLength(e.target.value)} />
-        <button onClick={handleSaveLength}>Save</button>
-      </div>
+    <div className="height-container">
+      <h2>Height</h2>
+      <label>
+        Week:
+        <input type="number" value={week} onChange={e => setWeek(e.target.value)} />
+      </label>
+      <label>
+        Length (cm):
+        <input type="text" value={length} onChange={e => setLength(e.target.value)} />
+      </label>
+      <button onClick={handleSaveLength}>Save</button>
       <div className="chart-container">
         <canvas id="lengthChart"></canvas>
+      </div>
+      <div className="data-list">
+        <h3>Saved Data</h3>
+        <ul>
+          {lengthData.map((data, index) => (
+            <li key={index}>
+              Week {data.week}: {data.length}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
 };
 
 export default Height;
+
+
+

@@ -16,7 +16,7 @@ export default function MeasurementPage() {
               <LiaUserCogSolid className='large-icon' />
               <div className='push-right'>
                 <h3>measurement</h3>
-                <p>Mäter barnet</p>
+                <p>Längd</p>
               </div>
               <LiaAngleRightSolid />
             </Link>
@@ -26,7 +26,7 @@ export default function MeasurementPage() {
               <LiaBabySolid className='large-icon' />
 
               <div className='push-right'>
-                <h3>Barn</h3>
+                <h3>Vikt</h3>
                 {/* <p>Uppdatera, lägg till och ta bort barn</p> */}
               </div>
               <LiaAngleRightSolid />
@@ -37,7 +37,7 @@ export default function MeasurementPage() {
               <LiaBabySolid className='large-icon' />
 
               <div className='push-right'>
-                <h3>Barn</h3>
+                <h3>Hvud</h3>
                 {/* <p>Uppdatera, lägg till och ta bort barn</p> */}
               </div>
               <LiaAngleRightSolid />

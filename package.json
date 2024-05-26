@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.2",
-    "axios": "^1.6.8"
+    "axios": "^1.6.8",
+    "multiselect-react-dropdown": "^2.0.25"
   }
 }
