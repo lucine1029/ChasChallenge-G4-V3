@@ -63,8 +63,8 @@ namespace ChasChallenge_G4_V3.Server
             // Service adding authentication requirements to access certain endpoints. 
             builder.Services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                //options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                //options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
@@ -172,6 +172,8 @@ namespace ChasChallenge_G4_V3.Server
             
             app.MapGet("/askDietAi/userId/childId", UserHandler.GetChildDietAi);
 
+
+            app.MapPut("/user/{userId}/updatePassword", PasswordHandler.UpdatePasswordAsync);
 
             app.MapGet("/check-authentication", async (ILoginServices service) =>
             {

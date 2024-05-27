@@ -30,3 +30,16 @@ export const getUser = async (userId: string) => {
     throw error; // Rethrow the error for handling elsewhere if needed
   }
 };
+
+//  Update user, väntar på endpoint från Stina
+export const updateUser = async (userId: string) => {
+  try {
+    // const response = await axios.get(`${BASE_URL}/user:${userId}`);
+    const response = await axios.put(``);
+    console.log(response.data);
+    return response.data; // Return the data for further processing
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error; // Rethrow the error for handling elsewhere if needed
+  }
+};
