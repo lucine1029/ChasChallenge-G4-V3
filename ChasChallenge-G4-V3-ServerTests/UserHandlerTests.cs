@@ -6,6 +6,7 @@ using ChasChallenge_G4_V3.Server.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,6 +88,111 @@ namespace ChasChallenge_G4_V3_ServerTests
             Assert.AreEqual(childDto.NickName, theChild.NickName);
             Assert.AreEqual(childDto.birthdate.Date, theChild.birthdate.Date);
             Assert.AreEqual(childDto.Gender, theChild.Gender);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void AddChild_Exception_If_Wrong_UserId()
+        {
+            //Arrange
+            var options = new DbContextOptionsBuilder<ApplicationContext>().UseInMemoryDatabase(databaseName: "test-db1").Options;
+            var context = new ApplicationContext(options);
+            var userStore = new UserStore<User>(context);
+            var userManager = new UserManager<User>(userStore, null, null, null, null, null, null, null, null);
+            var userServices = new UserServices(userManager, context);
+
+            //Assert
+            var childDto = new ChildDto
+            {
+                Name = "test-name",
+                NickName = "test-nickname",
+                birthdate = DateTime.Now,
+                Gender = "male"
+            };
+            userServices.AddChild("3", childDto);
+            context.SaveChanges();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void AddChild_Execption_If_same_NickName()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationContext>().UseInMemoryDatabase(databaseName: "test-db1").Options;
+            var context = new ApplicationContext(options);
+            var userStore = new UserStore<User>(context);
+            var userManager = new UserManager<User>(userStore, null, null, null, null, null, null, null, null);
+            var userServices = new UserServices(userManager, context);
+
+            var firstChild = new ChildDto
+            {
+                Name = "test-name",
+                NickName = "test-nickname",
+                birthdate = DateTime.Now,
+                Gender = "male"
+            };
+            userServices.AddChild("2", firstChild);
+            context.SaveChanges();
+
+            var secondChild = new ChildDto
+            {
+                Name = "test-name",
+                NickName = "test-nickname",
+                birthdate = DateTime.Now,
+                Gender = "male"
+            };
+            userServices.AddChild("2", secondChild);
+            context.SaveChanges();
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidDataException))]
+        public void AddChild_Execption_If_No_Name_Is_Given()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationContext>().UseInMemoryDatabase(databaseName: "test-db1").Options;
+            var context = new ApplicationContext(options);
+            var userStore = new UserStore<User>(context);
+            var userManager = new UserManager<User>(userStore, null, null, null, null, null, null, null, null);
+            var userServices = new UserServices(userManager, context);
+
+            var firstChild = new ChildDto { NickName = "test-nickname" };
+            userServices.AddChild("2", firstChild);
+            context.SaveChanges();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void AddChild_Exception_If_Cannot_Save_To_Db()
+        {
+            //Skriv om den rad för rad.
+            // Arrange
+            var options = new DbContextOptionsBuilder<ApplicationContext>().UseInMemoryDatabase(databaseName: "test-db1").Options;
+            var context = new ApplicationContext(options);
+            var userStore = new UserStore<User>(context);
+            var userManager = new UserManager<User>(userStore, null, null, null, null, null, null, null, null);
+            var mockContext = new Mock<ApplicationContext>(options);
+            var userServices = new UserServices(userManager, context);
+
+
+            var user = new User 
+            { Id = "2",
+              FirstName = "test-name",
+              LastName = "test-lastname"
+            };
+            context.Users.Add(user);
+            context.SaveChanges();
+
+            var childDto = new ChildDto
+            {
+                Name = "test-name",
+                NickName = "test-nickname2",
+                birthdate = DateTime.Now,
+                Gender = "male"
+            };
+
+            // Act
+            userServices.AddChild("2", childDto);
+            mockContext.Setup(c => c.SaveChanges()).Throws(new Exception("Unable to save to Database"));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ChasChallenge_G4_V3.Server.Models.DTOs;
+﻿using ChasChallenge_G4_V3.Server.CustomExceptions;
+using ChasChallenge_G4_V3.Server.Models.DTOs;
 using ChasChallenge_G4_V3.Server.Models.ViewModels;
 using ChasChallenge_G4_V3.Server.Services;
 
@@ -137,9 +138,13 @@ namespace ChasChallenge_G4_V3.Server.Handlers
                 var childDiet = await userServices.GetChildDietAi(userId, childId, food);
                 return Results.Json(childDiet);
             }
-            catch (Exception ex)
+            catch (UserNotFoundException ex)
             {
-                return Results.NotFound($"Exception {ex.Message}");
+                return Results.NotFound(new { message = ex.Message });
+            }
+            catch(ChildNotFoundException ex)
+            {
+                return Results.NotFound(new { message = ex.Message });
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using ChasChallenge_G4_V3.Server.Data;
+﻿using ChasChallenge_G4_V3.Server.CustomExceptions;
+using ChasChallenge_G4_V3.Server.Data;
 using ChasChallenge_G4_V3.Server.Models;
 using ChasChallenge_G4_V3.Server.Models.DTOs;
 using ChasChallenge_G4_V3.Server.Models.ViewModels;
@@ -94,8 +95,6 @@ namespace ChasChallenge_G4_V3.Server.Services
             {
                 throw new Exception("unable to save to Database");
             }
-
-            user.Children.Add(newChild);
         }
         public void AddAllergy(int childId, AllergyDto allergyDto)
         {
@@ -355,18 +354,17 @@ namespace ChasChallenge_G4_V3.Server.Services
                            .Include(u => u.Children)
                            .ThenInclude(c => c.Allergies)
                            .SingleOrDefault();
-
             if (user is null)
             {
-                throw new Exception("user not found");
+                throw new UserNotFoundException("User not found!");
             }
+
 
             Child? child = user.Children
                 .SingleOrDefault(c => c.Id == childId);
-
             if (child is null)
             {
-                throw new Exception("child not found");
+                throw new ChildNotFoundException("Child not found!");
             }
 
             string childsAllergies = "";
@@ -394,7 +392,6 @@ namespace ChasChallenge_G4_V3.Server.Services
             chat.Model = Model.ChatGPTTurbo;
             chat.RequestParameters.Temperature = 1;
 
-            /// give instruction as System. Who should OpenAPI should be? a nurse? 
             chat.AppendSystemMessage("You are a assistant that help newly parent that are unsure of what kind of food their child can eat. " +
                 "You take your information mainly from https://www.livsmedelsverket.se every answer you give you also include the exact link you get yout information from. " +
                 "All your answer must be 100% risk free so the child cannot be sick. Be on the safe side. " +
