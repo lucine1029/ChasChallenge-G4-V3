@@ -2,20 +2,20 @@ import axios from 'axios';
 
 const BASE_URL = 'http://localhost:5148';
 
-export const getDataFromSwagger = async () => {
-  try {
-    const response = await axios.get(
-      // 'http://localhost:5148/user?userId=b8cc8b99-848b-49c3-b4fb-0784e9ee0f06'
-      'http://localhost:5148/allusers'
-    );
+// export const getDataFromSwagger = async () => {
+//   try {
+//     const response = await axios.get(
+//       // 'http://localhost:5148/user?userId=b8cc8b99-848b-49c3-b4fb-0784e9ee0f06'
+//       'http://localhost:5148/allusers'
+//     );
 
-    console.log(response.data);
-    return response.data; // Return the data for further processing
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    throw error; // Rethrow the error for handling elsewhere if needed
-  }
-};
+//     console.log(response.data);
+//     return response.data; // Return the data for further processing
+//   } catch (error) {
+//     console.error('Error fetching data:', error);
+//     throw error; // Rethrow the error for handling elsewhere if needed
+//   }
+// };
 
 // hur curlen ser ut för register i swagger:
 // curl -X 'POST' \

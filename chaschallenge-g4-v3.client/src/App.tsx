@@ -1,39 +1,42 @@
-//import { useEffect } from 'react';
-// import { fetchAndCombineData } from './ResusableComponents/RequestMockData'; // Import the fetchAndCombineData function from RequestMockData.tsx
+import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+// Pages
 import ChatbotPage from './Pages/ChatbotPage/ChatbotPage';
 import HomePage from './Pages/HomePage/HomePage';
 import HomePageTwo from './Pages/HomePage/index';
+import AccountPage from './Pages/Settings/Account/Index';
+import AddKidsPage from './Pages/Settings/AddKids/Index';
+import SettingsPage from './Pages/Settings/Index';
+import ManageKidsPage from './Pages/Settings/ManageKids/Index';
+import SleepTracking from './Pages/Sleep/SleepTracking';
 import SignUpPage from './Pages/UserAuthentication/SignUpPage/SignUpPage';
 import SignInPage from './Pages/UserAuthentication/SingInPage/SingInPage';
-import SettingsPage from './Pages/Settings/Index';
-import AccountPage from './Pages/Settings/Account/Index';
-import ManageKidsPage from './Pages/Settings/ManageKids/Index';
-import AddKidsPage from './Pages/Settings/AddKids/Index';
-import SleepTracking from './Pages/Sleep/SleepTracking';
-// import BackButton from './Components/BackButton';
-//import { NavBar } from './ResusableComponents/NavBar';
-import { getDataFromSwagger } from './ResusableComponents/RequestDataSwagger';
+
+// Reusable components
 //import Footer from '../src/ResusableComponents/Footer';
-import ProtectedRoutes from './ResusableComponents/ProtectedRoutes'; // Import the ProtectedRoutes component
 import { AuthProvider } from './ResusableComponents/AuthContext';
+import ProtectedRoutes from './ResusableComponents/ProtectedRoutes'; // Import the ProtectedRoutes component
+import { getUser } from './ResusableComponents/Requests/userRequest';
 import { useAuth } from './ResusableComponents/authUtils';
 import HamburgerMenuTwo from './ResusableComponents/HamBurgerTwo';
 
 getDataFromSwagger();
 
 function AppContent() {
-  const { isAuthenticated } = useAuth(); // Use the auth context
-  // //UseEffect for data from json.db
-  // useEffect(() => {
-  //   fetchAndCombineData()
-  //     .then((data) => {
-  //       // Handle the combined data as needed
-  //     })
-  //     .catch((error) => {
-  //       // Handle errors if needed
-  //     });
-  // }, []); // Empty dependency array to ensure useEffect runs only once
+  const { isAuthenticated, userId } = useAuth(); // Use the auth context
+
+  useEffect(() => {
+    if (isAuthenticated && userId) {
+      getUser(userId)
+        .then((user) => {
+          console.log('Logged in user:', user);
+        })
+        .catch((err) => {
+          console.error('Failed to fetch user:', err);
+        });
+    }
+  }, [isAuthenticated, userId]);
 
   return (
     <>
