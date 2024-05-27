@@ -128,11 +128,11 @@ namespace ChasChallenge_G4_V3.Server
 
             //Post
             //app.MapPost("/user", UserHandler.AddUser);
-            app.MapPost("/user/child", UserHandler.AddChild).RequireAuthorization();
+            app.MapPost("/user:{userId}/child", UserHandler.AddChild).RequireAuthorization();
             
             //app.MapPost("/user/existingChild", UserHandler.AddExistingChild);
-            app.MapPost("/user/child/allergy", UserHandler.AddAllergy);
-            app.MapPost("/user/child/measurement", UserHandler.AddMeasurement);
+            app.MapPost("/user:{userId}/child:{childId}/allergy", UserHandler.AddAllergy);
+            app.MapPost("/user:{userId}/child:{childId}/measurement", UserHandler.AddMeasurement);
 
             app.MapPost("/register", async (UserDto newUser, ILoginServices loginService, IEmailService emailService) => 
             {
@@ -153,11 +153,11 @@ namespace ChasChallenge_G4_V3.Server
             });
 
             ////Gets
-            app.MapGet("/user", UserHandler.GetUser);
+            app.MapGet("/user:{userId}", UserHandler.GetUser);
             //app.MapGet("/allusers", UserHandler.GetAllUsers);
-            app.MapGet("/user/child", UserHandler.GetChildofUser);
-            app.MapGet("/user/child/allergies", UserHandler.GetChildAllergies);
-            app.MapGet("/user/allchildren/allergies", UserHandler.GetAllChildrensAllergies);
+            app.MapGet("/user:{userId}/child:{childId}", UserHandler.GetChildofUser);
+            app.MapGet("/user:{userId}/child:{childId}/allergies", UserHandler.GetChildAllergies);
+            app.MapGet("/user:{userId}/allchildren/allergies", UserHandler.GetAllChildrensAllergies);
             app.MapGet("/allusers", UserHandler.GetAllUsers)/*.RequireAuthorization("RequireAdmin")*/;
 
             //Jonzys confirm email//////////////
