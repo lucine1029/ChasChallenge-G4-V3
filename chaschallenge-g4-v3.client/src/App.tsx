@@ -21,7 +21,7 @@ import { getUser } from './ResusableComponents/Requests/userRequest';
 import { useAuth } from './ResusableComponents/authUtils';
 import HamburgerMenuTwo from './ResusableComponents/HamBurgerTwo';
 
-getDataFromSwagger();
+//getDataFromSwagger();
 
 function AppContent() {
   const { isAuthenticated, userId } = useAuth(); // Use the auth context
