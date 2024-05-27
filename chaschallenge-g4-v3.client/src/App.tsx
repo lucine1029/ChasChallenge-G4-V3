@@ -11,6 +11,7 @@ import ManageKidsPage from './Pages/Settings/ManageKids/Index';
 import SleepTracking from './Pages/Sleep/SleepTracking';
 import SignUpPage from './Pages/UserAuthentication/SignUpPage/SignUpPage';
 import SignInPage from './Pages/UserAuthentication/SingInPage/SingInPage';
+import ChangePasswordPage from './Pages/Settings/Account/ChangePW';
 
 // Reusable components
 import Footer from '../src/ResusableComponents/Footer';
@@ -18,9 +19,12 @@ import { AuthProvider } from './ResusableComponents/AuthContext';
 import ProtectedRoutes from './ResusableComponents/ProtectedRoutes'; // Import the ProtectedRoutes component
 import { getUser } from './ResusableComponents/Requests/userRequest';
 import { useAuth } from './ResusableComponents/authUtils';
+import { getAllUsers } from './ResusableComponents/Requests/userRequest';
 
 function AppContent() {
   const { isAuthenticated, userId } = useAuth(); // Use the auth context
+
+  getAllUsers();
 
   useEffect(() => {
     if (isAuthenticated && userId) {
@@ -46,6 +50,7 @@ function AppContent() {
           <Route path='/chat' element={<ChatbotPage />} />
           <Route path='/settings' element={<SettingsPage />} />
           <Route path='/settings/account' element={<AccountPage />} />
+          <Route path='/settings/changePW' element={<ChangePasswordPage />} />
           <Route path='/settings/kids' element={<ManageKidsPage />} />
           <Route path='/settings/kids/add' element={<AddKidsPage />} />
           <Route path='/sleeptracking' element={<SleepTracking />} />

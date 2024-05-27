@@ -17,12 +17,24 @@ export default function SettingsPage() {
             <Link className='link-style card' to='account'>
               <LiaUserCogSolid className='large-icon' />
               <div className='push-right'>
-                <h3>Konto</h3>
+                <h3>Dina uppgifter</h3>
+                <p>Uppdatera dina uppgifter</p>
+              </div>
+              <LiaAngleRightSolid />
+            </Link>
+          </li>
+
+          <li>
+            <Link className='link-style card' to='changePW'>
+              <LiaUserCogSolid className='large-icon' />
+              <div className='push-right'>
+                <h3>Lösenord</h3>
                 <p>Uppdatera ditt lösenord</p>
               </div>
               <LiaAngleRightSolid />
             </Link>
           </li>
+
           <li>
             <Link className='link-style card' to='Kids'>
               <LiaBabySolid className='large-icon' />
