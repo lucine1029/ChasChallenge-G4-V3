@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import HeaderWithBackButton from '../../../ResusableComponents/HeaderWithBackButton.tsx';
 import '../../../scss/Sass-Pages/_AddKidsPage.scss';
 import { Multiselect } from 'multiselect-react-dropdown';
-import babyMonsters from '../../../../public/baby-monsters.json';
+import babyMonsters from '../../../baby-monsters.json';
 
 // Define the structure of a single allergy
 const allergies = [
@@ -39,6 +39,8 @@ function FetchAvatarDropdown({ onAvatarChange }) {
     url: '',
   });
 
+  console.log(babyMonsters);
+
   useEffect(() => {
     // Load avatars from the imported JSON file
     const avatarData = babyMonsters.map((avatar) => ({
@@ -46,7 +48,7 @@ function FetchAvatarDropdown({ onAvatarChange }) {
       url: avatar.url,
       id: avatar.id,
     }));
-    console.log(avatar.url);
+    console.log(avatarData);
     setAvatars(avatarData);
   }, []);
 
@@ -66,7 +68,7 @@ function FetchAvatarDropdown({ onAvatarChange }) {
           <img
             src={selectedAvatar.url}
             alt={selectedAvatar.filename}
-            className='avatar-img'
+            className='selected-avatar'
           />
         ) : (
           <div className='avatar-placeholder'>Välj avatar</div>

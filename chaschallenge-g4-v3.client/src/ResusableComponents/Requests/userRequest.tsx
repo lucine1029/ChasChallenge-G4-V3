@@ -22,7 +22,7 @@ export const getAllUsers = async () => {
 // GET User by ID
 export const getUser = async (userId: string) => {
   try {
-    const response = await axios.get(`${BASE_URL}/user?userId=${userId}`);
+    const response = await axios.get(`${BASE_URL}/user:${userId}`);
     console.log(response.data);
     return response.data; // Return the data for further processing
   } catch (error) {
