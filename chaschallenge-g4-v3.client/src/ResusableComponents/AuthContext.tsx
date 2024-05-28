@@ -1,5 +1,17 @@
-import { ReactNode, createContext, useEffect, useState } from 'react';
-import { clearAuthTokens, getToken } from './authUtils';
+import {
+  createContext,
+  useState,
+  useContext,
+  ReactNode,
+  useEffect,
+} from 'react';
+import {
+  getToken,
+  getUserId,
+  clearAuthData,
+  setToken,
+  setUserId,
+} from './authUtils';
 
 interface AuthContextProps {
   isAuthenticated: boolean;
@@ -11,18 +23,22 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => !!getToken());
-  const [userId, setUserId] = useState<string | null>(() => localStorage.getItem('userId'));
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
+    () => !!getToken()
+  );
+  const [userId, setUserId] = useState<string | null>(() =>
+    localStorage.getItem('userId')
+  );
 
   const login = (token: string, userId: string) => {
-    localStorage.setItem('token', token);
-    localStorage.setItem('userId', userId);
+    setToken(token);
+    setUserId(userId);
     setIsAuthenticated(true);
     setUserId(userId);
   };
 
   const logout = () => {
-    clearAuthTokens();
+    clearAuthData();
     setIsAuthenticated(false);
     setUserId(null);
   };

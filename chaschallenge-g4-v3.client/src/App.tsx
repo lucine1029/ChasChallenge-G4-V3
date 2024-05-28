@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 // Pages
 import ChatbotPage from './Pages/ChatbotPage/ChatbotPage';
 import HomePage from './Pages/HomePage/HomePage';
+import HomePageTwo from './Pages/HomePage/index';
 import AccountPage from './Pages/Settings/Account/Index';
 import AddKidsPage from './Pages/Settings/AddKids/Index';
 import SettingsPage from './Pages/Settings/Index';
@@ -14,11 +15,14 @@ import SignInPage from './Pages/UserAuthentication/SingInPage/SingInPage';
 import ChangePasswordPage from './Pages/Settings/Account/ChangePW';
 
 // Reusable components
-import Footer from '../src/ResusableComponents/Footer';
+//import Footer from '../src/ResusableComponents/Footer';
 import { AuthProvider } from './ResusableComponents/AuthContext';
 import ProtectedRoutes from './ResusableComponents/ProtectedRoutes'; // Import the ProtectedRoutes component
 import { getUser } from './ResusableComponents/Requests/userRequest';
 import { useAuth } from './ResusableComponents/authUtils';
+import HamburgerMenuTwo from './ResusableComponents/HamBurgerTwo';
+
+//getDataFromSwagger();
 import { getAllUsers } from './ResusableComponents/Requests/userRequest';
 
 function AppContent() {
@@ -42,6 +46,7 @@ function AppContent() {
     <>
       <Routes>
         <Route path='/' element={<HomePage />} />
+        <Route path='/two' element={<HomePageTwo />} />
         <Route path='/signup' element={<SignUpPage />} />
         <Route path='/signin' element={<SignInPage />} />
 
@@ -56,7 +61,8 @@ function AppContent() {
           <Route path='/sleeptracking' element={<SleepTracking />} />
         </Route>
       </Routes>
-      {isAuthenticated && <Footer />} {/* Conditionally render the Footer */}
+      {isAuthenticated && <HamburgerMenuTwo />}{' '}
+      {/* Conditionally render the Footer */}
     </>
   );
 }
