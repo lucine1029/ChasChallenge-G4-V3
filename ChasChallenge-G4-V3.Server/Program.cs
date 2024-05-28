@@ -129,8 +129,6 @@ namespace ChasChallenge_G4_V3.Server
             //Post
             //app.MapPost("/user", UserHandler.AddUser);
             app.MapPost("/user:{userId}/child", UserHandler.AddChild).RequireAuthorization();
-            
-            //app.MapPost("/user/existingChild", UserHandler.AddExistingChild);
             app.MapPost("/user:{userId}/child:{childId}/allergy", UserHandler.AddAllergy);
             app.MapPost("/user:{userId}/child:{childId}/measurement", UserHandler.AddMeasurement);
 
@@ -152,13 +150,17 @@ namespace ChasChallenge_G4_V3.Server
                 return await PasswordHandler.Resetpassword(model, loginService);
             });
 
-            ////Gets
+            //Gets
             app.MapGet("/user:{userId}", UserHandler.GetUser);
-            //app.MapGet("/allusers", UserHandler.GetAllUsers);
             app.MapGet("/user:{userId}/child:{childId}", UserHandler.GetChildofUser);
             app.MapGet("/user:{userId}/child:{childId}/allergies", UserHandler.GetChildAllergies);
             app.MapGet("/user:{userId}/allchildren/allergies", UserHandler.GetAllChildrensAllergies);
             app.MapGet("/allusers", UserHandler.GetAllUsers)/*.RequireAuthorization("RequireAdmin")*/;
+
+            //Puts
+            app.MapPut("/user:{userId}/update", UserHandler.UpdateUserInfo);
+            app.MapPut("/user:{userId}/child:{childId}/update", UserHandler.UpdateChildInfo);
+            app.MapPut("/user:{userId}/child:{childId}/allergies/update", UserHandler.UpdateAllergies);
 
             //Jonzys confirm email//////////////
             app.MapGet("/confirmemail", async (string userId, string token, UserManager<User> userManager) =>
