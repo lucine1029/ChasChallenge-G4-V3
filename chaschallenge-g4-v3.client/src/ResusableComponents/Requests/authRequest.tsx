@@ -7,7 +7,7 @@ const BASE_URL = 'http://localhost:5148';
 
 
 // Register
-interface userData {
+export interface userData {
     firstname: string,
     lastname: string,
     email: string,
@@ -73,7 +73,7 @@ export const resetPassword = async (userResetPassword: userResetPassword) => {
             }
         });
         if (response.status === 200){
-            console.log('Rest link sent to your email', response.data);
+            console.log('Password has been reseted ', response.data);
         }
     } catch (error){
         if (axios.isAxiosError(error)){
