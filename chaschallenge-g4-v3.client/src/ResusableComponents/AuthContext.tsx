@@ -1,16 +1,10 @@
-import {
-  createContext,
-  useState,
-  useContext,
-  ReactNode,
-  useEffect,
-} from 'react';
+import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import {
   getToken,
-  getUserId,
+  getUserId as fetchUserId,
   clearAuthData,
   setToken,
-  setUserId,
+  setUserId as storeUserId,
 } from './authUtils';
 
 interface AuthContextProps {
@@ -23,16 +17,12 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
-    () => !!getToken()
-  );
-  const [userId, setUserId] = useState<string | null>(() =>
-    localStorage.getItem('userId')
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => !!getToken());
+  const [userId, setUserId] = useState<string | null>(() => fetchUserId());
 
   const login = (token: string, userId: string) => {
     setToken(token);
-    setUserId(userId);
+    storeUserId(userId);
     setIsAuthenticated(true);
     setUserId(userId);
   };
@@ -45,7 +35,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   useEffect(() => {
     const token = getToken();
-    const storedUserId = localStorage.getItem('userId');
+    const storedUserId = fetchUserId();
     if (token && storedUserId) {
       setIsAuthenticated(true);
       setUserId(storedUserId);
