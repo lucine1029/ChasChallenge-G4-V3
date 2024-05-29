@@ -135,7 +135,12 @@ function ChildDataForm() {
   const { userId } = useAuth();
   const methods = useForm({
     defaultValues: {
-      allergies: [],
+      name: '', // Add default value for name
+      nickName: '', // Add default value for nickName
+      gender: '', // Add default value for gender
+      imageSource: '', // Add default value for imageSource
+      birthDate: '', // Add default value for birthDate
+      allergies: [], // Initialize allergies as an array
     },
   });
 
@@ -146,16 +151,19 @@ function ChildDataForm() {
     const selectedAllergies = Object.entries(data.allergies)
       .filter(([key, value]) => value)
       .map(([key]) => key);
-    const childData = {
+    const kidData = {
       ...data,
       allergies: selectedAllergies,
+      imageSource: data.imageSource,
     };
 
+    console.log('Data being sent to the server:', kidData);
+
     try {
-      const response = await createUserChild(userId, childData);
+      const response = await createUserKid(userId, kidData);
       console.log('Response:', response);
     } catch (error) {
-      setError('Failed to create child. Please try again.');
+      console.error('Failed to create child:', error);
     }
   };
 
