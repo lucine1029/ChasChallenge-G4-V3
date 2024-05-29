@@ -17,3 +17,30 @@ export const getUsersChildren = async (userId: string) => {
     throw error; // Rethrow the error for handling elsewhere if needed
   }
 };
+
+// curl -X 'POST' \
+//  'http://localhost:5148/user/d07c7ad5-e63a-4d79-a804-20ccc59eddd2/child' \
+// -H 'accept: */*' \
+//  -H 'Content-Type: application/json' \
+//  -d '{
+//  "name": "string",
+//  "nickName": "string",
+//  "gender": "string",
+//  "birthdate": "2024-05-29T12:13:40.832Z"
+// }' */
+
+export const createUserKid = async (userId, kidData) => {
+  const url = `${BASE_URL}/user/${userId}/child`;
+  try {
+    const response = await axios.post(url, kidData, {
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error creating child:', error);
+    throw error; // Re-throw the error to handle it in the calling function if needed
+  }
+};

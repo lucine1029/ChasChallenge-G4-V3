@@ -6,6 +6,8 @@ import HeaderWithBackButton from '../../../ResusableComponents/HeaderWithBackBut
 import '../../../scss/Sass-Pages/_AddKidsPage.scss';
 import { Multiselect } from 'multiselect-react-dropdown';
 import babyMonsters from '../../../baby-monsters.json';
+import { createUserKid } from '../../../ResusableComponents/Requests/childRequest.tsx';
+import { useAuth } from '../../../ResusableComponents/authUtils.ts';
 
 // Define the structure of a single allergy
 const allergies = [
@@ -130,18 +132,29 @@ function AllergiesDropdown({ register }) {
 }
 
 function ChildDataForm() {
+  const { userId } = useAuth();
   const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       allergies: {},
     },
   });
-  const onSubmit = (data) => {
+
+  const onSubmit = async (data) => {
     // Transforming the allergies data from object to array
     const selectedAllergies = Object.entries(data.allergies)
       .filter(([key, value]) => value)
       .map(([key]) => key);
-    console.log('Selected Allergies:', selectedAllergies);
-    console.log(data);
+    const childData = {
+      ...data,
+      allergies: selectedAllergies,
+    };
+
+    try {
+      const response = await createUserChild(userId, childData);
+      console.log('Response:', response);
+    } catch (error) {
+      setError('Failed to create child. Please try again.');
+    }
   };
 
   return (
