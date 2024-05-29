@@ -248,7 +248,7 @@ namespace ChasChallenge_G4_V3.Server.Services
 
         }
 
-        public void AddMeasurement(int childId, MeasurementDto measurementDto)
+        public void AddMeasurement(string userId, int childId, MeasurementDto measurementDto)
         {
             Child? child = _context.Children
                 .Include(c => c.Measurements)
