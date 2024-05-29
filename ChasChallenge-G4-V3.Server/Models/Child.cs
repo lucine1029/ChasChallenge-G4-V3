@@ -8,6 +8,7 @@
         public string? Gender { get; set; }
         public DateTime birthdate { get; set; }
 
+        public string? ImageSource { get; set; }
         public virtual ICollection<User> Users { get; set; } = new List<User>();
         public virtual ICollection<Allergy> Allergies { get; set; } = new List<Allergy>();
         public virtual ICollection<Measurement> Measurements { get; set; } = new List <Measurement>();
