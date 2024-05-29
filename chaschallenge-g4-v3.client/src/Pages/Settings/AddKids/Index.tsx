@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import HeaderWithBackButton from '../../../ResusableComponents/HeaderWithBackButton.tsx';
 import '../../../scss/Sass-Pages/_AddKidsPage.scss';
 import { Multiselect } from 'multiselect-react-dropdown';
@@ -104,17 +103,18 @@ function FetchAvatarDropdown({ onAvatarChange }) {
   );
 }
 
-function AllergiesDropdown({ register }) {
+function AllergiesDropdown() {
+  const { setValue } = useFormContext();
   const [selectedValues, setSelectedValues] = useState([]);
 
-  const onSelect = (selectedList, selectedItem) => {
+  const onSelect = (selectedList) => {
     setSelectedValues(selectedList);
-    register({ name: `allergies.${selectedItem}`, value: true });
+    setValue('allergies', selectedList);
   };
 
-  const onRemove = (selectedList, removedItem) => {
+  const onRemove = (selectedList) => {
     setSelectedValues(selectedList);
-    register({ name: `allergies.${removedItem}`, value: false });
+    setValue('allergies', selectedList);
   };
 
   return (
@@ -133,11 +133,13 @@ function AllergiesDropdown({ register }) {
 
 function ChildDataForm() {
   const { userId } = useAuth();
-  const { register, handleSubmit, setValue, watch } = useForm({
+  const methods = useForm({
     defaultValues: {
-      allergies: {},
+      allergies: [],
     },
   });
+
+  const { register, handleSubmit, setValue, watch } = methods;
 
   const onSubmit = async (data) => {
     // Transforming the allergies data from object to array
@@ -158,28 +160,32 @@ function ChildDataForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <FetchAvatarDropdown onAvatarChange={(url) => setValue('avatar', url)} />
-      <input
-        className='input-field'
-        type='text'
-        placeholder='Förnamn / smeknamn'
-        {...register('name', { required: true })}
-      />
-      <select className='select-field' {...register('gender')}>
-        <option value='Pojke'>Pojke</option>
-        <option value='Flicka'>Flicka</option>
-        <option value='Binär'>Binär</option>
-      </select>
-      <input
-        className='input-field'
-        type='number'
-        placeholder='Födelsedatum'
-        {...register('birthDate')}
-      />
-      <AllergiesDropdown register={register} />
-      <Button>Spara barn</Button>
-    </form>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FetchAvatarDropdown
+          onAvatarChange={(url) => setValue('avatar', url)}
+        />
+        <input
+          className='input-field'
+          type='text'
+          placeholder='Förnamn / smeknamn'
+          {...register('name', { required: true })}
+        />
+        <select className='select-field' {...register('gender')}>
+          <option value='Pojke'>Pojke</option>
+          <option value='Flicka'>Flicka</option>
+          <option value='Binär'>Binär</option>
+        </select>
+        <input
+          className='input-field'
+          type='date'
+          placeholder='Födelsedatum'
+          {...register('birthDate')}
+        />
+        <AllergiesDropdown register={register} />
+        <Button>Spara barn</Button>
+      </form>
+    </FormProvider>
   );
 }
 
