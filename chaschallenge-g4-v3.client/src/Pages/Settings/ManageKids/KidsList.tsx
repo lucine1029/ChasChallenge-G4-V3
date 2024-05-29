@@ -1,95 +1,77 @@
-import { useState, useEffect, useContext } from 'react';
+//@ts-nocheck
+import { useState, useEffect } from 'react';
+import { getUser } from '../../../ResusableComponents/Requests/userRequest';
 import { LiaEllipsisHSolid, LiaEdit, LiaTrashAlt } from 'react-icons/lia';
 import '../../../scss/Sass-Pages/_KidsList.scss';
-// import { getUser } from '../../../ResusableComponents/Requests/userRequest';
-import { getUsersChildren } from '../../../ResusableComponents/Requests/childRequest';
-import { AuthContext } from '../../../ResusableComponents/AuthContext';
+import { useAuth } from '../../../ResusableComponents/authUtils';
 
-// Define an interface for the child object
-interface ChildData {
-  id: number;
-  image: string;
-  firstName: string;
-  birthdate: string;
-  sex: string;
-  name: string;
-  nickName: string;
-  gender: string;
-  allergies: { name: string }[];
-}
+const initialChildren = [
+  {
+    id: 118836,
+    image: 'https://img.pokemondb.net/sprites/home/normal/charmander.png',
+    firstName: 'Zoro',
+    birthdate: '14 january, 2022',
+    sex: 'Pojke',
+  },
+  {
+    id: 118846,
+    image: 'https://img.pokemondb.net/sprites/home/normal/wartortle.png',
+    firstName: 'Zara',
+    birthdate: '12 juni, 2020',
+    sex: 'Flicka',
+  },
+];
 
 export default function KidsList() {
-  const authContext = useContext(AuthContext);
-  const [child, setChild] = useState<ChildData | null>(null); // Specify the type
+  const [kids, setKids] = useState([]);
+  const { userId } = useAuth();
 
   useEffect(() => {
-    const fetchChild = async () => {
-      if (authContext?.userId) {
-        try {
-          // const data = await getUser(authContext.userId);
-          const data = await getUsersChildren(authContext.userId);
-          console.log('Fetched data:', data);
-          if (data) {
-            setChild(data);
-          } else {
-            console.log('No child found in the response');
-          }
-        } catch (error) {
-          console.error('Error fetching child data', error);
-        }
+    const fetchData = async () => {
+      try {
+        const userData = await getUser(userId);
+        setKids(userData.children);
+      } catch (error) {
+        console.error('Error fetching user data', error);
       }
     };
-    fetchChild();
-  }, [authContext]);
+    if (userId) {
+      fetchData();
+    }
+  }, [userId]);
 
   return (
-    <>
-      <ul className='manage-children'>
-        {/* Render the list of children dynamically */}
-        {child && <Child child={child} />}
-      </ul>
-    </>
+    <ul className='manage-kids'>
+      {kids.map((kid, index) => (
+        <Kid
+          key={index}
+          kid={{
+            id: index,
+            image: 'https://img.pokemondb.net/sprites/home/normal/pikachu.png',
+            firstName: kid.name,
+            birthdate: new Date(kid.birthdate).toLocaleDateString('sv-SE'),
+            gender: kid.gender,
+          }}
+        />
+      ))}
+    </ul>
   );
 }
 
-function Child({ child }: { child: ChildData }) {
-  // Specify the type of the prop
+function Kid({ kid }) {
   const [showMenu, setShowMenu] = useState(false);
   const toggleMenu = () => setShowMenu(!showMenu);
 
   return (
     <li className='card column'>
       <div className='menu-container'>
-        <div className='children-container'>
-          <h2>Barn:</h2>
-          {child ? (
-            <ul>
-              <li>Namn: {child.name}</li>
-              <li>Smeknamn: {child.nickName}</li>
-              <li>Kön: {child.gender}</li>
-              <li>Födelsedatum: {child.birthdate}</li>
-              <li>
-                Allergier:{' '}
-                {child.allergies.map((allergy: { name: string }, index: number) => (
-                  <span key={index}>
-                    {allergy.name}
-                    {index < child.allergies.length - 1 ? ', ' : ''}
-                  </span>
-                ))}
-              </li>
-            </ul>
-          ) : (
-            <p>No child found</p>
-          )}
-        </div>
-
         <LiaEllipsisHSolid onClick={toggleMenu} />
         {showMenu && (
           <ul className='menu'>
-            <li onClick={() => console.log('Edit:', child.id)}>
+            <li onClick={() => console.log('Edit:', kid.id)}>
               <LiaEdit /> Edit
             </li>
-            <li onClick={() => console.log('Remove:', child.id)}>
+            <li onClick={() => console.log('Remove:', kid.id)}>
               <LiaTrashAlt /> Remove
             </li>
           </ul>
@@ -97,13 +79,13 @@ function Child({ child }: { child: ChildData }) {
       </div>
       <div className='row row-divider'>
         <div className='avatar-container'>
-          <img className='avatar' src={child.image} alt={child.name} />
+          <img className='avatar' src={kid.image} />
         </div>
 
         <div>
-          <h3>{child.firstName}</h3>
+          <h3>{kid.firstName}</h3>
           <p>
-            {child.sex}, född {child.birthdate}.
+            {kid.gender}, född {kid.birthdate}.
           </p>
         </div>
       </div>

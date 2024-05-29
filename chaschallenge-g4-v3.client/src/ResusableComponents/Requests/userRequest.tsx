@@ -19,7 +19,9 @@ export const getAllUsers = async () => {
   }
 };
 
-// GET User by ID
+getAllUsers();
+
+// GET User by ID + Can also be used to get user kids
 export const getUser = async (userId: string) => {
   try {
     const response = await axios.get(`${BASE_URL}/user:${userId}`);
@@ -36,7 +38,7 @@ export const updateUser = async (userId: string) => {
   try {
     // const response = await axios.get(`${BASE_URL}/user:${userId}`);
     const response = await axios.put(``);
-    console.log(response.data);
+    //console.log(response.data);
     return response.data; // Return the data for further processing
   } catch (error) {
     console.error('Error fetching data:', error);
