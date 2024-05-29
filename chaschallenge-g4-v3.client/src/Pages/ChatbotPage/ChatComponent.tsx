@@ -19,6 +19,7 @@ const ChatComponent: React.FC = () => {
   const [userInput, setUserInput] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [children, setChildren] = useState<any[]>([]);
+  const [clickedCardIndex, setClickedCardIndex] = useState<number | null>(null)
 
   useEffect(() => {
     // Fetch the user's children data
@@ -94,6 +95,10 @@ const ChatComponent: React.FC = () => {
     }
   }, [loading, userInput]);
 
+const handleCardClick = (index: number) => {
+    setClickedCardIndex(index)
+}
+
   return (
     <main>
       <div className='ai-chat-container'>
@@ -113,12 +118,17 @@ const ChatComponent: React.FC = () => {
         {children.length > 0 ? (
           <ul className='ul'>
             {children.map((child, index) => (
-              <li key={index} className='child-card' style={{ listStyle: 'none' }}>
+              <li 
+              key={index} 
+              className={`child-card ${index === clickedCardIndex ? 'clicked' : ''} `}
+              style={{ listStyle: 'none' }}
+              onClick={() => handleCardClick(index)}  
+              >
                 <p>{child.name}</p>
                 {/* Uncomment and use these lines if you want to display more information about the child */}
                 {/* <p>Smeknamn: {child.nickName}</p>
           <p>Kön: {child.gender}</p>
-          <p>Födelsedatum: {new Date(child.birthdate).toLocaleDateString()}</p>
+          <p>Född: {new Date(child.birthdate).toLocaleDateString()}</p>
           <p className="allergies">
             Allergier: {child.allergies.map((allergy: { name: string }, allergyIndex: number) => (
               <span key={allergyIndex}>
