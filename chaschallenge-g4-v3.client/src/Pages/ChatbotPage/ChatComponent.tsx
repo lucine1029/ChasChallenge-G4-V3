@@ -19,7 +19,7 @@ const ChatComponent: React.FC = () => {
   const [userInput, setUserInput] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [children, setChildren] = useState<any[]>([]);
-  const [clickedCardIndex, setClickedCardIndex] = useState<number | null>(null)
+  const [clickedCardIndex, setClickedCardIndex] = useState<number | null>(null);
 
   useEffect(() => {
     // Fetch the user's children data
@@ -29,6 +29,8 @@ const ChatComponent: React.FC = () => {
           const data = await getUser(authContext.userId);
           console.log('ChatComponent-getUser all kids:', data.children);
           console.log('ChatComponent-getUser specific kid:', data.children[0].name);
+          console.log('ChatComponent-getUser specific kid:', data.children[2].nickName);
+          console.log('ChatComponent-getUser specific kid:', data.children[2].id); // Väntar på att Stina lägger till id på denna endpoint: GET /user:{userId}
 
           if (data && data.children) {
             setChildren(data.children);
@@ -95,9 +97,12 @@ const ChatComponent: React.FC = () => {
     }
   }, [loading, userInput]);
 
-const handleCardClick = (index: number) => {
-    setClickedCardIndex(index)
-}
+  const handleCardClick = (index: number) => {
+    setClickedCardIndex(index);
+    // console.log(`Selected child - Name: ${children[index].name}, ID: ${children[index].gender}`);
+    console.log("Selected child name:", children[index].name);
+    console.log("Selected child id:", children[index].id);
+  };
 
   return (
     <main>
@@ -118,11 +123,11 @@ const handleCardClick = (index: number) => {
         {children.length > 0 ? (
           <ul className='ul'>
             {children.map((child, index) => (
-              <li 
-              key={index} 
-              className={`child-card ${index === clickedCardIndex ? 'clicked' : ''} `}
-              style={{ listStyle: 'none' }}
-              onClick={() => handleCardClick(index)}  
+              <li
+                key={index}
+                className={`child-card ${index === clickedCardIndex ? 'clicked' : ''} `}
+                style={{ listStyle: 'none' }}
+                onClick={() => handleCardClick(index)}
               >
                 <p>{child.name}</p>
                 {/* Uncomment and use these lines if you want to display more information about the child */}
