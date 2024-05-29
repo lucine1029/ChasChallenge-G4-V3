@@ -65,6 +65,31 @@ function Kid({ kid }) {
   return (
     <li className='card column'>
       <div className='menu-container'>
+        <div className='children-container'>
+          <h2>Barn:</h2>
+          {child ? (
+            <ul>
+              <li>Namn: {child.name}</li>
+              <li>Smeknamn: {child.nickName}</li>
+              <li>Kön: {child.gender}</li>
+              <li>Födelsedatum: {child.birthdate}</li>
+              <li>
+                Allergier:{' '}
+                {child.allergies.map(
+                  (allergy: { name: string }, index: number) => (
+                    <span key={index}>
+                      {allergy.name}
+                      {index < child.allergies.length - 1 ? ', ' : ''}
+                    </span>
+                  )
+                )}
+              </li>
+            </ul>
+          ) : (
+            <p>No child found</p>
+          )}
+        </div>
+
         <LiaEllipsisHSolid onClick={toggleMenu} />
         {showMenu && (
           <ul className='menu'>
