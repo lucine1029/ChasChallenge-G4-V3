@@ -1,9 +1,10 @@
 import '../scss/Reusable-Components/_Footer.scss';
-import { Hamburger } from '../ResusableComponents/Hamburger';
+//import { Hamburger } from '../ResusableComponents/Hamburger';
 import { IoChatbox } from 'react-icons/io5';
 import { PiChefHat } from 'react-icons/pi';
 import { MdFamilyRestroom } from 'react-icons/md';
 import { IoIosJournal } from 'react-icons/io';
+import HamburgerMenuTwo from './HamBurgerTwo';
 
 export default function Footer() {
   return (
@@ -21,7 +22,7 @@ export default function Footer() {
         <a href='' className='footer-btn-journal'>
           <IoIosJournal color='white' size='42' />
         </a>
-        <Hamburger />
+        <HamburgerMenuTwo />
         <a href='' className='footer-btn-tba'></a>
       </div>
     </footer>

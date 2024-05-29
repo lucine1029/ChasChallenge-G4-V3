@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import HeaderWithBackButton from '../../../ResusableComponents/HeaderWithBackButton.tsx';
 import '../../../scss/Sass-Pages/_AddKidsPage.scss';
 import { Multiselect } from 'multiselect-react-dropdown';
+import babyMonsters from '../../../baby-monsters.json';
 
 // Define the structure of a single allergy
 const allergies = [
@@ -34,31 +35,21 @@ function FetchAvatarDropdown({ onAvatarChange }) {
   const [avatars, setAvatars] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState({
-    name: '',
+    filename: '',
     url: '',
   });
 
+  console.log(babyMonsters);
+
   useEffect(() => {
-    const fetchAvatars = async () => {
-      try {
-        const response = await axios.get(
-          'https://pokeapi.co/api/v2/pokemon?limit=50'
-        );
-        const avatarData = await Promise.all(
-          response.data.results.map(async (pokemon) => {
-            const detail = await axios.get(pokemon.url);
-            return {
-              name: pokemon.name,
-              url: detail.data.sprites.front_default,
-            };
-          })
-        );
-        setAvatars(avatarData);
-      } catch (error) {
-        console.error('Failed to fetch avatars:', error);
-      }
-    };
-    fetchAvatars();
+    // Load avatars from the imported JSON file
+    const avatarData = babyMonsters.map((avatar) => ({
+      filename: avatar.filename,
+      url: avatar.url,
+      id: avatar.id,
+    }));
+    console.log(avatarData);
+    setAvatars(avatarData);
   }, []);
 
   const handleSelect = (avatar) => {
@@ -68,7 +59,7 @@ function FetchAvatarDropdown({ onAvatarChange }) {
   };
 
   const openModal = () => setIsModalOpen(true);
-  //onst closeModal = () => setIsModalOpen(false);
+  //const closeModal = () => setIsModalOpen(false);
 
   return (
     <div className='avatar-dropdown'>
@@ -76,8 +67,8 @@ function FetchAvatarDropdown({ onAvatarChange }) {
         {selectedAvatar.url ? (
           <img
             src={selectedAvatar.url}
-            alt={selectedAvatar.name}
-            className='avatar-img'
+            alt={selectedAvatar.filename}
+            className='selected-avatar'
           />
         ) : (
           <div className='avatar-placeholder'>Välj avatar</div>
@@ -99,7 +90,7 @@ function FetchAvatarDropdown({ onAvatarChange }) {
               >
                 <img
                   src={avatar.url}
-                  alt={avatar.name}
+                  alt={avatar.filename}
                   className='avatar-image'
                 />
               </div>

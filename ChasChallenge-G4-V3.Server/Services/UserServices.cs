@@ -246,22 +246,9 @@ namespace ChasChallenge_G4_V3.Server.Services
                 throw new Exception("unable to save to Database");
             }
 
-            foreach(Allergy a in newAllergys)
-            {
-                child.Allergies.Add(a);
-
-                try
-                {
-                    _context.SaveChanges();
-                }
-                catch
-                {
-                    throw new Exception("unable to save to Database");
-                }
-            }
         }
 
-        public void AddMeasurement(string userId, int childId, MeasurementDto measurementDto)
+        public void AddMeasurement(int childId, MeasurementDto measurementDto)
         {
             Child? child = _context.Children
                 .Include(c => c.Measurements)
@@ -369,7 +356,7 @@ namespace ChasChallenge_G4_V3.Server.Services
                 LastName = user.LastName,
                 
                 Email = user.Email,
-                Children = user.Children.Select(c => new ChildViewModel { Name = c.Name, NickName = c.NickName, Gender = c.Gender, birthdate = c.birthdate }).ToList()
+                Children = user.Children.Select(c => new ChildViewModel {Id = c.Id, Name = c.Name, NickName = c.NickName, Gender = c.Gender, birthdate = c.birthdate, ImageSource = c.ImageSource}).ToList()
             };
             foreach (ChildViewModel child in userViewModel.Children)
             {
@@ -426,10 +413,12 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             ChildViewModel childViewModel = new ChildViewModel
                 {
+                    Id = child.Id,
                     Name = child.Name,
                     NickName = child.NickName,
                     birthdate = child.birthdate,
                     Gender = child.Gender,
+                    ImageSource = child.ImageSource,
                     Allergies = child.Allergies.Select(a => new AllergyViewModel { Name = a.Name }).ToList(),
                     Measurements = child.Measurements.Select(m => new MeasurementViewModel { DateOfMeasurement = m.DateOfMeasurement, Weight = m.Weight, Height = m.Height, HeadCircumference = m.HeadCircumference }).ToList()
 

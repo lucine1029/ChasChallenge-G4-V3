@@ -6,7 +6,7 @@ interface ModalProps {
   onClose: MouseEventHandler<HTMLButtonElement>;
 }
 
-export const ModalAccount: React.FC<ModalProps> = ({ onClose }) => {
+export const HamburgerModal: React.FC<ModalProps> = ({ onClose }) => {
   const navigate = useNavigate(); // Initialize useNavigate
 
   const goToSignInPage = (
@@ -29,7 +29,9 @@ export const ModalAccount: React.FC<ModalProps> = ({ onClose }) => {
     onClose(event); // Close the modal by passing the event
     navigate('/settings'); // Navigate to '/signin' route
   };
-  const goToSleepTracking = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const goToSleepTracking = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     onClose(event); // Close the modal by passing the event
     navigate('/sleeptracking'); // Navigate to '/signin' route
   };

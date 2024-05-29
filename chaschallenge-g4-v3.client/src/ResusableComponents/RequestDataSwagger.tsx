@@ -54,7 +54,7 @@ export const registerUser = async () => {
 /////////Login
 
 // Base URL for the API
-
+/* 
 interface UserData {
   email: string;
   password: string;
@@ -70,7 +70,7 @@ export const login = async ({ email, password }: UserData) => {
       },
       {
         headers: {
-          accept: '*/*',
+ 
           'Content-Type': 'application/json',
         },
       }
@@ -98,4 +98,4 @@ export const login = async ({ email, password }: UserData) => {
       throw new Error('An unexpected error occurred. Please try again later.');
     }
   }
-};
+}; */
