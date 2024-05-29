@@ -80,7 +80,8 @@ namespace ChasChallenge_G4_V3.Server.Services
                 Name = childDto.Name,
                 NickName = childDto.NickName,
                 Gender = childDto.Gender,
-                birthdate = childDto.birthdate
+                birthdate = childDto.birthdate,
+                ImageSource = childDto.ImageSource
             };
 
             user.Children.Add(newChild);
@@ -112,6 +113,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             child.NickName = childDto.NickName;
             child.Gender = childDto.Gender;
             child.birthdate = childDto.birthdate;
+            child.ImageSource = childDto.ImageSource;
 
             try
             {
