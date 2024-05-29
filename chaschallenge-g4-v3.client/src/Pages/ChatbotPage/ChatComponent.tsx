@@ -1,11 +1,9 @@
-
-
 import { useState, useEffect, useContext } from 'react';
 import OpenAI from 'openai';
 import ChatBubble from './ChatBubbles';
 import React from 'react';
 import { AuthContext } from '../../ResusableComponents/AuthContext';
-import { getUsersChildren } from '../../ResusableComponents/Requests/childRequest';
+import { getUser } from '../../ResusableComponents/Requests/userRequest';
 
 import '../../scss/style.scss';
 
@@ -20,23 +18,23 @@ const ChatComponent: React.FC = () => {
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
   const [userInput, setUserInput] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const [child, setChild] = useState<any>(null);
+  const [children, setChildren] = useState<any[]>([]);
 
   useEffect(() => {
     // Fetch the user's children data
     const fetchChild = async () => {
       if (authContext?.userId) {
         try {
-          const data = await getUsersChildren(authContext.userId);
-          console.log('Fetched data:', data);
+          const data = await getUser(authContext.userId);
+          console.log('ChatComponent-getUser all kids:', data.children);
+          console.log('ChatComponent-getUser specific kid:', data.children[0].name);
 
-          if (data) {
-            setChild(data);
-            console.log('Child:', data);
+          if (data && data.children) {
+            setChildren(data.children);
+            console.log('Children:', data.children);
           } else {
             console.log('No child found in the response');
           }
-
         } catch (error) {
           console.error('Error fetching child data', error);
         }
@@ -94,7 +92,7 @@ const ChatComponent: React.FC = () => {
     if (loading) {
       fetchResponse();
     }
-  }, [loading, openai, userInput]);
+  }, [loading, userInput]);
 
   return (
     <main>
@@ -109,29 +107,39 @@ const ChatComponent: React.FC = () => {
         ))}
       </div>
 
+      <div className='children-container'>
+        {/* <div > */}
+        {/* <h2>Barn:</h2> */}
+        {children.length > 0 ? (
+          <ul className='ul'>
+            {children.map((child, index) => (
+              <li key={index} className='child-card' style={{ listStyle: 'none' }}>
+                <p>{child.name}</p>
+                {/* Uncomment and use these lines if you want to display more information about the child */}
+                {/* <p>Smeknamn: {child.nickName}</p>
+          <p>Kön: {child.gender}</p>
+          <p>Födelsedatum: {new Date(child.birthdate).toLocaleDateString()}</p>
+          <p className="allergies">
+            Allergier: {child.allergies.map((allergy: { name: string }, allergyIndex: number) => (
+              <span key={allergyIndex}>
+                {allergy.name}{allergyIndex < child.allergies.length - 1 ? ', ' : ''}
+              </span>
+            ))}
+          </p> */}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No child found</p>
+        )}
+      </div>
+
       <form className='user-input-container' onSubmit={handleSubmit} action=''>
         <input type='text' id='chat-input' placeholder='Ställ en fråga..' />
         <button type='submit' id='chat-submit-btn'>
           Skicka
         </button>
       </form>
-
-      <div className='children-container'>
-        <h2>Barn:</h2>
-        {child ? (
-          <ul>
-            <li>Namn: {child.name}</li>
-            <li>Smeknamn: {child.nickName}</li>
-            <li>Kön: {child.gender}</li>
-            <li>Födelsedatum: {child.birthdate}</li>
-            <li>Allergier: {child.allergies.map((allergy: { name: string }, index: number) => (
-              <span key={index}>{allergy.name}{index < child.allergies.length - 1 ? ', ' : ''}</span>
-            ))}</li>
-          </ul>
-        ) : (
-          <p>No child found</p>
-        )}
-      </div>
     </main>
   );
 };
