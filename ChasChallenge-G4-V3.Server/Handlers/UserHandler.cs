@@ -1,13 +1,16 @@
-﻿using ChasChallenge_G4_V3.Server.Models.DTOs;
+﻿using ChasChallenge_G4_V3.Server.Models;
+using ChasChallenge_G4_V3.Server.Models.DTOs;
 using ChasChallenge_G4_V3.Server.Models.ViewModels;
 using ChasChallenge_G4_V3.Server.Services;
+using System.Collections.Generic;
 
 namespace ChasChallenge_G4_V3.Server.Handlers
 {
     //Aldor nämnde att dessa inte borde vara static i lektionen 16/4? kika på det.
     public class UserHandler
     {
-          
+        /*---------------------------------------- POST -------------------------------------*/
+
         public static IResult AddChild(IUserServices userServices, string userId, ChildDto childDto)
         {
             try
@@ -21,26 +24,11 @@ namespace ChasChallenge_G4_V3.Server.Handlers
             }
         }
 
-        /*
-        public IResult AddExistingChild(IUserServices userServices, int userId, int childId)
+        public static IResult AddAllergy(IUserServices userServices, string userId, int childId, AllergyDto allergydto)
         {
             try
             {
-                userServices.AddExistingChild(userId, childId);
-            }
-            catch
-            {
-                return Result.BadRequest();
-            }
-
-        }
-        */
-
-        public static IResult AddAllergy(IUserServices userServices, int childId, AllergyDto allergydto)
-        {
-            try
-            {
-                userServices.AddAllergy(childId, allergydto);
+                userServices.AddAllergy(userId, childId, allergydto);
                 return Results.Ok();
             }
 
@@ -50,11 +38,11 @@ namespace ChasChallenge_G4_V3.Server.Handlers
             }
         }
 
-        public static IResult AddMeasurement(IUserServices userServices, int childId, MeasurementDto measurementDto)
+        public static IResult AddMeasurement(IUserServices userServices,string userId, int childId, MeasurementDto measurementDto)
         {
             try
             {
-                userServices.AddMeasurement(childId, measurementDto);
+                userServices.AddMeasurement(userId, childId, measurementDto);
                 return Results.Ok();
             }
             catch (Exception ex)
@@ -104,7 +92,20 @@ namespace ChasChallenge_G4_V3.Server.Handlers
             }
         }
 
-        public static IResult GetChildAllergies(IUserServices userServices, string userId, int childId)
+        public static IResult GetChildsMeasurements(IUserServices userServices, string userId, int childId)
+        {
+            try
+            {
+                var measurements = userServices.GetChildsMeasurements(userId, childId);
+                return Results.Json(measurements);
+            }
+            catch (Exception ex)
+            {
+                return Results.NotFound($"Exception {ex.Message}");
+            }
+        }
+
+        public static IResult GetChildsAllergies(IUserServices userServices, string userId, int childId)
         {
             try
             {
@@ -142,5 +143,48 @@ namespace ChasChallenge_G4_V3.Server.Handlers
                 return Results.NotFound($"Exception {ex.Message}");
             }
         }
+
+        /*---------------------------------------- PUT -------------------------------------*/
+
+        public static IResult UpdateAllergies(IUserServices userServices,string userId, int childId, List<AllergyDto> allergyDtos)
+        {
+            try
+            {
+                userServices.UpdateAllergies(userId, childId, allergyDtos);
+                return Results.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest($"Exception {ex.Message}");
+            }
+
+        }
+
+        public static IResult UpdateChildInfo(IUserServices userServices,string userId, int childId, ChildDto childDto)
+        {
+            try
+            {
+                userServices.UpdateChild(userId, childId, childDto);
+                return Results.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest($"Exception {ex.Message}");
+            }
+        }
+
+        public static IResult UpdateUserInfo(IUserServices userServices, string userId, UserDto userDto)
+        {
+            try
+            {
+                userServices.UpdateUser(userId, userDto);
+                return Results.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest($"Exception {ex.Message}");
+            }
+        }
+
     }
 }
