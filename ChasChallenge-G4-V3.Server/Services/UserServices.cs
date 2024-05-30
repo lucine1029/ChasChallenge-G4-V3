@@ -55,9 +55,9 @@ namespace ChasChallenge_G4_V3.Server.Services
        
        
 
-        public void AddChild(string userId, ChildDto childDto) // userId input parameters are now strings because Identity's own UserID are strings.
+        public void AddChild(string userId, ChildDto childDto) 
         {
-            User? user = _context.Users // Nicknames cannot be duplicated. How to allow nickname duplicates?
+            User? user = _context.Users 
                 .Include(u => u.Children)
                 .SingleOrDefault(u => u.Id == userId);
 
@@ -74,7 +74,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             if (user.Children
                 .Any(c => c.NickName == childDto.NickName))
             {
-                throw new Exception("Child allready added to User");
+                throw new Exception("Child already added to User");
             }
 
             Child newChild = new Child()
@@ -85,7 +85,7 @@ namespace ChasChallenge_G4_V3.Server.Services
                 birthdate = childDto.birthdate
             };
 
-            user.Children.Add(newChild);
+            user.Children?.Add(newChild);
 
             try
             {

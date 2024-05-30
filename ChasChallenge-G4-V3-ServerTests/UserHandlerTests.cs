@@ -15,6 +15,16 @@ using System.Threading.Tasks;
 
 namespace ChasChallenge_G4_V3_ServerTests
 {
+    public class TestApplicationContext : ApplicationContext
+    {
+        public TestApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
+
+        public override int SaveChanges()
+        {
+            throw new Exception("unable to save to Database");
+        }
+    }
+
     [TestClass]
     public class UserHandlerTests
     {
@@ -164,23 +174,27 @@ namespace ChasChallenge_G4_V3_ServerTests
         [ExpectedException(typeof(Exception))]
         public void AddChild_Exception_If_Cannot_Save_To_Db()
         {
-            //Skriv om den rad för rad.
+            ////Skriv om den rad för rad.
             // Arrange
-            var options = new DbContextOptionsBuilder<ApplicationContext>().UseInMemoryDatabase(databaseName: "test-db1").Options;
-            var context = new ApplicationContext(options);
-            var userStore = new UserStore<User>(context);
-            var userManager = new UserManager<User>(userStore, null, null, null, null, null, null, null, null);
+            var options = new DbContextOptionsBuilder<ApplicationContext>().UseInMemoryDatabase(databaseName: "test-db2").Options;
             var mockContext = new Mock<ApplicationContext>(options);
-            var userServices = new UserServices(userManager, context);
+            var context = new ApplicationContext(options);
+            var userStore = new UserStore<User>(mockContext.Object);
+            var userManager = new UserManager<User>(userStore, null, null, null, null, null, null, null, null);
+            var userServices = new UserServices(userManager, mockContext.Object);
 
+            mockContext.Setup(c => c.SaveChanges()).Throws(new Exception("Unable to save to Database"));
 
-            var user = new User 
-            { Id = "2",
-              FirstName = "test-name",
-              LastName = "test-lastname"
+            var user = new User
+            {
+                Id = "1",
+                FirstName = "test-name",
+                LastName = "test-lastname"
             };
             context.Users.Add(user);
             context.SaveChanges();
+            //mockContext.Setup(x => mockContext.Object.Users.Add(user));
+            //mockContext.Setup(c => c.SaveChanges());
 
             var childDto = new ChildDto
             {
@@ -191,8 +205,7 @@ namespace ChasChallenge_G4_V3_ServerTests
             };
 
             // Act
-            userServices.AddChild("2", childDto);
-            mockContext.Setup(c => c.SaveChanges()).Throws(new Exception("Unable to save to Database"));
+            userServices.AddChild("1", childDto);
         }
     }
 }
