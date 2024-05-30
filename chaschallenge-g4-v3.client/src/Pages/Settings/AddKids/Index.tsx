@@ -182,10 +182,17 @@ function KidDataForm() {
           placeholder='Smeknamn'
           {...register('nickName', { required: true })}
         />
-        <select className='select-field' {...register('gender')}>
-          <option value='Pojke'>Pojke</option>
-          <option value='Flicka'>Flicka</option>
+        <select
+          className='select-field'
+          {...register('gender')}
+          defaultValue=''
+        >
+          <option value='' disabled hidden>
+            Identitet
+          </option>
           <option value='Binär'>Binär</option>
+          <option value='Flicka'>Flicka</option>
+          <option value='Pojke'>Pojke</option>
         </select>
         <input
           className='input-field'
