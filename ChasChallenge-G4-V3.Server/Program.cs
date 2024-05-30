@@ -170,7 +170,7 @@ namespace ChasChallenge_G4_V3.Server
             });
 
             // Sean/Insomnia Test Endpoints
-            app.MapPost("/user/{userId}/child", UserHandler.AddChild).RequireAuthorization("RequireUser"); // Needed to input userId to test authorization. - Sean         
+            //app.MapPost("/user/{userId}/child", UserHandler.AddChild).RequireAuthorization("RequireUser"); // Needed to input userId to test authorization. - Sean         
             app.MapPost("/logout", LoginHandler.LogoutAsync);
             
             app.MapGet("/askDietAi/userId/childId", UserHandler.GetChildDietAi);

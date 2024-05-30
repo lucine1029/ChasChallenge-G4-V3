@@ -22,13 +22,15 @@ main {
 .chat-bubble {
   display: flex;
   align-items: start;
-  justify-content: center;
+  justify-content: start;
   flex-direction: column;
   padding: 0.2rem 0.8rem;
   width: 90%;
   border-radius: 1rem;
   margin: 0.2rem;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+
+
 
   h4 {
     margin: 0.5px;
@@ -39,14 +41,10 @@ main {
   }
   &.ai {
     background-color: #b4e0ff;
-
-    // &.loading {
-    // }
   }
 }
 
 .user-input-container {
-  //   margin-bottom: 2rem;
   background-color: white;
   border-radius: 0.8rem;
   display: flex;
@@ -91,23 +89,63 @@ main {
     flex-wrap: wrap;
   }
   .child-card {
-    // width: 90%;
     background-color: #fff;
     border-radius: 10px;
-    padding: 0.1rem 1.5rem;
-    // border: solid 1px black;
+    padding: 0.1rem 0.5rem;
     background-color: #6a62b6;
     color: white;
 
     p {
       margin: 0.5rem 0;
     }
-
-    // .allergies {
-    //   span {
-    //     display: inline-block;
-    //     margin-right: 0.5rem;
-    //   }
-    // }
   }
+  .child-card.clicked {
+    background-color: #3f3b6d;
+  }
+}
+
+/* styles for modal */
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  border-radius: 20px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  background-color: #6a62b6;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.accordion-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: red;
+  margin-left: 5px;
 }

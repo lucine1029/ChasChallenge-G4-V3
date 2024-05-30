@@ -1,16 +1,16 @@
-import { useState, useEffect, useContext } from 'react';
 import OpenAI from 'openai';
-import ChatBubble from './ChatBubbles';
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { IoIosArrowDown } from 'react-icons/io';
 import { AuthContext } from '../../ResusableComponents/AuthContext';
+import ChildAccordion from '../../ResusableComponents/ChildModal';
 import { getUser } from '../../ResusableComponents/Requests/userRequest';
+import ChatBubble from './ChatBubbles';
 
 import '../../scss/style.scss';
 
-// Authentication with API key, create your own .env file to use.
 const openai = new OpenAI({
   apiKey: import.meta.env.VITE_OPENAI_API_KEY as string,
-  dangerouslyAllowBrowser: true, // Only used during dev, accept the risks of client-based requests.
+  dangerouslyAllowBrowser: true,
 });
 
 const ChatComponent: React.FC = () => {
@@ -19,19 +19,17 @@ const ChatComponent: React.FC = () => {
   const [userInput, setUserInput] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [children, setChildren] = useState<any[]>([]);
+  const [clickedCardIndex, setClickedCardIndex] = useState<number | null>(null);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [selectedChild, setSelectedChild] = useState<any>(null);
 
   useEffect(() => {
-    // Fetch the user's children data
     const fetchChild = async () => {
       if (authContext?.userId) {
         try {
           const data = await getUser(authContext.userId);
-          console.log('ChatComponent-getUser all kids:', data.children);
-          console.log('ChatComponent-getUser specific kid:', data.children[0].name);
-
           if (data && data.children) {
             setChildren(data.children);
-            console.log('Children:', data.children);
           } else {
             console.log('No child found in the response');
           }
@@ -40,9 +38,19 @@ const ChatComponent: React.FC = () => {
         }
       }
     };
-
     fetchChild();
   }, [authContext]);
+
+  const calculateAge = (birthdate: string) => {
+    const birthDate = new Date(birthdate);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -50,19 +58,21 @@ const ChatComponent: React.FC = () => {
       '#chat-input'
     );
     const input = inputElement?.value || '';
-
-    if (input) {
-      setUserInput(input);
-      console.log(`User Input: ${input}`);
-
-      const newMessage = {
+    if (input && clickedCardIndex !== null) {
+      const selectedChild = children[clickedCardIndex];
+      const childName = selectedChild.name;
+      const childAge = calculateAge(selectedChild.birthdate);
+      const allergies = selectedChild.allergies
+        .map((allergy: { name: string }) => allergy.name)
+        .join(', ');
+      const combinedInput = `${input}. Child's name: ${childName}. Age: ${childAge}. Allergies: ${allergies}`;
+      const displayMessage = {
         role: 'user',
         content: input,
       };
-
-      setMessages((prevMessages) => [...prevMessages, newMessage]);
+      setMessages((prevMessages) => [...prevMessages, displayMessage]);
+      setUserInput(combinedInput);
       setLoading(true);
-
       if (inputElement) {
         inputElement.value = '';
       }
@@ -71,28 +81,51 @@ const ChatComponent: React.FC = () => {
 
   useEffect(() => {
     async function fetchResponse() {
-      if (userInput.trim() !== '') {
+      if (userInput.trim() !== '' && clickedCardIndex !== null) {
+        const selectedChild = children[clickedCardIndex];
+        const childName = selectedChild.name;
+        const childAge = calculateAge(selectedChild.birthdate);
+        const allergies = selectedChild.allergies
+          .map((allergy: { name: string }) => allergy.name)
+          .join(', ');
+        const systemMessage = `The selected child's name is ${childName}, they are ${childAge} years old, and have the following allergies: ${allergies}.`;
         const completion = await openai.chat.completions.create({
           messages: [
-            { role: 'system', content: '' },
+            { role: 'system', content: systemMessage },
             { role: 'user', content: userInput },
           ],
           model: 'gpt-3.5-turbo',
         });
-        console.log(completion);
-
         if (completion.choices[0].message.content !== null) {
           const aiResponse = completion.choices[0].message.content;
-          setMessages((prevMessages) => [...prevMessages, { role: 'ai', content: aiResponse }]);
+          const responseWithChildInfo = `${childName}, ${childAge} år: ${aiResponse}`;
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { role: 'ai', content: responseWithChildInfo },
+          ]);
           setLoading(false);
         }
       }
     }
-
     if (loading) {
       fetchResponse();
     }
-  }, [loading, userInput]);
+  }, [loading, userInput, children, clickedCardIndex]);
+
+  const handleCardClick = (index: number) => {
+    setClickedCardIndex(index);
+    console.log('Selected child name:', children[index].name);
+    console.log('Selected child id:', children[index].id);
+  };
+
+  const openModal = (child: any) => {
+    setSelectedChild(child);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <main>
@@ -108,24 +141,24 @@ const ChatComponent: React.FC = () => {
       </div>
 
       <div className='children-container'>
-        {/* <div > */}
-        {/* <h2>Barn:</h2> */}
         {children.length > 0 ? (
           <ul className='ul'>
             {children.map((child, index) => (
-              <li key={index} className='child-card' style={{ listStyle: 'none' }}>
+              <li
+                key={index}
+                className={`child-card ${index === clickedCardIndex ? 'clicked' : ''} `}
+                style={{
+                  listStyle: 'none',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+                onClick={() => handleCardClick(index)}
+              >
                 <p>{child.name}</p>
-                {/* Uncomment and use these lines if you want to display more information about the child */}
-                {/* <p>Smeknamn: {child.nickName}</p>
-          <p>Kön: {child.gender}</p>
-          <p>Födelsedatum: {new Date(child.birthdate).toLocaleDateString()}</p>
-          <p className="allergies">
-            Allergier: {child.allergies.map((allergy: { name: string }, allergyIndex: number) => (
-              <span key={allergyIndex}>
-                {allergy.name}{allergyIndex < child.allergies.length - 1 ? ', ' : ''}
-              </span>
-            ))}
-          </p> */}
+                <button className='accordion-button' onClick={() => openModal(child)}>
+                  <IoIosArrowDown style={{ color: 'white' }} />
+                </button>
               </li>
             ))}
           </ul>
@@ -133,6 +166,10 @@ const ChatComponent: React.FC = () => {
           <p>No child found</p>
         )}
       </div>
+
+      {showModal && selectedChild && (
+        <ChildAccordion childData={selectedChild} closeModal={closeModal} />
+      )}
 
       <form className='user-input-container' onSubmit={handleSubmit} action=''>
         <input type='text' id='chat-input' placeholder='Ställ en fråga..' />
