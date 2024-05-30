@@ -8,7 +8,6 @@ import babyMonsters from '../../../baby-monsters.json';
 import { createUserKid } from '../../../ResusableComponents/Requests/childRequest.tsx';
 import { useAuth } from '../../../ResusableComponents/authUtils.ts';
 
-// Define the structure of a single allergy
 const allergies = [
   'Celiaki/gluten',
   'Fisk',
@@ -40,27 +39,22 @@ function FetchAvatarDropdown({ onAvatarChange }) {
     url: '',
   });
 
-  console.log(babyMonsters);
-
   useEffect(() => {
-    // Load avatars from the imported JSON file
     const avatarData = babyMonsters.map((avatar) => ({
       filename: avatar.filename,
       url: avatar.url,
       id: avatar.id,
     }));
-    console.log(avatarData);
     setAvatars(avatarData);
   }, []);
 
   const handleSelect = (avatar) => {
     setSelectedAvatar(avatar);
     onAvatarChange(avatar.url);
-    setIsModalOpen(false); // Close modal after selection
+    setIsModalOpen(false);
   };
 
   const openModal = () => setIsModalOpen(true);
-  //const closeModal = () => setIsModalOpen(false);
 
   return (
     <div className='avatar-dropdown'>
@@ -109,12 +103,12 @@ function AllergiesDropdown() {
 
   const onSelect = (selectedList) => {
     setSelectedValues(selectedList);
-    setValue('allergies', selectedList);
+    setValue('allergies', selectedList); // Set selected allergies
   };
 
   const onRemove = (selectedList) => {
     setSelectedValues(selectedList);
-    setValue('allergies', selectedList);
+    setValue('allergies', selectedList); // Set selected allergies
   };
 
   return (
@@ -131,39 +125,42 @@ function AllergiesDropdown() {
   );
 }
 
-function ChildDataForm() {
+function KidDataForm() {
   const { userId } = useAuth();
+  console.log(userId);
+
   const methods = useForm({
     defaultValues: {
-      name: '', // Add default value for name
-      nickName: '', // Add default value for nickName
-      gender: '', // Add default value for gender
-      imageSource: '', // Add default value for imageSource
-      birthDate: '', // Add default value for birthDate
-      allergies: [], // Initialize allergies as an array
+      name: '',
+      nickName: '',
+      gender: '',
+      imageSource: '',
+      birthdate: '',
+      allergies: [], // Include allergies in the form, but we won't send it in the request
     },
   });
 
-  const { register, handleSubmit, setValue, watch } = methods;
+  const { register, handleSubmit, setValue } = methods;
 
   const onSubmit = async (data) => {
-    // Transforming the allergies data from object to array
-    const selectedAllergies = Object.entries(data.allergies)
-      .filter(([key, value]) => value)
-      .map(([key]) => key);
-    const kidData = {
+    const { allergies, ...kidDataWithoutAllergies } = {
       ...data,
-      allergies: selectedAllergies,
-      imageSource: data.imageSource,
+      birthdate: new Date(data.birthdate).toISOString(), // Ensure date format is correct
     };
 
-    console.log('Data being sent to the server:', kidData);
+    console.log(
+      'Data being sent to the server:',
+      JSON.stringify(kidDataWithoutAllergies, null, 2)
+    );
 
     try {
-      const response = await createUserKid(userId, kidData);
+      const response = await createUserKid(userId, kidDataWithoutAllergies);
       console.log('Response:', response);
     } catch (error) {
-      console.error('Failed to create child:', error);
+      console.error(
+        'Failed to create child:',
+        error.response ? error.response.data : error.message
+      );
     }
   };
 
@@ -171,13 +168,19 @@ function ChildDataForm() {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FetchAvatarDropdown
-          onAvatarChange={(url) => setValue('avatar', url)}
+          onAvatarChange={(url) => setValue('imageSource', url)} // Correct field name to imageSource
         />
         <input
           className='input-field'
           type='text'
-          placeholder='Förnamn / smeknamn'
+          placeholder='Förnamn'
           {...register('name', { required: true })}
+        />
+        <input
+          className='input-field'
+          type='text'
+          placeholder='Smeknamn'
+          {...register('nickName', { required: true })}
         />
         <select className='select-field' {...register('gender')}>
           <option value='Pojke'>Pojke</option>
@@ -188,9 +191,9 @@ function ChildDataForm() {
           className='input-field'
           type='date'
           placeholder='Födelsedatum'
-          {...register('birthDate')}
+          {...register('birthdate')}
         />
-        <AllergiesDropdown register={register} />
+        <AllergiesDropdown />
         <Button>Spara barn</Button>
       </form>
     </FormProvider>
@@ -202,7 +205,7 @@ export default function AddKidsPage() {
     <>
       <HeaderWithBackButton title='Lägg till barn' />
       <main>
-        <ChildDataForm />
+        <KidDataForm />
       </main>
     </>
   );

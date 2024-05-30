@@ -29,8 +29,11 @@ export const getUsersChildren = async (userId: string) => {
 //  "birthdate": "2024-05-29T12:13:40.832Z"
 // }' */
 
+// API:
 export const createUserKid = async (userId, kidData) => {
-  const url = `${BASE_URL}/user/${userId}/child`;
+  const url = `${BASE_URL}/user:${userId}/child`;
+  console.log(url);
+
   try {
     const response = await axios.post(url, kidData, {
       headers: {
@@ -40,7 +43,10 @@ export const createUserKid = async (userId, kidData) => {
     });
     return response.data;
   } catch (error) {
-    console.error('Error creating child:', error);
+    console.error(
+      'Error creating child:',
+      error.response ? error.response.data : error.message
+    );
     throw error; // Re-throw the error to handle it in the calling function if needed
   }
 };
