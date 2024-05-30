@@ -92,7 +92,20 @@ namespace ChasChallenge_G4_V3.Server.Handlers
             }
         }
 
-        public static IResult GetChildAllergies(IUserServices userServices, string userId, int childId)
+        public static IResult GetChildsMeasurements(IUserServices userServices, string userId, int childId)
+        {
+            try
+            {
+                var measurements = userServices.GetChildsMeasurements(userId, childId);
+                return Results.Json(measurements);
+            }
+            catch (Exception ex)
+            {
+                return Results.NotFound($"Exception {ex.Message}");
+            }
+        }
+
+        public static IResult GetChildsAllergies(IUserServices userServices, string userId, int childId)
         {
             try
             {

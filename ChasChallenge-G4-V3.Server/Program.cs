@@ -128,7 +128,7 @@ namespace ChasChallenge_G4_V3.Server
 
             //Post
             //app.MapPost("/user", UserHandler.AddUser);
-            app.MapPost("/user:{userId}/child", UserHandler.AddChild).RequireAuthorization();
+            app.MapPost("/user:{userId}/child", UserHandler.AddChild);
             app.MapPost("/user:{userId}/child:{childId}/allergy", UserHandler.AddAllergy);
             app.MapPost("/user:{userId}/child:{childId}/measurement", UserHandler.AddMeasurement);
 
@@ -153,7 +153,8 @@ namespace ChasChallenge_G4_V3.Server
             //Gets
             app.MapGet("/user:{userId}", UserHandler.GetUser);
             app.MapGet("/user:{userId}/child:{childId}", UserHandler.GetChildofUser);
-            app.MapGet("/user:{userId}/child:{childId}/allergies", UserHandler.GetChildAllergies);
+            app.MapGet("/user:{userId}/child:{childId}/allergies", UserHandler.GetChildsAllergies);
+            app.MapGet("/user:{userId}/child:{childId}/measurements", UserHandler.GetChildsMeasurements);
             app.MapGet("/user:{userId}/allchildren/allergies", UserHandler.GetAllChildrensAllergies);
             app.MapGet("/allusers", UserHandler.GetAllUsers)/*.RequireAuthorization("RequireAdmin")*/;
 
