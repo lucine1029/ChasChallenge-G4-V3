@@ -35,6 +35,8 @@ namespace ChasChallenge_G4_V3.Server.Services
 
         List<AllergyViewModel> GetChildsAllergies(string userId, int childId);
 
+        List<MeasurementViewModel> GetChildsMeasurements(string userId, int childId);
+
         List<AllergyViewModel> GetAllChildrensAllergies(string userId);
 
         Task<string> GetChildDietAi(string parentId, int childId, string food);
@@ -302,6 +304,36 @@ namespace ChasChallenge_G4_V3.Server.Services
             catch
             {
                 throw new Exception("unable to save to Database");
+            }
+        }
+
+        public List<MeasurementViewModel> GetChildsMeasurements(string userId, int childId)
+        {
+            var child = _context.Children
+                .Where(c => c.Id == childId)
+                .Include(m => m.Measurements)
+                .SingleOrDefault();
+
+            if(child == null)
+            {
+                throw new Exception("Child not found.");
+            }
+            else
+            {
+                List<MeasurementViewModel> measurementViewModels = new List<MeasurementViewModel>();
+
+                foreach (var m in child.Measurements)
+                {
+                    measurementViewModels.Add(new MeasurementViewModel()
+                    {
+                        Id = m.Id,
+                        DateOfMeasurement = m.DateOfMeasurement,
+                        Weight = m.Weight,
+                        Height = m.Height,
+                        HeadCircumference = m.HeadCircumference
+                    });
+                }
+                return measurementViewModels;
             }
         }
 

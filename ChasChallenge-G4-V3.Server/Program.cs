@@ -153,7 +153,8 @@ namespace ChasChallenge_G4_V3.Server
             //Gets
             app.MapGet("/user:{userId}", UserHandler.GetUser);
             app.MapGet("/user:{userId}/child:{childId}", UserHandler.GetChildofUser);
-            app.MapGet("/user:{userId}/child:{childId}/allergies", UserHandler.GetChildAllergies);
+            app.MapGet("/user:{userId}/child:{childId}/allergies", UserHandler.GetChildsAllergies);
+            app.MapGet("/user:{userId}/child:{childId}/measurements", UserHandler.GetChildsMeasurements);
             app.MapGet("/user:{userId}/allchildren/allergies", UserHandler.GetAllChildrensAllergies);
             app.MapGet("/allusers", UserHandler.GetAllUsers)/*.RequireAuthorization("RequireAdmin")*/;
 
