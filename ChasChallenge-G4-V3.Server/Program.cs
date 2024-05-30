@@ -128,7 +128,7 @@ namespace ChasChallenge_G4_V3.Server
 
             //Post
             //app.MapPost("/user", UserHandler.AddUser);
-            app.MapPost("/user:{userId}/child", UserHandler.AddChild).RequireAuthorization();
+            app.MapPost("/user:{userId}/child", UserHandler.AddChild);
             app.MapPost("/user:{userId}/child:{childId}/allergy", UserHandler.AddAllergy);
             app.MapPost("/user:{userId}/child:{childId}/measurement", UserHandler.AddMeasurement);
 
