@@ -4,48 +4,27 @@ import { getUser } from '../../../ResusableComponents/Requests/userRequest';
 import { LiaEllipsisHSolid, LiaEdit, LiaTrashAlt } from 'react-icons/lia';
 import '../../../scss/Sass-Pages/_KidsList.scss';
 import { useAuth } from '../../../ResusableComponents/authUtils';
-import AddKidsPage from '../AddKids/Index';
-import { updateUserKid } from '../../../ResusableComponents/Requests/childRequest';
 
-export default function KidsList() {
+export default function KidsList({ onEditClick }) {
   const [kids, setKids] = useState([]);
   const { userId } = useAuth();
-  const [editingKid, setEditingKid] = useState(null);
+  const [refresh, setRefresh] = useState(false); // State to trigger rerender
+
+  const fetchData = async () => {
+    try {
+      const userData = await getUser(userId);
+      setKids(userData.children);
+      console.log(userData.children);
+    } catch (error) {
+      console.error('Error fetching user data', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userData = await getUser(userId);
-        setKids(userData.children);
-        console.log(userData.children);
-      } catch (error) {
-        console.error('Error fetching user data', error);
-      }
-    };
     if (userId) {
       fetchData();
     }
-  }, [userId]);
-
-  const handleEditClick = (kid) => {
-    setEditingKid(kid);
-  };
-
-  const handleSave = async (userId, kidId, updatedData) => {
-    await updateUserKid(userId, kidId, updatedData);
-    setEditingKid(null); // Close the editing form
-    // Optionally, re-fetch the kids list to update the UI
-  };
-
-  if (editingKid) {
-    return (
-      <AddKidsPage
-        defaultValues={editingKid}
-        isEditing={true}
-        onSave={handleSave}
-      />
-    );
-  }
+  }, [userId, refresh]); // Add refresh to dependencies to refetch data
 
   return (
     <ul className='manage-kids'>
@@ -54,14 +33,14 @@ export default function KidsList() {
           key={index}
           kid={{
             id: kid.id,
-            image: kid.imageSource,
-            firstName: kid.name,
+            imageSource: kid.imageSource,
+            name: kid.name,
             nickName: kid.nickName || '',
             birthdate: new Date(kid.birthdate).toLocaleDateString('sv-SE'),
             gender: kid.gender,
             allergies: kid.allergies || [],
           }}
-          onEditClick={handleEditClick}
+          onEditClick={onEditClick}
         />
       ))}
     </ul>
@@ -89,11 +68,11 @@ function Kid({ kid, onEditClick }) {
       </div>
       <div className='row row-divider'>
         <div className='avatar-container'>
-          <img className='avatar' src={kid.image} />
+          <img className='avatar' src={kid.imageSource} />
         </div>
 
         <div>
-          <h3>{kid.firstName}</h3>
+          <h3>{kid.name}</h3>
           <p>
             {kid.gender}, född {kid.birthdate}.
           </p>

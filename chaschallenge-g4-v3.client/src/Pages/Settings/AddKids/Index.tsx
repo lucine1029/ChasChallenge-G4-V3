@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import HeaderWithBackButton from '../../../ResusableComponents/HeaderWithBackButton.tsx';
 import '../../../scss/Sass-Pages/_AddKidsPage.scss';
@@ -130,7 +131,7 @@ function AllergiesDropdown({ defaultAllergies }) {
 
 function KidDataForm({ defaultValues, isEditing, onSave }) {
   const { userId } = useAuth();
-
+  const navigate = useNavigate();
   const methods = useForm({
     defaultValues: defaultValues || {
       name: '',
@@ -141,8 +142,13 @@ function KidDataForm({ defaultValues, isEditing, onSave }) {
       allergies: [], // Include allergies in the form, but we won't send it in the request
     },
   });
+  const { register, handleSubmit, setValue, reset } = methods;
 
-  const { register, handleSubmit, setValue } = methods;
+  useEffect(() => {
+    if (defaultValues) {
+      reset(defaultValues);
+    }
+  }, [defaultValues, reset]);
 
   const onSubmit = async (data) => {
     const { allergies, ...kidDataWithoutAllergies } = {
@@ -160,6 +166,7 @@ function KidDataForm({ defaultValues, isEditing, onSave }) {
         await onSave(userId, defaultValues.id, kidDataWithoutAllergies);
       } else {
         await createUserKid(userId, kidDataWithoutAllergies);
+        navigate('/settings/kids');
       }
     } catch (error) {
       console.error(
@@ -206,8 +213,10 @@ function KidDataForm({ defaultValues, isEditing, onSave }) {
           placeholder='Födelsedatum'
           {...register('birthdate')}
         />
-        <AllergiesDropdown defaultAllergies={defaultValues?.allergies} />
-        <Button>Spara barn</Button>
+        <AllergiesDropdown
+          defaultAllergies={defaultValues?.allergies.map((a) => a.name)}
+        />
+        <Button>{isEditing ? 'Spara' : 'Lägg till barn'}</Button>
       </form>
     </FormProvider>
   );
