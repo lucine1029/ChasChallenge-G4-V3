@@ -119,8 +119,6 @@
 
 // export default changePassword;
 
-
-
 // import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { useEffect, useState } from 'react';
@@ -133,7 +131,6 @@
 //   const [showPassword, setShowPassword] = useState(false);
 //   const [userFirstName, setUserFirstName] = useState('');
 //   const [userLastName, setUserLastName] = useState('');
-//   const [userEmail, setUserEmail] = useState('');
 //   const [password, setPassword] = useState('');
 //   const [confirmPassword, setConfirmPassword] = useState('');
 //   const { userId } = useAuth();
@@ -149,23 +146,26 @@
 //           console.log('User data:', user);
 //           setUserFirstName(user.firstName); // Assuming the user object has 'firstName' and 'lastName' properties
 //           setUserLastName(user.lastName); // Assuming the user object has 'firstName' and 'lastName' properties
-//           setUserEmail(user.email);
 //         })
 //         .catch((err) => {
 //           console.error('Failed to fetch user:', err);
 //         });
+//     } else {
+//       // Handle the case where userId is null, perhaps by redirecting the user to a login page or displaying an error message
+//       console.error('userId is null');
 //     }
 //   }, [userId]);
+  
 
-//   const handlePasswordChange = (event) => {
+//   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 //     setPassword(event.target.value);
 //   };
 
-//   const handleConfirmPasswordChange = (event) => {
+//   const handleConfirmPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 //     setConfirmPassword(event.target.value);
 //   };
 
-//   const handleSubmit = async (event) => {
+//   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 //     event.preventDefault();
 //     if (password !== confirmPassword) {
 //       alert('Passwords do not match');
@@ -186,7 +186,7 @@
 
 //   return (
 //     <>
-//       <HeaderWithBackButton title="Uppdatera lösenord" />
+//       <HeaderWithBackButton title="Uppdatera lösenord" customBackAction={() => {}} isSettingsPage={false} />
 //       <div className="user-settings-container">
 //         <div className="user-name">{`${userFirstName} ${userLastName}`}</div>
 //         <form className="user-settings-form" onSubmit={handleSubmit}>
