@@ -31,6 +31,7 @@ export default function KidsList() {
       try {
         const userData = await getUser(userId);
         setKids(userData.children);
+        console.log(userData.children);
       } catch (error) {
         console.error('Error fetching user data', error);
       }
@@ -47,10 +48,11 @@ export default function KidsList() {
           key={index}
           kid={{
             id: index,
-            image: 'https://img.pokemondb.net/sprites/home/normal/pikachu.png',
+            image: kid.imageSource,
             firstName: kid.name,
             birthdate: new Date(kid.birthdate).toLocaleDateString('sv-SE'),
             gender: kid.gender,
+            allergies: kid.allergies || [],
           }}
         />
       ))}
@@ -90,8 +92,15 @@ function Kid({ kid }) {
         </div>
       </div>
       <div className='row'>
-        <span className='allergy'>Allergi-1</span>
-        <span className='allergy'>Allergi-2</span>
+        {kid.allergies.length > 0 ? (
+          kid.allergies.map((allergy, index) => (
+            <span key={index} className='allergy'>
+              {allergy.name}
+            </span>
+          ))
+        ) : (
+          <span className='no-allergy'>No allergies</span>
+        )}
       </div>
     </li>
   );
