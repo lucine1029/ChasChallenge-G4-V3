@@ -1,7 +1,6 @@
-import '../../scss/Sass-Pages/_homePageTwo.scss';
-import logo from './logo.png';
 import mainImage from '../../../public/babster-stork.webp';
 import spenatmonster from '../../../public/spenatmonster.webp';
+import '../../scss/Sass-Pages/_homePageTwo.scss';
 
 export default function HomePageTwo() {
   return (

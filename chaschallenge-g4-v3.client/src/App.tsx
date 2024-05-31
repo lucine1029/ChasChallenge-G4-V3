@@ -99,7 +99,7 @@ import ManageKidsPage from './Pages/Settings/ManageKids/Index';
 import SleepTracking from './Pages/Sleep/SleepTracking';
 import SignUpPage from './Pages/UserAuthentication/SignUpPage/SignUpPage';
 import SignInPage from './Pages/UserAuthentication/SingInPage/SingInPage';
-import ChangePasswordPage from './Pages/Settings/Account/ChangePW';
+// import ChangePasswordPage from './Pages/Settings/Account/ChangePW';
 import HeadCircumference from './Pages/Measurement/Circumference/index';
 import Height from './Pages/Measurement/Length/index';
 import Weight from './Pages/Measurement/Weight/index';
@@ -139,7 +139,7 @@ function AppContent() {
           <Route path='/chat' element={<ChatbotPage />} />
           <Route path='/settings' element={<SettingsPage />} />
           <Route path='/settings/account' element={<AccountPage />} />
-          <Route path='/settings/changePW' element={<ChangePasswordPage />} />
+          {/* <Route path='/settings/changePW' element={<ChangePasswordPage />} /> */}
           <Route path='/settings/kids' element={<ManageKidsPage />} />
           <Route path='/settings/kids/add' element={<AddKidsPage />} />
           <Route path='/sleeptracking' element={<SleepTracking />} />

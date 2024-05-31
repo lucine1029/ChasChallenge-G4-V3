@@ -5,7 +5,12 @@ import KidsList from './KidsList.tsx';
 import AddKidsPage from '../AddKids/Index';
 import { updateUserKid } from '../../../ResusableComponents/Requests/childRequest';
 
-function Button({ children, onClick }) {
+interface ButtonProps {
+  children: React.ReactNode;
+  onClick: () => void;
+}
+
+function Button({ children, onClick }: ButtonProps) {
   return <button onClick={onClick}>{children}</button>;
 }
 
@@ -13,6 +18,7 @@ export default function ManageKidsPage() {
   const navigate = useNavigate();
   const [editingKid, setEditingKid] = useState(null);
 
+  const handleAddChildClick = () => {
   const handleAddChildClick = () => {
     navigate('/settings/kids/add');
   };
