@@ -1,23 +1,32 @@
-import HeaderWithBackButton from '../../../ResusableComponents/HeaderWithBackButton.tsx';
-import KidsList from './KidsList.tsx';
+import HeaderWithBackButton from '../../../ResusableComponents/HeaderWithBackButton';
+import KidsList from './KidsList';
 import { useNavigate } from 'react-router-dom';
 
-function Button({ children, onClick }) {
+interface ButtonProps {
+  children: React.ReactNode;
+  onClick: () => void;
+}
+
+function Button({ children, onClick }: ButtonProps) {
   return <button onClick={onClick}>{children}</button>;
 }
 
 export default function ManageKidsPage() {
   const navigate = useNavigate();
 
-  const handleAddchildClick = () => {
+  const handleAddChildClick = () => {
     navigate('/settings/kids/add');
   };
 
   return (
     <>
-      <HeaderWithBackButton title='Barn' />
+      <HeaderWithBackButton
+        title='Barn'
+        customBackAction={() => navigate(-1)} // Provide custom back action
+        isSettingsPage={true} // Assuming this is a settings page
+      />
       <KidsList />
-      <Button onClick={handleAddchildClick}>Lägg till barn</Button>
+      <Button onClick={handleAddChildClick}>Lägg till barn</Button>
     </>
   );
 }
