@@ -1,5 +1,6 @@
+
 import OpenAI from 'openai';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 import { AuthContext } from '../../ResusableComponents/AuthContext';
 import ChildAccordion from '../../ResusableComponents/ChildModal';
@@ -22,6 +23,7 @@ const ChatComponent: React.FC = () => {
   const [clickedCardIndex, setClickedCardIndex] = useState<number | null>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedChild, setSelectedChild] = useState<any>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchChild = async () => {
@@ -40,6 +42,12 @@ const ChatComponent: React.FC = () => {
     };
     fetchChild();
   }, [authContext]);
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   const calculateAge = (birthdate: string) => {
     const birthDate = new Date(birthdate);
@@ -129,7 +137,7 @@ const ChatComponent: React.FC = () => {
 
   return (
     <main>
-      <div className='ai-chat-container'>
+      <div className='ai-chat-container' ref={chatContainerRef}>
         {messages.map((message, index) => (
           <ChatBubble
             key={index}
@@ -172,7 +180,7 @@ const ChatComponent: React.FC = () => {
       )}
 
       <form className='user-input-container' onSubmit={handleSubmit} action=''>
-        <input type='text' id='chat-input' placeholder='Ställ en fråga..' />
+        <input type='text' id='chat-input' placeholder='Kan mitt barn äta..' />
         <button type='submit' id='chat-submit-btn'>
           Skicka
         </button>

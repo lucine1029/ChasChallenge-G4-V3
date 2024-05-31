@@ -16,7 +16,8 @@ main {
   justify-content: start;
   align-items: center;
   flex-direction: column;
-  overflow-y: scroll;
+  overflow-y: auto;
+  scroll-behavior: smooth; // Add smooth scrolling
 }
 
 .chat-bubble {
@@ -29,8 +30,6 @@ main {
   border-radius: 1rem;
   margin: 0.2rem;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-
-
 
   h4 {
     margin: 0.5px;
