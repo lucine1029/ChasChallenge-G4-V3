@@ -4,27 +4,13 @@ import { getUser } from '../../../ResusableComponents/Requests/userRequest';
 import { LiaEllipsisHSolid, LiaEdit, LiaTrashAlt } from 'react-icons/lia';
 import '../../../scss/Sass-Pages/_KidsList.scss';
 import { useAuth } from '../../../ResusableComponents/authUtils';
-
-const initialChildren = [
-  {
-    id: 118836,
-    image: 'https://img.pokemondb.net/sprites/home/normal/charmander.png',
-    firstName: 'Zoro',
-    birthdate: '14 january, 2022',
-    sex: 'Pojke',
-  },
-  {
-    id: 118846,
-    image: 'https://img.pokemondb.net/sprites/home/normal/wartortle.png',
-    firstName: 'Zara',
-    birthdate: '12 juni, 2020',
-    sex: 'Flicka',
-  },
-];
+import AddKidsPage from '../AddKids/Index';
+import { updateUserKid } from '../../../ResusableComponents/Requests/childRequest';
 
 export default function KidsList() {
   const [kids, setKids] = useState([]);
   const { userId } = useAuth();
+  const [editingKid, setEditingKid] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,26 +27,48 @@ export default function KidsList() {
     }
   }, [userId]);
 
+  const handleEditClick = (kid) => {
+    setEditingKid(kid);
+  };
+
+  const handleSave = async (userId, kidId, updatedData) => {
+    await updateUserKid(userId, kidId, updatedData);
+    setEditingKid(null); // Close the editing form
+    // Optionally, re-fetch the kids list to update the UI
+  };
+
+  if (editingKid) {
+    return (
+      <AddKidsPage
+        defaultValues={editingKid}
+        isEditing={true}
+        onSave={handleSave}
+      />
+    );
+  }
+
   return (
     <ul className='manage-kids'>
       {kids.map((kid, index) => (
         <Kid
           key={index}
           kid={{
-            id: index,
+            id: kid.id,
             image: kid.imageSource,
             firstName: kid.name,
+            nickName: kid.nickName || '',
             birthdate: new Date(kid.birthdate).toLocaleDateString('sv-SE'),
             gender: kid.gender,
             allergies: kid.allergies || [],
           }}
+          onEditClick={handleEditClick}
         />
       ))}
     </ul>
   );
 }
 
-function Kid({ kid }) {
+function Kid({ kid, onEditClick }) {
   const [showMenu, setShowMenu] = useState(false);
   const toggleMenu = () => setShowMenu(!showMenu);
 
@@ -70,7 +78,7 @@ function Kid({ kid }) {
         <LiaEllipsisHSolid onClick={toggleMenu} />
         {showMenu && (
           <ul className='menu'>
-            <li onClick={() => console.log('Edit:', kid.id)}>
+            <li onClick={() => onEditClick(kid)}>
               <LiaEdit /> Edit
             </li>
             <li onClick={() => console.log('Remove:', kid.id)}>
@@ -99,7 +107,7 @@ function Kid({ kid }) {
             </span>
           ))
         ) : (
-          <span className='no-allergy'>No allergies</span>
+          <span className='no-allergy'>Inga allergier</span>
         )}
       </div>
     </li>

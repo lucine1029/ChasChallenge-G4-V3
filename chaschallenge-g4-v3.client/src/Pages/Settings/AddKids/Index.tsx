@@ -5,7 +5,10 @@ import HeaderWithBackButton from '../../../ResusableComponents/HeaderWithBackBut
 import '../../../scss/Sass-Pages/_AddKidsPage.scss';
 import { Multiselect } from 'multiselect-react-dropdown';
 import babyMonsters from '../../../baby-monsters.json';
-import { createUserKid } from '../../../ResusableComponents/Requests/childRequest.tsx';
+import {
+  createUserKid,
+  updateUserKid,
+} from '../../../ResusableComponents/Requests/childRequest.tsx';
 import { useAuth } from '../../../ResusableComponents/authUtils.ts';
 
 const allergies = [
@@ -31,12 +34,12 @@ function Button({ onClick, children }) {
   return <button onClick={onClick}>{children}</button>;
 }
 
-function FetchAvatarDropdown({ onAvatarChange }) {
+function FetchAvatarDropdown({ onAvatarChange, defaultAvatar }) {
   const [avatars, setAvatars] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState({
     filename: '',
-    url: '',
+    url: defaultAvatar || '',
   });
 
   useEffect(() => {
@@ -97,9 +100,9 @@ function FetchAvatarDropdown({ onAvatarChange }) {
   );
 }
 
-function AllergiesDropdown() {
+function AllergiesDropdown({ defaultAllergies }) {
   const { setValue } = useFormContext();
-  const [selectedValues, setSelectedValues] = useState([]);
+  const [selectedValues, setSelectedValues] = useState(defaultAllergies || []);
 
   const onSelect = (selectedList) => {
     setSelectedValues(selectedList);
@@ -125,12 +128,11 @@ function AllergiesDropdown() {
   );
 }
 
-function KidDataForm() {
+function KidDataForm({ defaultValues, isEditing, onSave }) {
   const { userId } = useAuth();
-  console.log(userId);
 
   const methods = useForm({
-    defaultValues: {
+    defaultValues: defaultValues || {
       name: '',
       nickName: '',
       gender: '',
@@ -154,11 +156,14 @@ function KidDataForm() {
     );
 
     try {
-      const response = await createUserKid(userId, kidDataWithoutAllergies);
-      console.log('Response:', response);
+      if (isEditing) {
+        await onSave(userId, defaultValues.id, kidDataWithoutAllergies);
+      } else {
+        await createUserKid(userId, kidDataWithoutAllergies);
+      }
     } catch (error) {
       console.error(
-        'Failed to create child:',
+        'Failed to save child:',
         error.response ? error.response.data : error.message
       );
     }
@@ -169,6 +174,7 @@ function KidDataForm() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <FetchAvatarDropdown
           onAvatarChange={(url) => setValue('imageSource', url)} // Correct field name to imageSource
+          defaultAvatar={defaultValues?.imageSource}
         />
         <input
           className='input-field'
@@ -185,7 +191,7 @@ function KidDataForm() {
         <select
           className='select-field'
           {...register('gender')}
-          defaultValue=''
+          defaultValue={defaultValues?.gender || ''}
         >
           <option value='' disabled hidden>
             Identitet
@@ -200,19 +206,25 @@ function KidDataForm() {
           placeholder='Födelsedatum'
           {...register('birthdate')}
         />
-        <AllergiesDropdown />
+        <AllergiesDropdown defaultAllergies={defaultValues?.allergies} />
         <Button>Spara barn</Button>
       </form>
     </FormProvider>
   );
 }
 
-export default function AddKidsPage() {
+export default function AddKidsPage({ defaultValues, isEditing, onSave }) {
   return (
     <>
-      <HeaderWithBackButton title='Lägg till barn' />
+      <HeaderWithBackButton
+        title={isEditing ? 'Uppdatera barn' : 'Lägg till barn'}
+      />
       <main>
-        <KidDataForm />
+        <KidDataForm
+          defaultValues={defaultValues}
+          isEditing={isEditing}
+          onSave={onSave}
+        />
       </main>
     </>
   );

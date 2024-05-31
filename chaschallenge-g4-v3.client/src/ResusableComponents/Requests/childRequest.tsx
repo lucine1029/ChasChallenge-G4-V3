@@ -50,3 +50,22 @@ export const createUserKid = async (userId, kidData) => {
     throw error; // Re-throw the error to handle it in the calling function if needed
   }
 };
+
+export const updateUserKid = async (userId, childId, kidData) => {
+  const url = `${BASE_URL}/user:${userId}/child:${childId}/update`;
+  try {
+    const response = await axios.put(url, kidData, {
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(
+      'Error updating child:',
+      error.response ? error.response.data : error.message
+    );
+    throw error; // Re-throw the error to handle it in the calling function if needed
+  }
+};
