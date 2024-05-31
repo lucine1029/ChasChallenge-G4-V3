@@ -19,7 +19,6 @@ export default function ManageKidsPage() {
   const [editingKid, setEditingKid] = useState(null);
 
   const handleAddChildClick = () => {
-  const handleAddChildClick = () => {
     navigate('/settings/kids/add');
   };
 
