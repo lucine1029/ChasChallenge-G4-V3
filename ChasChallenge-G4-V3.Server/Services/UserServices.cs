@@ -23,10 +23,7 @@ namespace ChasChallenge_G4_V3.Server.Services
         void AddAllergy(string userId, int childId, AllergyDto allergyDto);
         void UpdateAllergies(string userId, int childId, List<AllergyDto> allergyDto);
         void AddMeasurement(string userId, int childId, MeasurementDto measurementDto);
-
-        
-     
-
+    
         UserViewModel GetUser(string userId);
 
         List<PrintAllUsersViewModel> GetAllUsers();
@@ -463,8 +460,6 @@ namespace ChasChallenge_G4_V3.Server.Services
 
         public List<AllergyViewModel> GetChildsAllergies(string userId, int childId)
         {
-
-
             Child? child = _context.Children
                 .Where(c => c.Id == childId)
                 .Include(c => c.Allergies)

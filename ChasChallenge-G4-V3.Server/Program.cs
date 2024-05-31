@@ -156,7 +156,7 @@ namespace ChasChallenge_G4_V3.Server
             app.MapGet("/user:{userId}/child:{childId}/allergies", UserHandler.GetChildsAllergies);
             app.MapGet("/user:{userId}/child:{childId}/measurements", UserHandler.GetChildsMeasurements);
             app.MapGet("/user:{userId}/allchildren/allergies", UserHandler.GetAllChildrensAllergies);
-            app.MapGet("/allusers", UserHandler.GetAllUsers)/*.RequireAuthorization("RequireAdmin")*/;
+            app.MapGet("/allusers", UserHandler.GetAllUsers);
 
             //Puts
             app.MapPut("/user:{userId}/update", UserHandler.UpdateUserInfo);
@@ -169,8 +169,7 @@ namespace ChasChallenge_G4_V3.Server
                 return await EmailServiceHandler.ConfirmEmailAsync(userId, token, userManager);
             });
 
-            // Sean/Insomnia Test Endpoints
-            //app.MapPost("/user/{userId}/child", UserHandler.AddChild).RequireAuthorization("RequireUser"); // Needed to input userId to test authorization. - Sean         
+            // Sean/Insomnia Test EndpointsW
             app.MapPost("/logout", LoginHandler.LogoutAsync);
             
             app.MapGet("/askDietAi/userId/childId", UserHandler.GetChildDietAi);
