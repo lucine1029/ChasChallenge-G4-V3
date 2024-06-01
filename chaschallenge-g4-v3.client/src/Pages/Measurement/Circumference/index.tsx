@@ -5,6 +5,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import 'chartjs-adapter-date-fns';
 import annotationPlugin from 'chartjs-plugin-annotation';
+import HeaderWithBackButton from '../../../ResusableComponents/HeaderWithBackButton';
 import '../Measurement.css'
 
 
@@ -207,20 +208,47 @@ const HeadCircumference: React.FC = () => {
   }, [headCircumferenceData, chartKey]);
 
   return (
+
     <div className="measurement-tracking-container">
-      <h2>Huvudomfång</h2>
-      <div className="input-container">
-        <label>Vecka:</label>
+    <HeaderWithBackButton
+   title={<h2 style={{ color: '#22a3d6', fontSize: '24px' }}>Huvudomfång</h2>}
+   customBackAction={undefined}
+   isSettingsPage={undefined}
+ />
+    
+    
+      {/* <div className="input-container">
+        <label>Vecka:
+        </label>
         <input type="number" value={week} onChange={e => setWeek(e.target.value)} />
         <label>Omkrets (cm):</label>
         <input type="text" value={circumference} onChange={e => setCircumference(e.target.value)} />
         <button className="save-button" onClick={handleSaveCircumference}>Save</button>
-      </div>
+       
+      </div> */}
+      <div className="input-container">
+  <label>Vecka:</label>
+  <input
+    type="number"
+    value={week}
+    onChange={e => setWeek(e.target.value)}
+    placeholder="Ange vecka (positivt heltal)"
+  />
+  <label>Omkrets (cm):</label>
+  <input
+    type="text"
+    value={circumference}
+    onChange={e => setCircumference(e.target.value)}
+    placeholder="Ange omkrets (positivt nummer)"
+  />
+  <button className="save-button" onClick={handleSaveCircumference}>Save</button>
+</div>
+
       <div className="chart-container">
         <canvas id="headCircumferenceChart"></canvas>
       </div>
       <div className="data-list">
-        {/* <h3>Spara Data</h3> */}
+        
         <ul>
           {headCircumferenceData.map((data, index) => (
             <li key={index}>
@@ -234,6 +262,11 @@ const HeadCircumference: React.FC = () => {
 };
 
 export default HeadCircumference;
+
+
+
+ 
+
 
 
 

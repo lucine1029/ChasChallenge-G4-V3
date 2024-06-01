@@ -18,7 +18,7 @@ export default function SettingsPage() {
             <Link className='link-style card' to='circumference'>
               <FaBaby className='large-icon' /> {/* Uppdatera ikonen till FaBrain */}
               <div className='push-right'>
-                <h3>Huvudomfång</h3>
+                <h3 color=' blue'>Huvudomfång </h3>
                 <p>Visa och hantera huvudomkretskurva</p>
               </div>
               <FaAngleRight />

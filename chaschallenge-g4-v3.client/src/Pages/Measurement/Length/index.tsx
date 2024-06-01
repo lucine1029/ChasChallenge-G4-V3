@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import 'chartjs-adapter-date-fns';
+import HeaderWithBackButton from '../../../ResusableComponents/HeaderWithBackButton';
 import '../Measurement.css';
 
 interface LengthData {
@@ -194,15 +195,39 @@ const Length: React.FC = () => {
   }, [lengthData]);
 
   return (
+
     <div className="measurement-tracking-container">
-      <h2>Längd</h2>
-      <div className="input-container">
+    <HeaderWithBackButton
+   title={<h2 style={{ color: '#22a3d6', fontSize: '24px' }}>Längdkurva</h2>}
+   customBackAction={undefined}
+   isSettingsPage={undefined}
+ />
+    
+      {/* <div className="input-container">
         <label>Vecka:</label>
         <input type="number" value={week} onChange={e => setWeek(e.target.value)} />
         <label>Längd (cm):</label>
         <input type="text" value={length} onChange={e => setLength(e.target.value)} />
         <button className="save-button" onClick={handleSaveLength}>Save</button>
-      </div>
+      </div> */}
+       <div className="input-container">
+  <label>Vecka:</label>
+  <input
+    type="number"
+    value={week}
+    onChange={e => setWeek(e.target.value)}
+    placeholder="Ange vecka (positivt heltal)"
+  />
+  <label>Längd (cm):</label>
+  <input
+    type="text"
+    value={length}
+    onChange={e => setLength(e.target.value)}
+    placeholder="Ange längd (positivt nummer)"
+  />
+  <button className="save-button" onClick={handleSaveLength}>Save</button>
+</div>
+
       <div className="chart-container">
         <canvas id="lengthChart"></canvas>
       </div>

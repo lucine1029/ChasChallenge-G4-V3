@@ -1,16 +1,17 @@
 
+
 import React, { useState, useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import 'chartjs-adapter-date-fns';
-import '../Measurement.css'
-
+import HeaderWithBackButton from '../../../ResusableComponents/HeaderWithBackButton';
+import '../Measurement.css';
 
 Chart.register(annotationPlugin);
 
 interface WeightData {
   week: number;
-  weight: string;
+  weight: number;
 }
 
 interface StandardWeightData {
@@ -27,11 +28,6 @@ const Weight: React.FC = () => {
   const [chartKey, setChartKey] = useState<number>(0);
 
   const chartRef = useRef<Chart<"line"> | null>(null);
-
-  const isValidWeight = (wt: string): boolean => {
-    const regex = /^\d+(\.\d+)?kg$/;
-    return regex.test(wt);
-  };
 
   useEffect(() => {
     return () => {
@@ -75,14 +71,18 @@ const Weight: React.FC = () => {
     { week: 104, minus1SD: 10.9, normal: 15.3, plus1SD: 18.7 },
   ];
 
+  const isValidWeight = (wt: number): boolean => {
+    return wt >= 0;
+  };
+
   const handleSaveWeight = () => {
     const weekNumber = parseInt(week);
-    if (isNaN(weekNumber) || weekNumber < 0 || weekNumber > 104 || !weight || !isValidWeight(weight)) {
+    if (isNaN(weekNumber) || weekNumber < 0 || weekNumber > 104 || !weight || !isValidWeight(parseFloat(weight))) {
       alert('Please enter a valid positive weight in kg and a valid week number between 0 and 104');
       return;
     }
 
-    const newWeightData = [...weightData, { week: weekNumber, weight }];
+    const newWeightData = [...weightData, { week: weekNumber, weight: parseFloat(weight) }];
     newWeightData.sort((a, b) => a.week - b.week);
     setWeightData(newWeightData);
     setWeek('');
@@ -90,7 +90,7 @@ const Weight: React.FC = () => {
     setChartKey(prevKey => prevKey + 1);
   };
 
-  const userChartData = weightData.map(data => ({ x: data.week, y: parseFloat(data.weight) }));
+  const userChartData = weightData.map(data => ({ x: data.week, y: parseFloat(data.weight.toFixed(1)) }));
 
   const getStandardData = (key: keyof StandardWeightData) => {
     return standardWeightData.map(data => ({ x: data.week, y: data[key] }));
@@ -148,7 +148,7 @@ const Weight: React.FC = () => {
           y: {
             title: {
               display: true,
-              text: 'Vikt (kg)',
+              text: 'Weight (kg)',
             },
             min: 0,
             max: 20,
@@ -156,7 +156,7 @@ const Weight: React.FC = () => {
           x: {
             title: {
               display: true,
-              text: 'Vecka',
+              text: 'Week',
             },
             ticks: {
               stepSize: 4,
@@ -201,16 +201,51 @@ const Weight: React.FC = () => {
     };
   }, [weightData, chartKey]);
 
+  const handleWeekChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(event.target.value);
+    setWeek(isNaN(value) ? '' : Math.abs(value).toString());
+  };
+
+  const handleWeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(event.target.value);
+    setWeight(isNaN(value) ? '' : Math.abs(value).toString());
+  };
+
   return (
     <div className="measurement-tracking-container">
-      <h2>Spåra Vikt</h2>
+   <HeaderWithBackButton
+  title={<h2 style={{ color: '#22a3d6', fontSize: '24px' }}>Viktkoll</h2>}
+  customBackAction={undefined}
+  isSettingsPage={undefined}
+/>
+
+
       <div className="input-container">
-        <label htmlFor="week">Vecka:</label>
-        <input type="number" id="week" value={week} onChange={(e) => setWeek(e.target.value)} />
-        <label htmlFor="weightValue">Vikt:</label>
-        <input type="text" id="weightValue" value={weight} onChange={(e) => setWeight(e.target.value)} />
-        <button className="save-button" onClick={handleSaveWeight}>Spara</button>
+        <label htmlFor="week">Week:</label>
+        <input
+          type="number"
+          step="1"
+          id="week"
+          value={week}
+          onChange={handleWeekChange}
+          placeholder="Ange vecka (positivt heltal)"
+        />
+        <label htmlFor="weightValue">Weight:</label>
+        <div className="weight-input">
+          <input
+            type="number"
+            step="0.1"
+            id="weightValue"
+            value={weight}
+            onChange={handleWeightChange}
+            placeholder="Ange vikt (positivt nummer)"
+          />
+          <span className="unit">kg</span>
+        </div>
       </div>
+      <button className="save-button" onClick={handleSaveWeight}>
+        Save
+      </button>
       <div className="chart-container">
         <canvas id="weightChart"></canvas>
       </div>
@@ -219,5 +254,3 @@ const Weight: React.FC = () => {
 };
 
 export default Weight;
-
-

@@ -1,104 +1,20 @@
-/* .measurement-tracking-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .input-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-  }
-  
-  .input-container label {
-    flex: 0 0 100px;
-  }
-  
-  .input-container input[type="number"],
-  .input-container input[type="text"] {
-    width: 150px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .input-container input[type="text"]:focus,
-  .input-container input[type="number"]:focus {
-    outline: none;
-    border-color: #007bff;
-  }
-  
-  .save-button {
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .save-button:hover {
-    background-color: #0056b3;
-  }
-  
-  h2 {
-    margin-top: 20px;
-    margin-bottom: 10px;
-  }
-  
-  .chart-container {
-    position: relative;
-    margin-top: 20px;
-    width: 100%;
-    height: 400px;
-  }
-  
-  canvas {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-  
-  @media only screen and (max-width: 428px) {
-    .input-container {
-      flex-direction: column;
-    }
-  
-    .input-container label {
-      margin-bottom: 5px;
-    }
-  
-    .input-container input[type="number"],
-    .input-container input[type="text"] {
-      width: 100%;
-    }
-  
-    .chart-container {
-      height: 300px;
-    }
-  }
-   
- */
-
+/* 
 
 .measurement-tracking-container {
   max-width: 100%;
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
-  box-sizing: border-box; /* Added to include padding in width calculation */
+  box-sizing: border-box; 
 }
 
-/* Stilar för rubriker */
+
 h2 {
   margin-top: 20px;
   margin-bottom: 10px;
 }
 
-/* Stilar för knappen */
+
 .save-button {
   padding: 8px 16px;
   background-color: #007bff;
@@ -113,7 +29,7 @@ h2 {
   background-color: #0056b3;
 }
 
-/* Stilar för grafikbehållare */
+
 .chart-container {
   position: relative;
   margin-top: 20px;
@@ -121,7 +37,7 @@ h2 {
   height: 400px;
 }
 
-/* Stilar för listan */
+
 .data-list ul {
   list-style-type: none;
   padding: 0;
@@ -131,7 +47,7 @@ h2 {
   margin-bottom: 5px;
 }
 
-/* Stilar för height-container klassen */
+
 .height-container {
   max-width: 100%;
   margin: 0 auto;
@@ -139,7 +55,6 @@ h2 {
   font-family: Arial, sans-serif;
 }
 
-/* Stilar för input-container */
 .input-container {
   display: flex;
   flex-wrap: wrap;
@@ -147,7 +62,7 @@ h2 {
   align-items: center;
 }
 
-/* Stilar för input-fält */
+
 .input-container label {
   flex: 0 0 auto;
   margin-bottom: 5px;
@@ -155,12 +70,12 @@ h2 {
 
 .input-container input[type="number"],
 .input-container input[type="text"] {
-  width: 100%; /* Anpassad för mindre skärmar */
-  max-width: 150px; /* Anpassad för större skärmar */
+  width: 100%; 
+  max-width: 150px; 
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  box-sizing: border-box; /* Added to include padding in width calculation */
+  box-sizing: border-box; 
 }
 
 .input-container input[type="text"]:focus,
@@ -169,7 +84,7 @@ h2 {
   border-color: #007bff;
 }
 
-/* Mediaförfrågan för mindre skärmar (iPhone 12 Pro) */
+
 @media only screen and (max-width: 428px) {
   .input-container {
     flex-direction: column;
@@ -182,11 +97,121 @@ h2 {
 
   .input-container input[type="number"],
   .input-container input[type="text"] {
-    width: calc(100% - 20px); /* Anpassad för mindre skärmar */
-    max-width: none; /* Anpassad för mindre skärmar */
+    width: calc(100% - 20px); 
+    max-width: none; 
   }
 
   .chart-container {
     height: 300px;
+  }
+}
+ */
+
+ 
+ .measurement-tracking-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-container label {
+  text-align: left;
+  color: #22a3d6;
+}
+
+
+.input-container input[type="number"],
+.input-container input[type="text"] {
+  width: 100%;
+  
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.input-container input[type="text"]:focus,
+.input-container input[type="number"]:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.save-button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.save-button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(to bottom, #A35EBB, #FFA0A0);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+
+h2 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color:#22a3d6;
+}
+
+.chart-container {
+  position: relative;
+  margin-top: 20px;
+  width: 100%;
+  height: 400px;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.input-container .weight-input {
+  position: relative;
+}
+
+.input-container .unit {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  
+}
+
+
+
+@media only screen and (max-width: 428px) {
+  
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .input-container label {
+    width: 100%; 
+    margin-bottom: 5px; 
+  }
+
+  .input-container input[type="number"],
+  .input-container input[type="text"] {
+    width: calc(100% ); 
+  }
+
+  .save-button {
+    width: calc(100% - 20px); 
   }
 }

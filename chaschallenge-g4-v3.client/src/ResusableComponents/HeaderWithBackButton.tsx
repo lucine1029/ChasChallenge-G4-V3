@@ -30,7 +30,19 @@ export default function HeaderWithBackButton({
   return (
     <header className='header-with-back-button'>
       {!isSettingsPage ? (
-        <button className='back-button' onClick={handleBackClick}>
+        <button
+          className='back-button'
+          onClick={handleBackClick}
+          aria-label="Back"
+          style={{
+            background: 'none', // Transparent background
+            border: 'none', // Remove border
+            fontSize: '24px', // Adjust icon size
+            cursor: 'pointer',
+            padding: '0', // Remove padding
+            color: 'inherit', // Inherit text color
+          }}
+        >
           <LiaAngleLeftSolid />
         </button>
       ) : (
@@ -47,6 +59,4 @@ export default function HeaderWithBackButton({
     </header>
   );
 }
-
-
 
