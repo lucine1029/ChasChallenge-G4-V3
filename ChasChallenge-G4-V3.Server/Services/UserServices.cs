@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using OpenAI_API;
 using OpenAI_API.Models;
 using System;
+using System.Data;
 using System.Numerics;
 using System.Threading.Tasks;
 
@@ -52,8 +53,6 @@ namespace ChasChallenge_G4_V3.Server.Services
             _context = context;
         }
 
-       
-       
 
         public void AddChild(string userId, ChildDto childDto) 
         {
@@ -63,18 +62,17 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             if (string.IsNullOrWhiteSpace(childDto.Name))
             {
-                throw new InvalidDataException();
+                throw new InvalidDataException("Please enter userId");
             }
 
             if (user is null)
             {
-                throw new Exception("User not found.");
+                throw new UserNotFoundException("User not found!");
             }
 
-            if (user.Children
-                .Any(c => c.NickName == childDto.NickName))
+            if (user.Children.Any(c => c.NickName == childDto.NickName))
             {
-                throw new Exception("Child already added to User");
+                throw new DuplicateNameException("Child already added to User");
             }
 
             Child newChild = new Child()
@@ -93,7 +91,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             }
             catch
             {
-                throw new Exception("unable to save to Database");
+                throw new DbUpdateException("Unable to save to database!");
             }
         }
         public void AddAllergy(int childId, AllergyDto allergyDto)
@@ -105,18 +103,17 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             if (string.IsNullOrWhiteSpace(allergyDto.Name))
             {
-                throw new InvalidDataException();
+                throw new InvalidDataException("Please enter allergy name");
             }
 
             if (child is null)
             {
-                throw new Exception("Child not found.");
+                throw new ChildNotFoundException("Child not found.");
             }
 
-            if (child.Allergies
-                .Any(c => c.Name == allergyDto.Name))
+            if (child.Allergies.Any(c => c.Name == allergyDto.Name))
             {
-                throw new Exception("Allergy allready added to Child");
+                throw new DuplicateNameException("Allergy already added to Child");
             }
 
             Allergy newAllergy = new Allergy()
@@ -126,6 +123,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             };
 
             _context.Allergies.Add(newAllergy);
+             child.Allergies.Add(newAllergy);
 
             try
             {
@@ -133,19 +131,18 @@ namespace ChasChallenge_G4_V3.Server.Services
             }
             catch
             {
-                throw new Exception("unable to save to Database");
+                throw new DbUpdateException("Unable to save to database");
             }
 
-            child.Allergies.Add(newAllergy);
-
-            try
-            {
-                _context.SaveChanges();
-            }
-            catch
-            {
-                throw new Exception("unable to save to Database");
-            }
+            //child.Allergies.Add(newAllergy);
+            //try
+            //{
+            //    _context.SaveChanges();
+            //}
+            //catch
+            //{
+            //    throw new DbUpdateException("Unable to save to database");
+            //}
 
         }
         public void AddMeasurement(int childId, MeasurementDto measurementDto)
@@ -162,13 +159,13 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             if (child is null)
             {
-                throw new Exception("Child not found.");
+                throw new ChildNotFoundException("Child not found.");
             }
 
-            if (child.Measurements
-                .Any(m => m.DateOfMeasurement == measurementDto.DateOfMeasurement))
+            //Maybe delete this? if the measure is the same and child hasnt grown that much?
+            if (child.Measurements.Any(m => m.DateOfMeasurement == measurementDto.DateOfMeasurement))
             {
-                throw new Exception("Measurement allready added to Child");
+                throw new DuplicateNameException("Measurement already added to child");
             }
 
             Measurement newMeasurement = new Measurement()
@@ -181,16 +178,6 @@ namespace ChasChallenge_G4_V3.Server.Services
             };
 
             _context.Measurements.Add(newMeasurement);
-
-            try
-            {
-                _context.SaveChanges();
-            }
-            catch
-            {
-                throw new Exception("unable to save to Database");
-            }
-
             child.Measurements.Add(newMeasurement);
 
             try
@@ -199,8 +186,19 @@ namespace ChasChallenge_G4_V3.Server.Services
             }
             catch
             {
-                throw new Exception("unable to save to Database");
+                throw new DbUpdateException("unable to save to Database");
             }
+
+            //child.Measurements.Add(newMeasurement);
+
+            //try
+            //{
+            //    _context.SaveChanges();
+            //}
+            //catch
+            //{
+            //    throw new Exception("unable to save to Database");
+            //}
         }
 
         public UserViewModel GetUser(string UserId) // Needs to be integrated to IdentityUser
@@ -214,7 +212,7 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             if (user is null)
             {
-                throw new Exception("User not found");
+                throw new UserNotFoundException("User not found");
             }
 
             UserViewModel userViewModel = new UserViewModel()
@@ -251,6 +249,11 @@ namespace ChasChallenge_G4_V3.Server.Services
                     Children = u.Children.Select(c => new PrintAllUsersChildViewModel { Id = c.Id, Name = c.Name }).ToList()
                 }).ToList();
 
+            if(userViewModels.Count > 0)
+            { 
+                throw new UserNotFoundException("No user found"); 
+            }
+
             return userViewModels;
         }
 
@@ -266,7 +269,7 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             if (user is null)
             {
-                throw new Exception("user not found");
+                throw new UserNotFoundException("User not found");
             }
 
             Child? child = user.Children
@@ -274,7 +277,7 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             if (child is null)
             {
-                throw new Exception("child not found");
+                throw new ChildNotFoundException("Child not found");
             }
 
             ChildViewModel childViewModel = new ChildViewModel
@@ -302,12 +305,17 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             if (child is null)
             {
-                throw new Exception("child not found");
+                throw new ChildNotFoundException("Child not found!");
             }
 
             List<AllergyViewModel> allergyViewModels = child.Allergies
                 .Select(a => new AllergyViewModel { Name = a.Name })
                 .ToList();
+            //Added 240602 Mojtaba
+            if(allergyViewModels.Count == 0)
+            {
+                throw new AllergyNotFoundException("Allergy not found!");
+            }
 
             return allergyViewModels;
         }
@@ -322,12 +330,12 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             if (user is null)
             {
-                throw new Exception("user not found");
+                throw new UserNotFoundException("User not found!");
             }
 
             if (user.Children is null)
             {
-                throw new Exception("children not found");
+                throw new ChildNotFoundException("Children not found!");
             }
 
             List<AllergyViewModel> allAllergies = new List<AllergyViewModel>();
@@ -337,6 +345,12 @@ namespace ChasChallenge_G4_V3.Server.Services
                 var allergyViewModels = child.Allergies
                 .Select(a => new AllergyViewModel { Name = a.Name })
                 .ToList();
+
+                //Added 240602 Mojtaba
+                if (allergyViewModels.Count == 0)
+                {
+                    throw new AllergyNotFoundException("Allergy not found!");
+                }
 
                 foreach (AllergyViewModel a in allergyViewModels)
                 {

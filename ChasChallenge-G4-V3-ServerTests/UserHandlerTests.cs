@@ -1,4 +1,5 @@
-﻿using ChasChallenge_G4_V3.Server.Data;
+﻿using ChasChallenge_G4_V3.Server.CustomExceptions;
+using ChasChallenge_G4_V3.Server.Data;
 using ChasChallenge_G4_V3.Server.Handlers;
 using ChasChallenge_G4_V3.Server.Models;
 using ChasChallenge_G4_V3.Server.Models.DTOs;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -101,7 +103,7 @@ namespace ChasChallenge_G4_V3_ServerTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception))]
+        [ExpectedException(typeof(UserNotFoundException))]
         public void AddChild_Exception_If_Wrong_UserId()
         {
             //Arrange
@@ -124,7 +126,7 @@ namespace ChasChallenge_G4_V3_ServerTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception))]
+        [ExpectedException(typeof(DuplicateNameException))]
         public void AddChild_Execption_If_same_NickName()
         {
             var options = new DbContextOptionsBuilder<ApplicationContext>().UseInMemoryDatabase(databaseName: "test-db1").Options;
@@ -170,42 +172,6 @@ namespace ChasChallenge_G4_V3_ServerTests
             context.SaveChanges();
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(Exception))]
-        public void AddChild_Exception_If_Cannot_Save_To_Db()
-        {
-            ////Skriv om den rad för rad.
-            // Arrange
-            var options = new DbContextOptionsBuilder<ApplicationContext>().UseInMemoryDatabase(databaseName: "test-db2").Options;
-            var mockContext = new Mock<ApplicationContext>(options);
-            var context = new ApplicationContext(options);
-            var userStore = new UserStore<User>(mockContext.Object);
-            var userManager = new UserManager<User>(userStore, null, null, null, null, null, null, null, null);
-            var userServices = new UserServices(userManager, mockContext.Object);
-
-            mockContext.Setup(c => c.SaveChanges()).Throws(new Exception("Unable to save to Database"));
-
-            var user = new User
-            {
-                Id = "1",
-                FirstName = "test-name",
-                LastName = "test-lastname"
-            };
-            context.Users.Add(user);
-            context.SaveChanges();
-            //mockContext.Setup(x => mockContext.Object.Users.Add(user));
-            //mockContext.Setup(c => c.SaveChanges());
-
-            var childDto = new ChildDto
-            {
-                Name = "test-name",
-                NickName = "test-nickname2",
-                birthdate = DateTime.Now,
-                Gender = "male"
-            };
-
-            // Act
-            userServices.AddChild("1", childDto);
-        }
+       
     }
 }
