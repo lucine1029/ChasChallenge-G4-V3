@@ -211,7 +211,7 @@ const HeadCircumference: React.FC = () => {
 
     <div className="measurement-tracking-container">
     <HeaderWithBackButton
-   title={<h2 style={{ color: '#22a3d6', fontSize: '24px' }}>Huvudomfång</h2>}
+   title={<h2 style={{ color: '#4b0082', fontSize: '24px' }}>Huvudomfång</h2>}
    customBackAction={undefined}
    isSettingsPage={undefined}
  />
