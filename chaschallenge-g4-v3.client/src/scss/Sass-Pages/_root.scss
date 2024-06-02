@@ -15,11 +15,18 @@
 }
 
 body {
-  width: 100vw;
+  //width: 100vw;
   margin: auto;
 
   background-image: url('/Baby-Background.png');
   background-size: cover;
+}
+
+@media (min-width: 800px) {
+  body {
+    max-width: 100%;
+    background-image: none;
+  }
 }
 
 main {
