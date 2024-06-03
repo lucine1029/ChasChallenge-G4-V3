@@ -7,10 +7,12 @@ main {
   align-items: center;
   flex-direction: column;
   height: 65rem;
+  
 }
 
 /* AI Chat Container */
 .ai-chat-container {
+  
   height: 30rem;
   border-radius: 2rem;
   display: flex;
@@ -32,6 +34,7 @@ main {
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  
 
   h4 {
     margin: 0.5px;
@@ -56,6 +59,7 @@ main {
     p {
       text-align: left;
       padding: 0px 20px 0px 20px;
+      
     }
   }
 }
@@ -275,3 +279,4 @@ img{
     box-shadow: none;
   }
 }
+
