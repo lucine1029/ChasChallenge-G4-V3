@@ -18,7 +18,7 @@ main {
 }
 
 .input-field::placeholder {
-  color: rgb(142, 142, 142);
+  color: black;
 }
 
 .login-button,
@@ -45,22 +45,24 @@ main {
 
 /* Specifika stilar för SignIn-sidan */
 
-// .signout-container {
-//   border-radius: 8px;
-//   padding: 40px;
-//   max-width: 400px;
-//   margin: auto;
-// }
+.login-container,
+.signout-container {
+  border-radius: 8px;
+  padding: 40px;
+  max-width: 400px;
+  margin: auto;
+}
 
-// .login-text,
-// .signout-text {
-//   @include H1;
-//   margin-bottom: 1.5rem;
-// }
+.login-text,
+.signout-text {
+  @include H1;
+  margin-bottom: 1.5rem;
+}
 
 .signin-forgot-container {
   display: flex;
   justify-content: flex-end;
+  width: 14rem;
   .forgot-link {
     text-decoration: none;
     color: black;
