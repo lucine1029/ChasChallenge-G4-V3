@@ -3,7 +3,9 @@ import SignUpForm from './SignUpForm';
 const SignUp: React.FC = () => {
   return (
     <>
-      <SignUpForm />
+      <main>
+        <SignUpForm />
+      </main>
     </>
   );
 };

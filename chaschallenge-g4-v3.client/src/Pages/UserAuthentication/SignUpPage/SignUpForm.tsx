@@ -54,62 +54,67 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className='login-container'>
-      <h2 className='login-text'>Registrera dig</h2>
-      <form onSubmit={handleSubmit(formSubmit)} className='form-container'>
-        <div className='input-container'>
-          <input 
-          id='firstname'
-          type="text"
-          placeholder='Förnamn'
-          className='input-field'
-          {...register('firstname', { required: 'Förnamn är obligatoriskt' })}
-
-          />
-                    <input 
-          id='lastname'
-          type="text"
-          placeholder='Efternamn'
-          className='input-field'
-          {...register('lastname', { required: 'Efternamn är obligatoriskt' })}
-
-          />
-
-          <input
-            id='email'
-            type='email'
-            {...register('email', {
-              required: 'Email is Required',
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                message: 'Invalid email address',
-              },
-            })}
-            className={`input-field ${emailExists ? 'email-taken' : ''}`}
-            style={{
-              border: emailExists ? '1px solid red' : '',
-              color: emailExists ? 'red' : '#000',
-            }}
-            placeholder={emailExists ? 'Email Already in use!' : 'E-postadress'}
-            
-            onChange={handleEmailChange}
-          />
-          {errors.email && (
-            <span className='error-message'>{errors.email.message}</span>
-          )}
-          <input
-            id='password'
-            type='password'
-            placeholder='Lösenord'
-            {...register('password', {
-              required: 'Password is Required',
-            })}
+      <form onSubmit={handleSubmit(formSubmit)}>
+          <div className='input-container'>
+            <h2 className='login-text'>Registrera dig</h2>
+            <input 
+            id='firstname'
+            type="text"
+            placeholder='Förnamn'
             className='input-field'
-          />
-          {errors.password && (
-            <span className='error-message'>{errors.password.message}</span>
-          )}
-        </div>
+            {...register('firstname', { required: 'Förnamn är obligatoriskt' })}
+
+            />
+                      <input 
+            id='lastname'
+            type="text"
+            placeholder='Efternamn'
+            className='input-field'
+            {...register('lastname', { required: 'Efternamn är obligatoriskt' })}
+
+            />
+
+            <input
+              id='email'
+              type='email'
+              {...register('email', {
+                required: 'Email is Required',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                  message: 'Invalid email address',
+                },
+              })}
+              className={`input-field ${emailExists ? 'email-taken' : ''}`}
+              style={{
+                border: emailExists ? '1px solid red' : '',
+                color: emailExists ? 'red' : '#000',
+              }}
+              placeholder={emailExists ? 'Email Already in use!' : 'E-postadress'}
+              
+              onChange={handleEmailChange}
+            />
+            {errors.email && (
+              <span className='error-message'>{errors.email.message}</span>
+            )}
+            <input
+              id='password'
+              type='password'
+              placeholder='Lösenord'
+              {...register('password', {
+                required: 'Password is Required',
+              })}
+              className='input-field'
+            />
+            {errors.password && (
+              <span className='error-message'>{errors.password.message}</span>
+            )}
+            <button type='submit' className='login-button'>
+              Sign Up
+            </button>
+            <Link to='/signin' className='link-button'>
+              Har du redan ett konto?<br/> Logga in
+            </Link>
+          </div>
         {/* <div className='input-container'>
           <label htmlFor='confirmPassword' className='input-label'>
             Confirm Password:
@@ -128,14 +133,7 @@ const SignUpForm = () => {
             <span className='error-message'>{errors.confirmPassword.message}</span>
           )}
         </div> */}
-        <button type='submit' className='login-button'>
-          Sign Up
-        </button>
       </form>
-      <Link to='/signin' className='link-button'>
-        Already have an account? Log In
-      </Link>
-    </div>
   );
 };
 
