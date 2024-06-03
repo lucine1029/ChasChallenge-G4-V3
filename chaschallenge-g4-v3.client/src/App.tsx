@@ -10,6 +10,7 @@ import ManageKidsPage from './Pages/Settings/ManageKids/Index';
 import SleepTracking from './Pages/Sleep/SleepTracking';
 import SignUpPage from './Pages/UserAuthentication/SignUpPage/SignUpPage';
 import SignInPage from './Pages/UserAuthentication/SingInPage/SingInPage';
+import ForgotPasswordPage from './Pages/UserAuthentication/SingInPage/ForgotPasswordPage';
 
 import ChangePasswordPage from './Pages/Settings/Account/ChangePW';
 
@@ -23,6 +24,7 @@ import { getUser } from './ResusableComponents/Requests/userRequest';
 import { useAuth } from './ResusableComponents/authUtils';
 import HamburgerMenuTwo from './ResusableComponents/HamBurgerTwo';
 import { getAllUsers } from './ResusableComponents/Requests/userRequest';
+
 
 function AppContent() {
   const { isAuthenticated, userId } = useAuth();
@@ -47,7 +49,7 @@ function AppContent() {
         <Route path='/' element={<HomePage />} />
         <Route path='/signup' element={<SignUpPage />} />
         <Route path='/signin' element={<SignInPage />} />
-        {/* <Route path='/forgot-password' element={<ForgotPasswordPage/>} /> */}
+        <Route path='/forgot-password' element={<ForgotPasswordPage/>} />
         <Route element={<ProtectedRoutes />}>
           <Route path='/chat' element={<ChatbotPage />} />
           <Route path='/settings' element={<SettingsPage />} />
