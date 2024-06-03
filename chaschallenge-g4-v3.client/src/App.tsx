@@ -11,10 +11,7 @@ import SleepTracking from './Pages/Sleep/SleepTracking';
 import SignUpPage from './Pages/UserAuthentication/SignUpPage/SignUpPage';
 import SignInPage from './Pages/UserAuthentication/SingInPage/SingInPage';
 import ForgotPasswordPage from './Pages/UserAuthentication/SingInPage/ForgotPasswordPage';
-import ForgotPasswordPage from './Pages/UserAuthentication/SingInPage/ForgotPasswordPage';
-
 import ChangePasswordPage from './Pages/Settings/Account/ChangePW';
-
 import HeadCircumference from './Pages/Measurement/Circumference/index';
 import Height from './Pages/Measurement/Length/index';
 import Weight from './Pages/Measurement/Weight/index';
