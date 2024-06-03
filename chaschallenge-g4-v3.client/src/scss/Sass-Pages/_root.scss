@@ -15,11 +15,15 @@
 }
 
 body {
-  width: 100vw;
+  height: 100vh; //Ta bort om den strular?
   margin: auto;
+  background-image: linear-gradient($gradient);
+}
 
-  background-image: url('/Baby-Background.png');
-  background-size: cover;
+@media (min-width: 800px) {
+  body {
+    max-width: 100%;
+  }
 }
 
 main {

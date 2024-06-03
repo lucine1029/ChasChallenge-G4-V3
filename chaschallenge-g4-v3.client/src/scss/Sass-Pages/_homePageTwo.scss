@@ -1,5 +1,7 @@
+@use '../abstract/index' as *;
+
 .babster {
-  font-family: Arial, sans-serif;
+  font-family: $mainfont;
   background-color: white;
 
   .header {
@@ -79,55 +81,31 @@
   .content {
     padding: 20px;
 
-    h1 {
-      font-size: 2rem;
-      color: #333;
+    h1{
+      @include H1
     }
 
     p {
-      font-size: 1rem;
-      color: #555;
-      text-align: left;
-      line-height: 1.3rem;
+      @include paragraph;
     }
 
     .buttons {
       margin-top: 20px;
+    } 
 
-      .primary-button,
-      .secondary-button {
-        display: block;
-        text-align: center;
-        padding: 10px;
-        border-radius: 5px;
-        margin-bottom: 10px;
-        text-decoration: none;
-      }
-
-      .primary-button {
-        background-color: #9b59b6;
-        color: #fff;
-      }
-
-      .secondary-button {
-        background-color: #ffffff;
-        color: #9b59b6;
-        border: 2px solid #9b59b6;
-      }
+    .primary-button{
+      @include primary-button;
+    }
+    .secondary-button{
+      @include secondary-button
     }
 
     .question-section {
       margin-top: 30px;
 
       h2 {
-        font-size: 1.5rem;
-
-        color: #333;
-        display: flex;
-        align-items: center;
-
-        //align-items: center;
-
+        @include H2;
+        @include center;
         .question-icon {
           width: 70px;
           margin-right: 10px;
@@ -135,10 +113,8 @@
       }
 
       p {
-        font-size: 1rem;
-        line-height: 1.3rem;
-        color: #555;
         margin-top: 10px;
+        @include paragraph;
       }
     }
   }

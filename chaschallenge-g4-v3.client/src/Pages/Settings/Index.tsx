@@ -11,14 +11,14 @@ export default function SettingsPage() {
   return (
     <>
       <HeaderWithBackButton title='Inställningar' isSettingsPage={true} />
-      <nav className='accountpage-nav'>
+      <main className='accountpage-nav'>
         <ul>
           <li>
             <Link className='link-style card' to='account'>
               <LiaUserCogSolid className='large-icon' />
               <div className='push-right'>
-                <h3>Dina uppgifter</h3>
-                <p>Uppdatera dina uppgifter</p>
+                <h3>Konto</h3>
+                <p>Uppdatera kontouppgifter</p>
               </div>
               <LiaAngleRightSolid />
             </Link>
@@ -29,7 +29,7 @@ export default function SettingsPage() {
               <LiaUserCogSolid className='large-icon' />
               <div className='push-right'>
                 <h3>Lösenord</h3>
-                <p>Uppdatera ditt lösenord</p>
+                <p>Ändra lösenord</p>
               </div>
               <LiaAngleRightSolid />
             </Link>
@@ -47,7 +47,7 @@ export default function SettingsPage() {
             </Link>
           </li>
         </ul>
-      </nav>
+      </main>
     </>
   );
 }
