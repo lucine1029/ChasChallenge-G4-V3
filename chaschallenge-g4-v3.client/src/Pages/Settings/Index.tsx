@@ -11,7 +11,7 @@ export default function SettingsPage() {
   return (
     <>
       <HeaderWithBackButton title='Inställningar' isSettingsPage={true} />
-      <nav className='accountpage-nav'>
+      <main className='accountpage-nav'>
         <ul>
           <li>
             <Link className='link-style card' to='account'>
@@ -47,7 +47,7 @@ export default function SettingsPage() {
             </Link>
           </li>
         </ul>
-      </nav>
+      </main>
     </>
   );
 }

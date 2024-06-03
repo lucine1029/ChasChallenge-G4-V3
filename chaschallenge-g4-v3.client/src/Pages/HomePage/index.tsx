@@ -9,7 +9,7 @@ export default function HomePageTwo() {
       <header className='header'>
         {/* <img src={} alt='Babster Logo' className='logo' /> */}
         <span className='logo'>Babster</span>
-        <Link to='/SignUp'>
+        <Link to='/Signin'>
           <button className='header-button'>Logga in</button>
         </Link>
       </header>
