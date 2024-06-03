@@ -97,7 +97,7 @@ const SignUpForm = () => {
           {errors.email && (
             <span className='error-message'>{errors.email.message}</span>
           )}
-        <div className='input-container'>
+        <div>
           <input
             id='password'
             type='password'
