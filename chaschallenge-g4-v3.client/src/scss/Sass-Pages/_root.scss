@@ -15,7 +15,7 @@
 
 html,
 body {
-  //height: 100%;
+  height: 100%;
   margin: 0; // Remove auto margin to avoid centering issues
 }
 
@@ -23,8 +23,8 @@ body {
   background-image: linear-gradient($gradient);
   background-repeat: no-repeat;
   background-attachment: fixed; // This ensures the background stays fixed
-  //display: flex;
-  //flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 @media (min-width: 800px) {
@@ -35,5 +35,5 @@ body {
 
 main {
   padding: 0 1rem;
-  //flex: 1; // Ensure main takes up remaining space
+  flex: 1; // Ensure main takes up remaining space
 }
