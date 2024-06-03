@@ -4,6 +4,11 @@ export default function ForgotPasswordPage() {
 
     return(
         <>
+        <header className='header'>
+            {/* <img src={} alt='Babster Logo' className='logo' /> */}
+            <span className='logo'>Babster</span>
+            <button className='header-button'>Logga in</button>
+        </header>
         <main>
             <form action="">
                 <div className="input-container">
