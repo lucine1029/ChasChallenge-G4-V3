@@ -22,6 +22,7 @@ main {
 }
 
 /* Chat Bubble */
+/* Chat Bubble */
 .chat-bubble {
   display: flex;
   align-items: start;
@@ -52,16 +53,18 @@ main {
     min-width: 35rem;
     margin-right: 4rem;
     margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 
     p {
       text-align: left;
-      padding: 0px 20px 0px 20px;
+      padding: 0px 5px 0px 5px;
     }
   }
 }
 
 .chat-bubble a {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
