@@ -62,7 +62,7 @@ const SignUpForm = () => {
           id='firstname'
           type="text"
           placeholder='Förnamn'
-          className={`input-field`} 
+          className='input-field'
           {...register('firstname', { required: 'Förnamn är obligatoriskt' })}
 
           />
@@ -70,7 +70,7 @@ const SignUpForm = () => {
           id='lastname'
           type="text"
           placeholder='Efternamn'
-          className={`input-field`} 
+          className='input-field'
           {...register('lastname', { required: 'Efternamn är obligatoriskt' })}
 
           />
@@ -97,7 +97,6 @@ const SignUpForm = () => {
           {errors.email && (
             <span className='error-message'>{errors.email.message}</span>
           )}
-        <div>
           <input
             id='password'
             type='password'
@@ -110,7 +109,6 @@ const SignUpForm = () => {
           {errors.password && (
             <span className='error-message'>{errors.password.message}</span>
           )}
-        </div>
         </div>
         {/* <div className='input-container'>
           <label htmlFor='confirmPassword' className='input-label'>

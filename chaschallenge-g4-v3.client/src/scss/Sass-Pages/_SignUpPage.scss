@@ -2,29 +2,18 @@
 @use '../abstract/index' as *;
 
 .input-container {
-    margin-bottom: 20px;
-    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.30);
-    border-radius: 20px;
-    padding: 1.2rem;
-    background-color: white;
+  @include auth-card; 
+    input{
+      outline: none;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background-color: transparent;
+      border-bottom: solid 1.5px black;
+      border-radius: 0;
+    }
   }
   
-  .input-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 6px;
-    color: #555;
-  }
-  
-  .input-field {
-    outline: none;
-    width: 100%;
-    padding: 10px;
-    border: none;
-    background-color: transparent;
-    border-bottom: solid 1.5px black;
-    border-radius: 0;
-  }
 
   .input-field:focus{
     outline: none;
@@ -57,6 +46,7 @@
   }
   
   /* Specifika stilar för SignIn-sidan */
+
   .login-container,
   .signout-container {
     border-radius: 8px;
@@ -67,10 +57,8 @@
   
   .login-text,
   .signout-text {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 20px;
-    text-transform: uppercase;
+    @include H1;
+    margin-bottom: 1.5rem;
   }
 
   .signin-forgot-container{
