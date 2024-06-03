@@ -4,7 +4,7 @@ import HeaderWithBackButton from '../../../ResusableComponents/HeaderWithBackBut
 import KidsList from './KidsList.tsx';
 import AddKidsPage from '../AddKids/Index';
 import { updateUserKid } from '../../../ResusableComponents/Requests/childRequest';
-import '../../../scss/Sass-Pages/_KidsList.scss'
+import '../../../scss/Sass-Pages/_KidsList.scss';
 
 interface ButtonProps {
   children: React.ReactNode;
@@ -12,7 +12,11 @@ interface ButtonProps {
 }
 
 function Button({ children, onClick }: ButtonProps) {
-  return <button className='add-child-btn' onClick={onClick}>{children}</button>;
+  return (
+    <button className='add-child-btn' onClick={onClick}>
+      {children}
+    </button>
+  );
 }
 
 export default function ManageKidsPage() {
@@ -35,22 +39,23 @@ export default function ManageKidsPage() {
 
   return (
     <>
-        {!editingKid && <HeaderWithBackButton title='Barn' />}
-    <section className="child-list-section">
+      {!editingKid && <HeaderWithBackButton title='Barn' />}
+      <main>
         <Button onClick={handleAddChildClick}>Lägg till barn</Button>
         {editingKid ? (
-          <AddKidsPage
-            defaultValues={editingKid}
-            isEditing={true}
-            onSave={handleSave}
-          />
-        )
-        : (
-          <>
+          <div>
+            <AddKidsPage
+              defaultValues={editingKid}
+              isEditing={true}
+              onSave={handleSave}
+            />
+          </div>
+        ) : (
+          <div>
             <KidsList onEditClick={handleEditClick} />
-          </>
+          </div>
         )}
-    </section>
+      </main>
     </>
   );
 }

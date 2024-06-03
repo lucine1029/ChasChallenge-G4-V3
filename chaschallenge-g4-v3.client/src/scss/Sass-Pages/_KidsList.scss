@@ -1,20 +1,22 @@
 @use '../Abstract/index' as *;
 
-.add-child-btn{
+.add-child-btn {
   @include auth-button;
   width: 60%;
+  margin: 0 auto;
 }
 
-.child-list-section{
+.child-list-section {
   @include center;
   flex-direction: column;
-
+  width: 100%;
 }
 
 .manage-kids {
   list-style-type: none;
   padding-left: 0;
   margin-left: 0;
+  width: 100%;
 
   h3,
   p {
@@ -34,6 +36,7 @@
 
   .card {
     position: relative;
+    width: 100%;
     border-radius: 0.5rem;
     padding: 0rem 0.5rem 1rem 0.5rem;
     margin: 0.5rem 0;

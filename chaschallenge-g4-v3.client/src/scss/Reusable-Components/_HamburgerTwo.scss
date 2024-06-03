@@ -7,13 +7,12 @@ header {
 
   .hamburger-container {
     display: flex;
-    background-color: #ffffff74;
     border-radius: 0.5rem;
     padding: 0.5rem;
     align-items: center;
     position: fixed;
-    bottom: 2%;
-    right: 3%;
+    bottom: 0.5rem;
+    right: 0.5rem;
     z-index: 1000;
 
     .hamburger-icon {
@@ -85,7 +84,7 @@ header {
       color: #9b59b6;
       text-decoration: none;
       background: rgb(255, 255, 255);
-      padding: 0.5rem;
+      padding: 0.66rem;
       border-radius: 0.5rem;
       transition: all 0.2s ease-in-out;
       display: flex;
