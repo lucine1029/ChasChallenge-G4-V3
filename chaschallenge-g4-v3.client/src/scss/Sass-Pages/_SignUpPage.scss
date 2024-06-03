@@ -1,14 +1,9 @@
 //SignupPage
 @use '../abstract/index' as *;
 
-// :root{
-//   background-color: white;
-//   background-image: url('../../../public/Baby-Background.png');
-//   background-size: cover;
-// }
-
 .input-container {
     margin-bottom: 20px;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.30);
   }
   
   .input-label {
@@ -38,22 +33,7 @@
   
   .login-button,
   .signup-button {
-    margin-top: 2rem;
-    width: 100%;
-    padding: 12px;
-    border-radius: .5rem;
-    background: linear-gradient(to bottom, $gradient);
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-size: large;
-    font-weight: 600;
-  }
-  
-  .login-button:hover,
-  .signup-button:hover {
-    background-color: #45a049;
+    @include auth-button;
   }
   
   .error-message {

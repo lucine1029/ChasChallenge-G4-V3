@@ -2,7 +2,14 @@
 
 //Background gradient styling
 @mixin background-gradient {
-    background: -moz-linear-gradient(#A35EBB, #FFA0A0);
+    background-image: -moz-linear-gradient(#A35EBB, #FFA0A0);
+}
+
+// Flex Center
+@mixin center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 // h1 styling
@@ -13,7 +20,7 @@
 
 // h2 styling
 @mixin H2 {
-    font-size: 40px;
+    font-size: 1.5rem;
     color: #46284E;
 }
 
@@ -67,4 +74,22 @@
     // &:active{
     // background-color: ;
     // }
+}
+
+
+// Auth Styling
+
+// Signup/Login button
+@mixin auth-button {
+    margin-top: 2rem;
+    width: 100%;
+    padding: 12px;
+    border-radius: .5rem;
+    background-color: #6A62B6;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: large;
+    font-weight: 600;
 }
