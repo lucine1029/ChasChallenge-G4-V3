@@ -91,6 +91,10 @@ namespace ChasChallenge_G4_V3.Server.Handlers
             {
                 return Results.NotFound(new {messsage = ex.Message});
             }
+            catch(DuplicateNameException ex)
+            {
+                return Results.BadRequest(new { message = ex.Message});
+            }
             catch(DbUpdateException ex)
             {
                 return Results.BadRequest(new { message = ex.Message });
@@ -153,10 +157,6 @@ namespace ChasChallenge_G4_V3.Server.Handlers
             {
                 return Results.NotFound(new {message = ex.Message});
             }
-            catch (AllergyNotFoundException ex)
-            {
-                return Results.NotFound(new { message = ex.Message });
-            }
         }
 
         public static IResult GetAllChildrensAllergies(IUserServices userServices, string userId)
@@ -171,10 +171,6 @@ namespace ChasChallenge_G4_V3.Server.Handlers
                 return Results.NotFound(new { message = ex.Message });
             }
             catch (ChildNotFoundException ex)
-            {
-                return Results.NotFound(new { message = ex.Message });
-            }
-            catch (AllergyNotFoundException ex)
             {
                 return Results.NotFound(new { message = ex.Message });
             }

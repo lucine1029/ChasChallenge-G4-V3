@@ -28,7 +28,7 @@ namespace ChasChallenge_G4_V3_ServerTests
     }
 
     [TestClass]
-    public class UserHandlerTests
+    public class ServicesAddChildTests
     {
         [TestMethod]
         public void AddChild_Adds_Child()
@@ -171,7 +171,5 @@ namespace ChasChallenge_G4_V3_ServerTests
             userServices.AddChild("2", firstChild);
             context.SaveChanges();
         }
-
-       
     }
 }
