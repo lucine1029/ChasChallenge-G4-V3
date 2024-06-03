@@ -110,6 +110,8 @@ main {
 
     p {
       margin: 0.5rem 0;
+      
+
     }
   }
   .child-card.clicked {
@@ -129,18 +131,23 @@ main {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
+
+
 .modal-content {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative; /* Required for absolute positioning of close button */
+  position: relative;
   background-color: #fefefe;
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
   border-radius: 20px;
+  p{
+    text-align: left;
+  }
 }
 
 .close {
@@ -152,11 +159,6 @@ main {
   font-weight: bold;
 }
 
-.modal-content p.card-text {
-  color: #6a62b6;
-  text-align: left;
-}
-
 .close:hover,
 .close:focus {
   color: black;
@@ -164,6 +166,25 @@ main {
   text-decoration: none;
   cursor: pointer;
 }
+
+.kebab {
+  color: lightpink;
+  position: absolute;
+  bottom: 10px; /* Adjust as needed */
+  right: 10px; /* Adjust as needed */
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.kebab:hover,
+.kebab:focus {
+  color: black;
+  background-color: #6a62b6;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 
 .accordion-button {
   background-color: transparent;
@@ -195,21 +216,20 @@ main {
 
 @media (min-width: 1140px) {
   .children-container {
-    
     max-width: 528.8px;
     background-image: none;
   }
 }
 
 @media (min-width: 1140px) {
-.user-input-container {
-  width: 25%;
-  background-color: white;
-  border-radius: 0.8rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
-    rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-}
+  .user-input-container {
+    width: 25%;
+    background-color: white;
+    border-radius: 0.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
+      rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  }
 }

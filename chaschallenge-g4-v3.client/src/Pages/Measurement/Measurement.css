@@ -124,7 +124,7 @@ h2 {
 
 .input-container label {
   text-align: left;
-  color: #22a3d6;
+  color: #4b0082;
 }
 
 
@@ -140,7 +140,7 @@ h2 {
 .input-container input[type="text"]:focus,
 .input-container input[type="number"]:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: #4b0082;
 }
 
 .save-button-container {
@@ -163,7 +163,7 @@ h2 {
 h2 {
   margin-top: 20px;
   margin-bottom: 10px;
-  color:#22a3d6;
+  color:#4b0082;
 }
 
 .chart-container {

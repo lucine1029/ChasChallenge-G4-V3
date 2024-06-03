@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaBed } from 'react-icons/fa';
+import HeaderWithBackButton from '../../ResusableComponents/HeaderWithBackButton'
 import './SleepTracking.scss';
 
 interface SleepData {
@@ -82,8 +83,17 @@ const SleepTracking: React.FC = () => {
   };
 
   return (
-    <div className='sleep-tracking-container'>
-      <h2>Spåra sömn</h2>
+
+   <>
+
+    <HeaderWithBackButton
+   title={<h2 style={{ color: '#4b0082', fontSize: '24px' }}> Spåra sömn </h2>}
+   customBackAction={undefined}
+   isSettingsPage={undefined}
+ />
+     <div className='sleep-tracking-container'>
+
+      
 
       <div className='button-container'>
         {!sleeping && (
@@ -142,6 +152,7 @@ const SleepTracking: React.FC = () => {
         )}
       </div>
     </div>
+   </>
   );
 };
 
