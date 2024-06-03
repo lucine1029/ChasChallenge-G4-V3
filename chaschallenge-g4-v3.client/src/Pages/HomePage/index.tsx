@@ -1,6 +1,7 @@
 import mainImage from '../../../public/babster-stork.webp';
 import spenatmonster from '../../../public/spenatmonster.webp';
 import '../../scss/Sass-Pages/_homePageTwo.scss';
+import { Link } from 'react-router-dom';
 
 export default function HomePageTwo() {
   return (
@@ -8,7 +9,9 @@ export default function HomePageTwo() {
       <header className='header'>
         {/* <img src={} alt='Babster Logo' className='logo' /> */}
         <span className='logo'>Babster</span>
-        <button className='header-button'>Logga in</button>
+        <Link to='/SignUp'>
+          <button className='header-button'>Logga in</button>
+        </Link>
       </header>
       <div className='main-image-container'>
         <div className='image-overlay'>
