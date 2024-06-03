@@ -1,7 +1,7 @@
 //SignupPage
 @use '../abstract/index' as *;
 
-main{
+.section-container{
   @include center;
   height: 100vh;
 }
