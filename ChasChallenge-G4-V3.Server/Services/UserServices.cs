@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using OpenAI_API;
 using OpenAI_API.Models;
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
 
@@ -16,13 +17,14 @@ namespace ChasChallenge_G4_V3.Server.Services
 {
     public interface IUserServices
     {
-        
+        void UpdateUser(string userId, UserDto userDto);
         void AddChild(string userId, ChildDto childDto);
+        void UpdateChild(string userId, int childId, ChildDto childDto);
+        void AddAllergy(string userId, int childId, AllergyDto allergyDto);
+        void UpdateAllergies(string userId, int childId, List<AllergyDto> allergyDto);
+        void AddMeasurement(string userId, int childId, MeasurementDto measurementDto);
 
-        //void AddExistingChild(int userId, int childId);
-        void AddAllergy(int childId, AllergyDto allergyDto);
-        void AddMeasurement(int childId, MeasurementDto measurementDto);
-
+        
      
 
         UserViewModel GetUser(string userId);
@@ -32,6 +34,8 @@ namespace ChasChallenge_G4_V3.Server.Services
         ChildViewModel GetChildOfUser(string userId, int childId);
 
         List<AllergyViewModel> GetChildsAllergies(string userId, int childId);
+
+        List<MeasurementViewModel> GetChildsMeasurements(string userId, int childId);
 
         List<AllergyViewModel> GetAllChildrensAllergies(string userId);
 
@@ -49,14 +53,11 @@ namespace ChasChallenge_G4_V3.Server.Services
         {
             _userManager = userManager;
             _context = context;
-        }
+        }      
 
-       
-       
-
-        public void AddChild(string userId, ChildDto childDto) // userId input parameters are now strings because Identity's own UserID are strings.
+        public void AddChild(string userId, ChildDto childDto) 
         {
-            User? user = _context.Users // Nicknames cannot be duplicated. How to allow nickname duplicates?
+            User? user = _context.Users 
                 .Include(u => u.Children)
                 .SingleOrDefault(u => u.Id == userId);
 
@@ -71,7 +72,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             }
 
             if (user.Children
-                .Any(c => c.NickName == childDto.NickName))
+                .Any(c => c.Name == childDto.Name && c.birthdate == childDto.birthdate))
             {
                 throw new Exception("Child allready added to User");
             }
@@ -81,7 +82,8 @@ namespace ChasChallenge_G4_V3.Server.Services
                 Name = childDto.Name,
                 NickName = childDto.NickName,
                 Gender = childDto.Gender,
-                birthdate = childDto.birthdate
+                birthdate = childDto.birthdate,
+                ImageSource = childDto.ImageSource
             };
 
             user.Children.Add(newChild);
@@ -97,7 +99,35 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             user.Children.Add(newChild);
         }
-        public void AddAllergy(int childId, AllergyDto allergyDto)
+
+        public void UpdateChild(string userId, int childId,  ChildDto childDto)
+        {
+            Child? child = _context.Children
+                .Where(c => c.Id == childId)
+                .SingleOrDefault();
+
+            if (child is null)
+            {
+                throw new Exception("Child not found.");
+            }
+
+            child.Name = childDto.Name;
+            child.NickName = childDto.NickName;
+            child.Gender = childDto.Gender;
+            child.birthdate = childDto.birthdate;
+            child.ImageSource = childDto.ImageSource;
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch
+            {
+                throw new Exception("unable to save to Database");
+            }
+        }
+
+        public void AddAllergy(string userId, int childId, AllergyDto allergyDto)
         {
             Child? child = _context.Children
                .Include(c => c.Allergies)
@@ -147,9 +177,82 @@ namespace ChasChallenge_G4_V3.Server.Services
             {
                 throw new Exception("unable to save to Database");
             }
+        }
+
+        public void UpdateAllergies(string userId, int childId, List<AllergyDto> allergiesToAdd)
+        {
+            //check that child is child of user
+
+            Child? child = _context.Children
+               .Include(c => c.Allergies)
+               .Where(c => c.Id == childId)
+               .SingleOrDefault();
+
+            if (child is null)
+            {
+                throw new Exception("Child not found.");
+            }
+
+            if (allergiesToAdd.Count == 0)
+            {
+                child.Allergies.Clear();
+
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch
+                {
+                    throw new Exception("unable to save to Database");
+                }
+            }
+
+            var allAllergies = _context.Allergies
+                .ToList();
+
+            List<Allergy> newAllergys = new List<Allergy>();
+
+            foreach (AllergyDto a in allergiesToAdd)
+            {
+                bool allergyExistsInDb = false; 
+
+                if (string.IsNullOrWhiteSpace(a.Name))
+                {
+                    throw new InvalidDataException();
+                }
+
+                foreach (Allergy existingAllergy in allAllergies)
+                {
+                    if (existingAllergy.Name == a.Name)
+                    {
+                        newAllergys.Add(existingAllergy);
+                        allergyExistsInDb = true;
+                    }
+                }
+
+                if (!allergyExistsInDb)
+                {
+                    allergiesToAdd.Remove(a);
+                }
+
+            }
+            foreach (Allergy a in child.Allergies)
+            {
+                child.Allergies.Remove(a);
+            }
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch
+            {
+                throw new Exception("unable to save to Database");
+            }
 
         }
-        public void AddMeasurement(int childId, MeasurementDto measurementDto)
+
+        public void AddMeasurement(string userId, int childId, MeasurementDto measurementDto)
         {
             Child? child = _context.Children
                 .Include(c => c.Measurements)
@@ -204,6 +307,69 @@ namespace ChasChallenge_G4_V3.Server.Services
             }
         }
 
+        public List<MeasurementViewModel> GetChildsMeasurements(string userId, int childId)
+        {
+            var child = _context.Children
+                .Where(c => c.Id == childId)
+                .Include(m => m.Measurements)
+                .SingleOrDefault();
+
+            if(child == null)
+            {
+                throw new Exception("Child not found.");
+            }
+            else
+            {
+                List<MeasurementViewModel> measurementViewModels = new List<MeasurementViewModel>();
+
+                foreach (var m in child.Measurements)
+                {
+                    measurementViewModels.Add(new MeasurementViewModel()
+                    {
+                        Id = m.Id,
+                        DateOfMeasurement = m.DateOfMeasurement,
+                        Weight = m.Weight,
+                        Height = m.Height,
+                        HeadCircumference = m.HeadCircumference
+                    });
+                }
+                return measurementViewModels;
+            }
+        }
+
+        //Add update measurement and remove measurement when in use.
+
+        public void UpdateUser(string userId, UserDto userDto)
+        {
+            User? user = _context.Users
+                .Where(u => u.Id == userId)
+                .SingleOrDefault();
+
+            if (user is null)
+            {
+                throw new Exception("Child not found.");
+            }
+
+            if (userDto.FirstName is null || userDto.LastName is null) 
+            {
+                throw new InvalidDataException("name or email missing");
+            }
+
+            user.FirstName = userDto.FirstName;
+            user.LastName = userDto.LastName;
+            user.Email = userDto.Email;
+            //user.NormalizedEmail = userDto.Email.Normalize();
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch
+            {
+                throw new Exception("unable to save to Database");
+            }
+        }
+
         public UserViewModel GetUser(string UserId) // Needs to be integrated to IdentityUser
         {
             User? user = _context.Users
@@ -224,7 +390,7 @@ namespace ChasChallenge_G4_V3.Server.Services
                 LastName = user.LastName,
                 
                 Email = user.Email,
-                Children = user.Children.Select(c => new ChildViewModel { Name = c.Name, NickName = c.NickName, Gender = c.Gender, birthdate = c.birthdate }).ToList()
+                Children = user.Children.Select(c => new ChildViewModel {Id = c.Id, Name = c.Name, NickName = c.NickName, Gender = c.Gender, birthdate = c.birthdate, ImageSource = c.ImageSource}).ToList()
             };
             foreach (ChildViewModel child in userViewModel.Children)
             {
@@ -249,6 +415,7 @@ namespace ChasChallenge_G4_V3.Server.Services
                     Id = u.Id,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
+                    Email = u.Email,
                     Children = u.Children.Select(c => new PrintAllUsersChildViewModel { Id = c.Id, Name = c.Name }).ToList()
                 }).ToList();
 
@@ -280,10 +447,12 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             ChildViewModel childViewModel = new ChildViewModel
                 {
+                    Id = child.Id,
                     Name = child.Name,
                     NickName = child.NickName,
                     birthdate = child.birthdate,
                     Gender = child.Gender,
+                    ImageSource = child.ImageSource,
                     Allergies = child.Allergies.Select(a => new AllergyViewModel { Name = a.Name }).ToList(),
                     Measurements = child.Measurements.Select(m => new MeasurementViewModel { DateOfMeasurement = m.DateOfMeasurement, Weight = m.Weight, Height = m.Height, HeadCircumference = m.HeadCircumference }).ToList()
 

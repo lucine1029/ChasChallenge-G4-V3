@@ -1,12 +1,17 @@
 // @ts-nocheck
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import HeaderWithBackButton from '../../../ResusableComponents/HeaderWithBackButton.tsx';
 import '../../../scss/Sass-Pages/_AddKidsPage.scss';
 import { Multiselect } from 'multiselect-react-dropdown';
+import babyMonsters from '../../../baby-monsters.json';
+import {
+  createUserKid,
+  updateUserKid,
+} from '../../../ResusableComponents/Requests/childRequest.tsx';
+import { useAuth } from '../../../ResusableComponents/authUtils.ts';
 
-// Define the structure of a single allergy
 const allergies = [
   'Celiaki/gluten',
   'Fisk',
@@ -30,45 +35,30 @@ function Button({ onClick, children }) {
   return <button onClick={onClick}>{children}</button>;
 }
 
-function FetchAvatarDropdown({ onAvatarChange }) {
+function FetchAvatarDropdown({ onAvatarChange, defaultAvatar }) {
   const [avatars, setAvatars] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState({
-    name: '',
-    url: '',
+    filename: '',
+    url: defaultAvatar || '',
   });
 
   useEffect(() => {
-    const fetchAvatars = async () => {
-      try {
-        const response = await axios.get(
-          'https://pokeapi.co/api/v2/pokemon?limit=50'
-        );
-        const avatarData = await Promise.all(
-          response.data.results.map(async (pokemon) => {
-            const detail = await axios.get(pokemon.url);
-            return {
-              name: pokemon.name,
-              url: detail.data.sprites.front_default,
-            };
-          })
-        );
-        setAvatars(avatarData);
-      } catch (error) {
-        console.error('Failed to fetch avatars:', error);
-      }
-    };
-    fetchAvatars();
+    const avatarData = babyMonsters.map((avatar) => ({
+      filename: avatar.filename,
+      url: avatar.url,
+      id: avatar.id,
+    }));
+    setAvatars(avatarData);
   }, []);
 
   const handleSelect = (avatar) => {
     setSelectedAvatar(avatar);
     onAvatarChange(avatar.url);
-    setIsModalOpen(false); // Close modal after selection
+    setIsModalOpen(false);
   };
 
   const openModal = () => setIsModalOpen(true);
-  //onst closeModal = () => setIsModalOpen(false);
 
   return (
     <div className='avatar-dropdown'>
@@ -76,8 +66,8 @@ function FetchAvatarDropdown({ onAvatarChange }) {
         {selectedAvatar.url ? (
           <img
             src={selectedAvatar.url}
-            alt={selectedAvatar.name}
-            className='avatar-img'
+            alt={selectedAvatar.filename}
+            className='selected-avatar'
           />
         ) : (
           <div className='avatar-placeholder'>Välj avatar</div>
@@ -99,7 +89,7 @@ function FetchAvatarDropdown({ onAvatarChange }) {
               >
                 <img
                   src={avatar.url}
-                  alt={avatar.name}
+                  alt={avatar.filename}
                   className='avatar-image'
                 />
               </div>
@@ -111,17 +101,18 @@ function FetchAvatarDropdown({ onAvatarChange }) {
   );
 }
 
-function AllergiesDropdown({ register }) {
-  const [selectedValues, setSelectedValues] = useState([]);
+function AllergiesDropdown({ defaultAllergies }) {
+  const { setValue } = useFormContext();
+  const [selectedValues, setSelectedValues] = useState(defaultAllergies || []);
 
-  const onSelect = (selectedList, selectedItem) => {
+  const onSelect = (selectedList) => {
     setSelectedValues(selectedList);
-    register({ name: `allergies.${selectedItem}`, value: true });
+    setValue('allergies', selectedList); // Set selected allergies
   };
 
-  const onRemove = (selectedList, removedItem) => {
+  const onRemove = (selectedList) => {
     setSelectedValues(selectedList);
-    register({ name: `allergies.${removedItem}`, value: false });
+    setValue('allergies', selectedList); // Set selected allergies
   };
 
   return (
@@ -138,53 +129,111 @@ function AllergiesDropdown({ register }) {
   );
 }
 
-function ChildDataForm() {
-  const { register, handleSubmit, setValue, watch } = useForm({
-    defaultValues: {
-      allergies: {},
+function KidDataForm({ defaultValues, isEditing, onSave }) {
+  const { userId } = useAuth();
+  const navigate = useNavigate();
+  const methods = useForm({
+    defaultValues: defaultValues || {
+      name: '',
+      nickName: '',
+      gender: '',
+      imageSource: '',
+      birthdate: '',
+      allergies: [], // Include allergies in the form, but we won't send it in the request
     },
   });
-  const onSubmit = (data) => {
-    // Transforming the allergies data from object to array
-    const selectedAllergies = Object.entries(data.allergies)
-      .filter(([key, value]) => value)
-      .map(([key]) => key);
-    console.log('Selected Allergies:', selectedAllergies);
-    console.log(data);
+  const { register, handleSubmit, setValue, reset } = methods;
+
+  useEffect(() => {
+    if (defaultValues) {
+      reset(defaultValues);
+    }
+  }, [defaultValues, reset]);
+
+  const onSubmit = async (data) => {
+    const { allergies, ...kidDataWithoutAllergies } = {
+      ...data,
+      birthdate: new Date(data.birthdate).toISOString(), // Ensure date format is correct
+    };
+
+    console.log(
+      'Data being sent to the server:',
+      JSON.stringify(kidDataWithoutAllergies, null, 2)
+    );
+
+    try {
+      if (isEditing) {
+        await onSave(userId, defaultValues.id, kidDataWithoutAllergies);
+      } else {
+        await createUserKid(userId, kidDataWithoutAllergies);
+        navigate('/settings/kids');
+      }
+    } catch (error) {
+      console.error(
+        'Failed to save child:',
+        error.response ? error.response.data : error.message
+      );
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <FetchAvatarDropdown onAvatarChange={(url) => setValue('avatar', url)} />
-      <input
-        className='input-field'
-        type='text'
-        placeholder='Förnamn / smeknamn'
-        {...register('name', { required: true })}
-      />
-      <select className='select-field' {...register('gender')}>
-        <option value='Pojke'>Pojke</option>
-        <option value='Flicka'>Flicka</option>
-        <option value='Binär'>Binär</option>
-      </select>
-      <input
-        className='input-field'
-        type='number'
-        placeholder='Födelsedatum'
-        {...register('birthDate')}
-      />
-      <AllergiesDropdown register={register} />
-      <Button>Spara barn</Button>
-    </form>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FetchAvatarDropdown
+          onAvatarChange={(url) => setValue('imageSource', url)} // Correct field name to imageSource
+          defaultAvatar={defaultValues?.imageSource}
+        />
+        <input
+          className='input-field'
+          type='text'
+          placeholder='Förnamn'
+          {...register('name', { required: true })}
+        />
+        <input
+          className='input-field'
+          type='text'
+          placeholder='Smeknamn'
+          {...register('nickName', { required: true })}
+        />
+        <select
+          className='select-field'
+          {...register('gender')}
+          defaultValue={defaultValues?.gender || ''}
+        >
+          <option value='' disabled hidden>
+            Identitet
+          </option>
+          <option value='Binär'>Binär</option>
+          <option value='Flicka'>Flicka</option>
+          <option value='Pojke'>Pojke</option>
+        </select>
+        <input
+          className='input-field'
+          type='date'
+          placeholder='Födelsedatum'
+          {...register('birthdate')}
+        />
+        <AllergiesDropdown
+          defaultAllergies={defaultValues?.allergies.map((a) => a.name)}
+        />
+        <Button>{isEditing ? 'Spara' : 'Lägg till barn'}</Button>
+      </form>
+    </FormProvider>
   );
 }
 
-export default function AddKidsPage() {
+export default function AddKidsPage({ defaultValues, isEditing, onSave }) {
   return (
     <>
-      <HeaderWithBackButton title='Lägg till barn' />
+      <HeaderWithBackButton
+        title={isEditing ? 'Uppdatera barn' : 'Lägg till barn'}
+      />
       <main>
-        <ChildDataForm />
+        <KidDataForm
+          defaultValues={defaultValues}
+          isEditing={isEditing}
+          onSave={onSave}
+        />
       </main>
     </>
   );

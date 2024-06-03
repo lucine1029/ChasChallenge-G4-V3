@@ -10,7 +10,6 @@ const SignUpForm = () => {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm<userData>();
 
@@ -100,9 +99,6 @@ const SignUpForm = () => {
           )}
         </div>
         <div className='input-container'>
-          {/* <label htmlFor='password' className='input-label'>
-            Password:
-          </label> */}
           <input
             id='password'
             type='password'

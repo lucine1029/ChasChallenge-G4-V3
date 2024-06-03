@@ -1,46 +1,46 @@
-.homepage-header{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;    
-    h1{
-        margin: 2rem;
-        text-align: center;
-        text-transform: uppercase;
-    }
-    h2{
-        color: #000000;
-        font-weight: 200;
-        text-align: center;
-        font-size: 32px;
-    }
+.homepage-header {
+  display: flex;
+  //justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  h1 {
+    margin: 2rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  h2 {
+    color: #000000;
+    font-weight: 200;
+    text-align: center;
+    font-size: 32px;
+  }
 }
 
-.homepage-auth-portal{
+.homepage-auth-portal {
+  display: flex;
+  //justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 14rem;
+
+  .homepage-login-btn {
+    width: 14rem;
+    padding: 1.5rem;
+    background-color: #dcd9fb;
+    border: none;
+    border-radius: 1rem;
+    font-size: x-large;
+    font-weight: 400;
+    text-decoration: none;
+    color: black;
     display: flex;
     justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 14rem;
-
-    .homepage-login-btn{
-        width: 14rem;
-        padding: 1.5rem;
-        background-color: #DCD9FB;
-        border: none;
-        border-radius: 1rem;
-        font-size:x-large;
-        font-weight: 400;
-        text-decoration: none;
-        color: black;
-        display: flex;
-        justify-content: center;
-        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-    }
-    p{
-        font-weight: 300;
-    }
-    a{
-        font-weight: 300;
-    }
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  }
+  p {
+    font-weight: 300;
+  }
+  a {
+    font-weight: 300;
+  }
 }

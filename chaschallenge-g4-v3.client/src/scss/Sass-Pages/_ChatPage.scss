@@ -1,82 +1,193 @@
 @use '../abstract/index' as *;
 
-main{
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    flex-direction: column;
+main {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: column;
 }
 
-.ai-chat-container{
-    width: 95%;
-    height: 24rem;
-    border-radius: 2rem;
-    margin: 1rem 0.5rem;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    flex-direction: column;
-    overflow-y: scroll;
+.ai-chat-container {
+  width: 95%;
+  height: 30rem;
+  border-radius: 2rem;
+  margin: 1rem 0.5rem;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: column;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
-.chat-bubble{
-    display: flex;
-    align-items: start;
-    justify-content: center;
-    flex-direction: column;
-    padding: .2rem .8rem;
-    width: 90%;
-    border-radius: 1rem;
-    margin: .2rem;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+.chat-bubble {
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  flex-direction: column;
+  padding: 0.2rem 0.8rem;
+  width: 90%;
+  border-radius: 1rem;
+  margin: 0.2rem;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  word-wrap: break-word; /* Prevent overflow by breaking long words */
+  overflow-wrap: break-word; /* Fallback for older browsers */
 
-    h4{
-        margin: .5px;
-    }
 
-    &.user{
-        background-color: #D9B8FF;
-    }
-    &.ai{
-        background-color: #b4e0ff;
+  h4 {
+    margin: 0.5px;
+  }
 
-        // &.loading {
-          
-        // }
-    }
+  &.user {
+    background-color: #d9b8ff;
+  }
+  &.ai {
+    background-color: #b4e0ff;
+  }
+  &.ai p {
+    text-align: left;
+  }
 }
 
-.user-input-container{
-//   margin-bottom: 2rem;
+.chat-bubble a {
+  word-wrap: break-word; /* Prevent overflow by breaking long words */
+  overflow-wrap: break-word; /* Fallback for older browsers */
+}
+
+.user-input-container {
   background-color: white;
-  border-radius: .8rem;
+  border-radius: 0.8rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
+    rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
 }
 
-#chat-input{
-    width: 16rem;
-    height: 2rem;
-    margin: .2rem .4rem;
-    border: none;
-    background-color: rgb(255, 255, 255);
-    border-radius: 1rem;
-    padding: .4rem;
-    font-size:medium;
-    overflow-y: auto;
+#chat-input {
+  width: 16rem;
+  height: 2rem;
+  margin: 0.2rem 0.4rem;
+  border: none;
+  background-color: rgb(255, 255, 255);
+  border-radius: 1rem;
+  padding: 0.4rem;
+  font-size: medium;
+  overflow-y: auto;
 }
 
-#chat-input:focus{
-  outline:none;
+#chat-input:focus {
+  outline: none;
 }
 
-#chat-submit-btn{
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin: .4rem;
-    background-color: white;
-    font-size: medium;
+#chat-submit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin: 0.4rem;
+  background-color: white;
+  font-size: medium;
+}
+
+.children-container {
+  h2 {
+    margin-bottom: 1rem;
+  }
+  .ul {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .child-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 0.1rem 0.5rem;
+    background-color: #6a62b6;
+    color: white;
+
+    p {
+      margin: 0.5rem 0;
+    }
+  }
+  .child-card.clicked {
+    background-color: #3f3b6d;
+  }
+}
+
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Required for absolute positioning of close button */
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  border-radius: 20px;
+}
+
+.close {
+  color: lightpink;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+
+.modal-content p.card-text{
+  color: #6a62b6;
+  text-align: left;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  background-color: #6a62b6;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.accordion-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: red;
+  margin-left: 5px;
+}
+
+.chat-greeting-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+}
+
+.chat-greeting-header {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.chat-greeting-message {
+  font-size: 18px;
 }

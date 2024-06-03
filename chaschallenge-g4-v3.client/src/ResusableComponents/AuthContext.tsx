@@ -1,14 +1,15 @@
+import { createContext, useState, ReactNode, useEffect } from 'react';
 import {
-  createContext,
-  useState,
-  useContext,
-  ReactNode,
-  useEffect,
-} from 'react';
-import { getToken, clearAuthTokens } from './authUtils';
+  getToken,
+  getUserId as fetchUserId,
+  clearAuthData,
+  setToken,
+  setUserId as storeUserId,
+} from './authUtils';
 
 interface AuthContextProps {
   isAuthenticated: boolean;
+  userId: string | null;
   login: (token: string, userId: string) => void;
   logout: () => void;
 }
@@ -16,32 +17,36 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
-    () => !!getToken()
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => !!getToken());
+  const [userId, setUserId] = useState<string | null>(() => fetchUserId());
 
   const login = (token: string, userId: string) => {
-    localStorage.setItem('token', token);
-    localStorage.setItem('userId', userId);
+    setToken(token);
+    storeUserId(userId);
     setIsAuthenticated(true);
+    setUserId(userId);
   };
 
   const logout = () => {
-    clearAuthTokens();
+    clearAuthData();
     setIsAuthenticated(false);
+    setUserId(null);
   };
 
   useEffect(() => {
     const token = getToken();
-    if (token) {
+    const storedUserId = fetchUserId();
+    if (token && storedUserId) {
       setIsAuthenticated(true);
+      setUserId(storedUserId);
     } else {
       setIsAuthenticated(false);
+      setUserId(null);
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, userId, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

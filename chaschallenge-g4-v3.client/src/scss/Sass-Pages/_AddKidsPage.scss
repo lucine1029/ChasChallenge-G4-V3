@@ -44,6 +44,11 @@
     justify-content: center;
   }
 
+  .selected-avatar {
+    height: 80px;
+    width: 80px;
+  }
+
   .avatar-placeholder {
     display: flex;
     align-items: center;
@@ -81,8 +86,9 @@
 
   .avatar-item {
     background-color: white;
-    height: 100px;
-    width: 100px;
+    height: 80px;
+    width: 80px;
+    padding: 0.5rem;
     cursor: pointer;
     display: flex;
     align-items: center;

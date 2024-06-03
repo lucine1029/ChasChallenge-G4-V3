@@ -1,39 +1,53 @@
 //@ts-nocheck
-import { useState } from 'react';
-import BackButton from '../../../ResusableComponents/HeaderWithBackButton';
+import { useState, useEffect } from 'react';
+import { getUser } from '../../../ResusableComponents/Requests/userRequest';
 import { LiaEllipsisHSolid, LiaEdit, LiaTrashAlt } from 'react-icons/lia';
 import '../../../scss/Sass-Pages/_KidsList.scss';
+import { useAuth } from '../../../ResusableComponents/authUtils';
 
-const initialChildren = [
-  {
-    id: 118836,
-    image: 'https://img.pokemondb.net/sprites/home/normal/charmander.png',
-    firstName: 'Zoro',
-    birthdate: '14 january, 2022',
-    sex: 'Pojke',
-  },
-  {
-    id: 118846,
-    image: 'https://img.pokemondb.net/sprites/home/normal/wartortle.png',
-    firstName: 'Zara',
-    birthdate: '12 juni, 2020',
-    sex: 'Flicka',
-  },
-];
+export default function KidsList({ onEditClick }) {
+  const [kids, setKids] = useState([]);
+  const { userId } = useAuth();
+  const [refresh, setRefresh] = useState(false); // State to trigger rerender
 
-export default function KidsList() {
-  const [children, setChildren] = useState(initialChildren);
+  const fetchData = async () => {
+    try {
+      const userData = await getUser(userId);
+      setKids(userData.children);
+      console.log(userData.children);
+    } catch (error) {
+      console.error('Error fetching user data', error);
+    }
+  };
+
+  useEffect(() => {
+    if (userId) {
+      fetchData();
+    }
+  }, [userId, refresh]); // Add refresh to dependencies to refetch data
 
   return (
-    <ul className='manage-children'>
-      {children.map((child) => (
-        <Child child={child} key={child.id} />
+    <ul className='manage-kids'>
+      {kids.map((kid, index) => (
+        <Kid
+          key={index}
+          kid={{
+            id: kid.id,
+            imageSource: kid.imageSource,
+            name: kid.name,
+            nickName: kid.nickName || '',
+            birthdate: new Date(kid.birthdate).toLocaleDateString('sv-SE'),
+            gender: kid.gender,
+            allergies: kid.allergies || [],
+          }}
+          onEditClick={onEditClick}
+        />
       ))}
     </ul>
   );
 }
 
-function Child({ child }) {
+function Kid({ kid, onEditClick }) {
   const [showMenu, setShowMenu] = useState(false);
   const toggleMenu = () => setShowMenu(!showMenu);
 
@@ -43,10 +57,10 @@ function Child({ child }) {
         <LiaEllipsisHSolid onClick={toggleMenu} />
         {showMenu && (
           <ul className='menu'>
-            <li onClick={() => console.log('Edit:', child.id)}>
+            <li onClick={() => onEditClick(kid)}>
               <LiaEdit /> Edit
             </li>
-            <li onClick={() => console.log('Remove:', child.id)}>
+            <li onClick={() => console.log('Remove:', kid.id)}>
               <LiaTrashAlt /> Remove
             </li>
           </ul>
@@ -54,19 +68,26 @@ function Child({ child }) {
       </div>
       <div className='row row-divider'>
         <div className='avatar-container'>
-          <img className='avatar' src={child.image} />
+          <img className='avatar' src={kid.imageSource} />
         </div>
 
         <div>
-          <h3>{child.firstName}</h3>
+          <h3>{kid.name}</h3>
           <p>
-            {child.sex}, född {child.birthdate}.
+            {kid.gender}, född {kid.birthdate}.
           </p>
         </div>
       </div>
       <div className='row'>
-        <span className='allergy'>Allergi-1</span>
-        <span className='allergy'>Allergi-2</span>
+        {kid.allergies.length > 0 ? (
+          kid.allergies.map((allergy, index) => (
+            <span key={index} className='allergy'>
+              {allergy.name}
+            </span>
+          ))
+        ) : (
+          <span className='no-allergy'>Inga allergier</span>
+        )}
       </div>
     </li>
   );

@@ -63,8 +63,8 @@ namespace ChasChallenge_G4_V3.Server
             // Service adding authentication requirements to access certain endpoints. 
             builder.Services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                //options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                //options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
@@ -128,11 +128,9 @@ namespace ChasChallenge_G4_V3.Server
 
             //Post
             //app.MapPost("/user", UserHandler.AddUser);
-            app.MapPost("/user/child", UserHandler.AddChild).RequireAuthorization();
-            
-            //app.MapPost("/user/existingChild", UserHandler.AddExistingChild);
-            app.MapPost("/user/child/allergy", UserHandler.AddAllergy);
-            app.MapPost("/user/child/measurement", UserHandler.AddMeasurement);
+            app.MapPost("/user:{userId}/child", UserHandler.AddChild);
+            app.MapPost("/user:{userId}/child:{childId}/allergy", UserHandler.AddAllergy);
+            app.MapPost("/user:{userId}/child:{childId}/measurement", UserHandler.AddMeasurement);
 
             app.MapPost("/register", async (UserDto newUser, ILoginServices loginService, IEmailService emailService) => 
             {
@@ -152,13 +150,18 @@ namespace ChasChallenge_G4_V3.Server
                 return await PasswordHandler.Resetpassword(model, loginService);
             });
 
-            ////Gets
-            app.MapGet("/user", UserHandler.GetUser);
-            //app.MapGet("/allusers", UserHandler.GetAllUsers);
-            app.MapGet("/user/child", UserHandler.GetChildofUser);
-            app.MapGet("/user/child/allergies", UserHandler.GetChildAllergies);
-            app.MapGet("/user/allchildren/allergies", UserHandler.GetAllChildrensAllergies);
+            //Gets
+            app.MapGet("/user:{userId}", UserHandler.GetUser);
+            app.MapGet("/user:{userId}/child:{childId}", UserHandler.GetChildofUser);
+            app.MapGet("/user:{userId}/child:{childId}/allergies", UserHandler.GetChildsAllergies);
+            app.MapGet("/user:{userId}/child:{childId}/measurements", UserHandler.GetChildsMeasurements);
+            app.MapGet("/user:{userId}/allchildren/allergies", UserHandler.GetAllChildrensAllergies);
             app.MapGet("/allusers", UserHandler.GetAllUsers)/*.RequireAuthorization("RequireAdmin")*/;
+
+            //Puts
+            app.MapPut("/user:{userId}/update", UserHandler.UpdateUserInfo);
+            app.MapPut("/user:{userId}/child:{childId}/update", UserHandler.UpdateChildInfo);
+            app.MapPut("/user:{userId}/child:{childId}/allergies/update", UserHandler.UpdateAllergies);
 
             //Jonzys confirm email//////////////
             app.MapGet("/confirmemail", async (string userId, string token, UserManager<User> userManager) =>
@@ -167,11 +170,13 @@ namespace ChasChallenge_G4_V3.Server
             });
 
             // Sean/Insomnia Test Endpoints
-            app.MapPost("/user/{userId}/child", UserHandler.AddChild).RequireAuthorization("RequireUser"); // Needed to input userId to test authorization. - Sean         
+            //app.MapPost("/user/{userId}/child", UserHandler.AddChild).RequireAuthorization("RequireUser"); // Needed to input userId to test authorization. - Sean         
             app.MapPost("/logout", LoginHandler.LogoutAsync);
             
             app.MapGet("/askDietAi/userId/childId", UserHandler.GetChildDietAi);
 
+
+            app.MapPut("/user/{userId}/updatePassword", PasswordHandler.UpdatePasswordAsync);
 
             app.MapGet("/check-authentication", async (ILoginServices service) =>
             {

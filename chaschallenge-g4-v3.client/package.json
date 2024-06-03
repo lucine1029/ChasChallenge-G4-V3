@@ -7,7 +7,8 @@
     "dev": "vite --host",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest --coverage"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.2",
@@ -15,6 +16,9 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.6.8",
+    "chart.js": "^4.4.3",
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "chartjs-plugin-annotation": "^3.0.1",
     "esbuild": "^0.20.2",
     "json-server": "^1.0.0-alpha.23",
     "multiselect-react-dropdown": "^2.0.25",
@@ -33,11 +37,13 @@
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "@vitest/coverage-v8": "^1.6.0",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "sass": "^1.75.0",
     "typescript": "^5.2.2",
-    "vite": "^5.2.10"
+    "vite": "^5.2.10",
+    "vitest": "^1.6.0"
   }
 }

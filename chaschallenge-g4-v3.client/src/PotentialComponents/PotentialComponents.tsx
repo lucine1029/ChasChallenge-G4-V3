@@ -1,59 +1,59 @@
-// TS Interfaces -----------------------------------------------------------------------------
-interface ChildInfo {
-  firstName: string;
-  nickName: string;
-  birthDate: number;
-  gender: string;
-}
+// // TS Interfaces -----------------------------------------------------------------------------
+// interface ChildInfo {
+//   firstName: string;
+//   nickName: string;
+//   birthDate: number;
+//   gender: string;
+// }
 
-interface UserInfo {
-  email: string;
-  password: string;
-}
+// interface UserInfo {
+//   email: string;
+//   password: string;
+// }
 
-interface ChildPreferences {}
+// interface ChildPreferences {}
 
-interface Allergies {
-  skaldjur: boolean;
-  nötte: boolean;
-}
+// interface Allergies {
+//   skaldjur: boolean;
+//   nötte: boolean;
+// }
 
-interface Todos {
-    task: string;
-    completed: boolean;
-    priority: string
-}
+// interface Todos {
+//     task: string;
+//     completed: boolean;
+//     priority: string
+// }
 
-// Request -----------------------------------------------------------------------------
+// // Request -----------------------------------------------------------------------------
 
-// OpenAI
-import OpenAI from 'openai';
+// // OpenAI
+// import OpenAI from 'openai';
 
-const openai = new OpenAI();
+// const openai = new OpenAI();
 
-async function main() {
-  const completion = await openai.chat.completions.create({
-    messages: [{ role: 'system', content: 'Will trump win the election?' }],
-    model: 'gpt-3.5-turbo',
-  });
+// async function main() {
+//   const completion = await openai.chat.completions.create({
+//     messages: [{ role: 'system', content: 'Will trump win the election?' }],
+//     model: 'gpt-3.5-turbo',
+//   });
 
-  console.log(completion.choices[0]);
-}
+//   console.log(completion.choices[0]);
+// }
 
-main();
+// main();
 
-// Axios
-import axios from 'axios'; // Importerar via browser
-const url = 'https://jsonplaceholder.typicode.com/users';
-async function getUser(url) {
-  try {
-    const response = await axios.get(url);
-    console.log(response);
-  } catch (error) {
-    console.error(error);
-  }
-}
-getUser(url);
+// // Axios
+// import axios from 'axios'; // Importerar via browser
+// const url = 'https://jsonplaceholder.typicode.com/users';
+// async function getUser(url) {
+//   try {
+//     const response = await axios.get(url);
+//     console.log(response);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
+// getUser(url);
 
 
-// NavBarModal -----------------------------------------------------------------------------
+// // NavBarModal -----------------------------------------------------------------------------
