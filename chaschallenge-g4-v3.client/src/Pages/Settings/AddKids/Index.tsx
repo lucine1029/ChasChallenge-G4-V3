@@ -32,7 +32,11 @@ const allergies = [
 ];
 
 function Button({ onClick, children }) {
-  return <button onClick={onClick}>{children}</button>;
+  return (
+    <button className='button-primary' onClick={onClick}>
+      {children}
+    </button>
+  );
 }
 
 function FetchAvatarDropdown({ onAvatarChange, defaultAvatar }) {

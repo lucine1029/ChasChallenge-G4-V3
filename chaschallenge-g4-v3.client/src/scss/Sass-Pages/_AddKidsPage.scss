@@ -13,6 +13,13 @@
   text-align: left;
 }
 
+.button-primary {
+  @include primary-button;
+  cursor: pointer;
+  width: 90%;
+  margin: 1rem auto;
+}
+
 .dropdown-content {
   position: absolute;
   width: 100%;

@@ -3,11 +3,11 @@
 .header-with-back-button {
   position: sticky;
   top: 0;
-  background-color: transparent;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
+  padding: 10px 1rem;
   margin: 0;
   margin-bottom: 1rem;
   z-index: 10;
@@ -17,7 +17,7 @@
     padding: 0;
     background-color: transparent;
     border: none;
-    color: #333;
+    color: white;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -39,6 +39,7 @@
   button {
     border: none;
     background: none;
+    color: white;
   }
 
   button:hover {

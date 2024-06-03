@@ -2,6 +2,7 @@
 
 .manage-kids {
   list-style-type: none;
+  width: 100%;
   padding-left: 0;
   margin-left: 0;
 
@@ -19,6 +20,10 @@
 
   p {
     font-size: 0.875rem;
+  }
+
+  .button {
+    @include primary-button;
   }
 
   .card {
