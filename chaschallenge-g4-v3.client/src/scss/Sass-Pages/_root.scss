@@ -15,9 +15,10 @@
 }
 
 body {
-  height: 100vh; //Ta bort om den strular?
+  //height: 100vh; //Ta bort om den strular?
   margin: auto;
   background-image: linear-gradient($gradient);
+  background-repeat: no-repeat;
 }
 
 @media (min-width: 800px) {

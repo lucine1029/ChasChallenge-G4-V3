@@ -7,7 +7,6 @@ header {
 
   .hamburger-container {
     display: flex;
-    background-color: #ffffff74;
     border-radius: 0.5rem;
     padding: 0.5rem;
     align-items: center;
@@ -85,7 +84,7 @@ header {
       color: #9b59b6;
       text-decoration: none;
       background: rgb(255, 255, 255);
-      padding: 0.5rem;
+      padding: 0.7rem;
       border-radius: 0.5rem;
       transition: all 0.2s ease-in-out;
       display: flex;
@@ -152,7 +151,7 @@ header {
 
     &.show {
       display: block;
-      height: 50%;
+      height: 70%;
       opacity: 1;
     }
   }
