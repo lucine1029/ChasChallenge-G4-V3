@@ -4,6 +4,7 @@ using ChasChallenge_G4_V3.Server.Models.DTOs;
 using ChasChallenge_G4_V3.Server.Models.ViewModels;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OpenAI_API;
@@ -23,6 +24,10 @@ namespace ChasChallenge_G4_V3.Server.Services
         void AddAllergy(string userId, int childId, AllergyDto allergyDto);
         void UpdateAllergies(string userId, int childId, List<AllergyDto> allergyDto);
         void AddMeasurement(string userId, int childId, MeasurementDto measurementDto);
+
+        Task<IResult> DeleteChildAsync(string userId, int childId);
+
+        Task<IResult> DeleteUserAsync(string userId, UserDto userDto);
     
         UserViewModel GetUser(string userId);
 
@@ -575,6 +580,64 @@ namespace ChasChallenge_G4_V3.Server.Services
             chat.AppendUserInput($"{prompt}");
             var response = await chat.GetResponseFromChatbotAsync();
             return response;
+        }
+
+        public async Task<IResult> DeleteChildAsync(string userId, int childId)
+        {
+            Child? child = _context.Children
+                .Where(c => c.Id == childId)
+                .SingleOrDefault();
+            
+            if (child is null)
+            {
+                return Results.BadRequest("Child does not exist");
+            }
+
+            var childUser = _context.Children
+                .Where(c => c.Id == childId)
+                .SelectMany(c => c.Users);
+
+            string sqlDeleteUserChild = "DELETE FROM ChildUser WHERE ChildrenId = @childId";
+
+            string sqlDeleteAllergyChild = "DELETE FROM AllergyChild WHERE ChildrenId = @childId";
+
+            _context.Database.ExecuteSqlRaw(sqlDeleteUserChild, new SqlParameter("@childId", childId));
+
+            _context.Database.ExecuteSqlRaw(sqlDeleteAllergyChild, new SqlParameter("@childId", childId));
+
+            _context.Children.Remove(child);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Results.Ok("Child Successfully Deleted");
+            }
+            catch
+            {
+                return Results.BadRequest("Something went wrong");
+            }
+
+        }
+
+        public async Task<IResult> DeleteUserAsync(string userId, UserDto userDto)
+        {
+            User? existingUser = await _userManager.FindByEmailAsync(userDto.Email);
+
+            if (existingUser == null)
+            {
+                return Results.BadRequest("User not found");
+            }
+
+            var result = await _userManager.DeleteAsync(existingUser);
+
+            if (!result.Succeeded)
+            {
+                return Results.BadRequest("User not deleted");
+            }
+
+            return Results.Ok("User deleted");
+            
+
         }
     }
 }

@@ -163,6 +163,12 @@ namespace ChasChallenge_G4_V3.Server
             app.MapPut("/user:{userId}/child:{childId}/update", UserHandler.UpdateChildInfo);
             app.MapPut("/user:{userId}/child:{childId}/allergies/update", UserHandler.UpdateAllergies);
 
+            //Delete
+            app.MapDelete("/user:{userId}/child:{childId}/delete", UserHandler.DeleteChildAsync);
+            //app.MapDelete("/user:{userId}/delete", UserHandler.DeleteUserAsync);
+
+
+
             //Jonzys confirm email//////////////
             app.MapGet("/confirmemail", async (string userId, string token, UserManager<User> userManager) =>
             {
@@ -177,7 +183,7 @@ namespace ChasChallenge_G4_V3.Server
 
             app.MapPut("/user/{userId}/updatePassword", PasswordHandler.UpdatePasswordAsync);
 
-            app.MapGet("/check-authentication", async (ILoginServices service) =>
+            app.MapGet("/check-loggedin-user", async (ILoginServices service) =>
             {
                 bool isLoggedIn = await service.IsUserLoggedIn();
 

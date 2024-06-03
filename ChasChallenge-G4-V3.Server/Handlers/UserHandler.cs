@@ -186,5 +186,31 @@ namespace ChasChallenge_G4_V3.Server.Handlers
             }
         }
 
+        public static IResult DeleteChildAsync(IUserServices userServices, string userId, int childId) 
+        {
+           try
+            {
+                userServices.DeleteChildAsync(userId, childId);
+                return Results.Ok("Child Deleted");
+            } 
+            catch
+            {
+                return Results.BadRequest("Child Not Deleted. Error triggered in Handler");
+            }
+        }
+
+        public static IResult DeleteUserAsync(IUserServices userService, string userId, UserDto userDto)
+        {
+            try
+            {
+                userService.DeleteUserAsync(userId, userDto);
+                return Results.Ok("User Deleted");
+            }
+            catch
+            {
+                return Results.BadRequest("User not deleted. Error triggered in Handler");
+            }
+        }
+
     }
 }
