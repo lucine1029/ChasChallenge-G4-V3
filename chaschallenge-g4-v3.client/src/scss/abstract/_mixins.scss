@@ -1,0 +1,70 @@
+
+
+//Background gradient styling
+@mixin background-gradient {
+    background: -moz-linear-gradient(#A35EBB, #FFA0A0);
+}
+
+// h1 styling
+@mixin H1 {
+    font-size: 2rem;
+    color: #46284E;
+}
+
+// h2 styling
+@mixin H2 {
+    font-size: 40px;
+    color: #46284E;
+}
+
+@mixin paragraph {
+    font-size: 1rem;
+    color: #46284E;
+    text-align: left;
+    line-height: 1.3rem;
+}
+
+// Primary buttton styling
+@mixin primary-button {
+    border: none;
+    background: none;
+    background-color: #9b59b6;
+    color: #fff;
+    display: block;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-decoration: none;
+
+    // &:hover{
+    // background-color: ;
+    // }
+
+    // &:active{
+    // background-color: ;
+    // }
+}
+
+
+//Secondary button styling
+@mixin secondary-button {
+    background: none;
+    display: block;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    background-color: #ffffff;
+    color: #9b59b6;
+    border: 2px solid #9b59b6;
+
+    // &:hover{
+    // background-color: ;
+    // }
+
+    // &:active{
+    // background-color: ;
+    // }
+}
