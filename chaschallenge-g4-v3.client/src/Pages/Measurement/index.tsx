@@ -18,7 +18,7 @@ export default function SettingsPage() {
             <Link className='link-style card' to='circumference'>
               <LiaChildSolid className='large-icon' /> {/* Uppdatera ikonen till FaBrain */}
               <div className='push-right'>
-                <h3 color=' indigo'>Huvudomfång </h3>
+                <h3 color=' Dark Slate Blue'>Huvudomfång </h3>
                 <p>Visa och hantera huvudomkretskurva</p>
               </div>
               <LiaAngleRightSolid />

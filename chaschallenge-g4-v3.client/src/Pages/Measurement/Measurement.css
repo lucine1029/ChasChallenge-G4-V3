@@ -1,111 +1,4 @@
-/* 
 
-.measurement-tracking-container {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  box-sizing: border-box; 
-}
-
-
-h2 {
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-
-
-.save-button {
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.save-button:hover {
-  background-color: #0056b3;
-}
-
-
-.chart-container {
-  position: relative;
-  margin-top: 20px;
-  width: 100%;
-  height: 400px;
-}
-
-
-.data-list ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.data-list ul li {
-  margin-bottom: 5px;
-}
-
-
-.height-container {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
-
-.input-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-}
-
-
-.input-container label {
-  flex: 0 0 auto;
-  margin-bottom: 5px;
-}
-
-.input-container input[type="number"],
-.input-container input[type="text"] {
-  width: 100%; 
-  max-width: 150px; 
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box; 
-}
-
-.input-container input[type="text"]:focus,
-.input-container input[type="number"]:focus {
-  outline: none;
-  border-color: #007bff;
-}
-
-
-@media only screen and (max-width: 428px) {
-  .input-container {
-    flex-direction: column;
-  }
-
-  .input-container label {
-    margin-bottom: 5px;
-    flex: 0 0 auto;
-  }
-
-  .input-container input[type="number"],
-  .input-container input[type="text"] {
-    width: calc(100% - 20px); 
-    max-width: none; 
-  }
-
-  .chart-container {
-    height: 300px;
-  }
-}
- */
 
  
  .measurement-tracking-container {
@@ -124,7 +17,7 @@ h2 {
 
 .input-container label {
   text-align: left;
-  color: #4b0082;
+  color: #46284E;
 }
 
 
@@ -140,7 +33,7 @@ h2 {
 .input-container input[type="text"]:focus,
 .input-container input[type="number"]:focus {
   outline: none;
-  border-color: #4b0082;
+  border-color: #46284E;
 }
 
 .save-button-container {
@@ -151,7 +44,7 @@ h2 {
 .save-button {
   width: 100%;
   padding: 12px;
-  background: linear-gradient(to bottom, #A35EBB, #FFA0A0);
+  background: #6A62B6 ;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -159,11 +52,14 @@ h2 {
   transition: background-color 0.3s;
 }
 
+.save-button:active {
+  background-color: #46284E; 
+}
 
 h2 {
   margin-top: 20px;
   margin-bottom: 10px;
-  color:#4b0082;
+  color:#46284E;
 }
 
 .chart-container {
@@ -215,3 +111,4 @@ canvas {
     width: calc(100% - 20px); 
   }
 }
+

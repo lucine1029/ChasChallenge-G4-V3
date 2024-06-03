@@ -156,12 +156,18 @@ namespace ChasChallenge_G4_V3.Server
             app.MapGet("/user:{userId}/child:{childId}/allergies", UserHandler.GetChildsAllergies);
             app.MapGet("/user:{userId}/child:{childId}/measurements", UserHandler.GetChildsMeasurements);
             app.MapGet("/user:{userId}/allchildren/allergies", UserHandler.GetAllChildrensAllergies);
-            app.MapGet("/allusers", UserHandler.GetAllUsers)/*.RequireAuthorization("RequireAdmin")*/;
+            app.MapGet("/allusers", UserHandler.GetAllUsers);
 
             //Puts
             app.MapPut("/user:{userId}/update", UserHandler.UpdateUserInfo);
             app.MapPut("/user:{userId}/child:{childId}/update", UserHandler.UpdateChildInfo);
             app.MapPut("/user:{userId}/child:{childId}/allergies/update", UserHandler.UpdateAllergies);
+
+            //Delete
+            app.MapDelete("/user:{userId}/child:{childId}/delete", UserHandler.DeleteChildAsync);
+            //app.MapDelete("/user:{userId}/delete", UserHandler.DeleteUserAsync);
+
+
 
             //Jonzys confirm email//////////////
             app.MapGet("/confirmemail", async (string userId, string token, UserManager<User> userManager) =>
@@ -169,8 +175,7 @@ namespace ChasChallenge_G4_V3.Server
                 return await EmailServiceHandler.ConfirmEmailAsync(userId, token, userManager);
             });
 
-            // Sean/Insomnia Test Endpoints
-            //app.MapPost("/user/{userId}/child", UserHandler.AddChild).RequireAuthorization("RequireUser"); // Needed to input userId to test authorization. - Sean         
+            // Sean/Insomnia Test EndpointsW
             app.MapPost("/logout", LoginHandler.LogoutAsync);
             
             app.MapGet("/askDietAi/userId/childId", UserHandler.GetChildDietAi);
@@ -178,7 +183,7 @@ namespace ChasChallenge_G4_V3.Server
 
             app.MapPut("/user/{userId}/updatePassword", PasswordHandler.UpdatePasswordAsync);
 
-            app.MapGet("/check-authentication", async (ILoginServices service) =>
+            app.MapGet("/check-loggedin-user", async (ILoginServices service) =>
             {
                 bool isLoggedIn = await service.IsUserLoggedIn();
 

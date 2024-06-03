@@ -87,7 +87,7 @@ const SleepTracking: React.FC = () => {
    <>
 
     <HeaderWithBackButton
-   title={<h2 style={{ color: '#4b0082', fontSize: '24px' }}> Spåra sömn </h2>}
+   title={<h2 style={{ color: '#46284E', fontSize: '24px' }}> Spåra sömn </h2>}
    customBackAction={undefined}
    isSettingsPage={undefined}
  />
