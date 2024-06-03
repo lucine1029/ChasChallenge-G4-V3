@@ -101,7 +101,13 @@
     padding: 1.2rem;
     background-color: white;
 
-    .input-field{
-
+    input{
+        outline: none;
+        width: 100%;
+        padding: 10px;
+        border: none;
+        background-color: transparent;
+        border-bottom: solid 1.5px black;
+        border-radius: 0;
     }
 }
