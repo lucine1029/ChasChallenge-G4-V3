@@ -1,5 +1,16 @@
 @use '../Abstract/index' as *;
 
+.add-child-btn{
+  @include auth-button;
+  width: 60%;
+}
+
+.child-list-section{
+  @include center;
+  flex-direction: column;
+
+}
+
 .manage-kids {
   list-style-type: none;
   padding-left: 0;

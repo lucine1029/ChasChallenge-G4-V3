@@ -1,10 +1,15 @@
 @use '../Abstract/index' as *;
 
 .add-child-card{
-  @include auth-card;
+  @include auth-card; 
+  @include center;
+  flex-direction: column;
+  width: 100%;
 }
-.add-child-btn{
+.button-primary{
  @include primary-button; 
+  width: 100%;
+  margin: 1rem;
 }
 
 .dropdown-button,
