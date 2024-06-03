@@ -6,7 +6,7 @@ main {
   justify-content: start;
   align-items: center;
   flex-direction: column;
-    height: 65rem;
+  height: 65rem;
 }
 
 /* AI Chat Container */
@@ -42,7 +42,8 @@ main {
     min-width: 35rem;
     margin-left: 4rem;
     margin-top: 0.5rem;
-    padding: 0px 5px 0px 5px;
+    margin-bottom: 0.5rem;
+    padding: 0px 20px 0px 20px;
   }
 
   &.ai {
@@ -50,12 +51,11 @@ main {
     min-width: 35rem;
     margin-right: 4rem;
     margin-top: 0.5rem;
-    margin-bottom: 1rem;
-    
+    margin-bottom: 0.5rem;
 
     p {
       text-align: left;
-      padding: 0px 5px 0px 5px;
+      padding: 0px 20px 0px 20px;
     }
   }
 }
@@ -82,6 +82,7 @@ main {
   width: max 35rem;
   margin: 0rem 0.4rem;
   border: none;
+  border-radius: 10px;
   background-color: rgb(255, 255, 255);
   font-size: medium;
   overflow-y: auto;
@@ -175,7 +176,6 @@ main {
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.4);
-  
 }
 
 .modal-content {
@@ -196,7 +196,6 @@ main {
   border: 1px solid #888;
   width: 80%;
   border-radius: 20px;
-  
 
   p {
     text-align: left;
@@ -267,6 +266,7 @@ main {
       rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
   }
   #chat-input {
+    border-radius: 10px;
     height: 2rem;
     width: 100%;
     margin: 0rem 0.4rem;
