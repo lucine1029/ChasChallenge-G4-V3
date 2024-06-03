@@ -47,6 +47,7 @@ function AppContent() {
         <Route path='/' element={<HomePage />} />
         <Route path='/signup' element={<SignUpPage />} />
         <Route path='/signin' element={<SignInPage />} />
+        {/* <Route path='/forgot-password' element={<ForgotPasswordPage/>} /> */}
         <Route element={<ProtectedRoutes />}>
           <Route path='/chat' element={<ChatbotPage />} />
           <Route path='/settings' element={<SettingsPage />} />

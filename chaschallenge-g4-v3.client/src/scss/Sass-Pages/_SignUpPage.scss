@@ -1,64 +1,70 @@
 //SignupPage
 @use '../abstract/index' as *;
 
+main {
+  @include center;
+  height: 100vh;
+}
+
+.card-container {
+  @include center;
+}
 .input-container {
   @include auth-card;
-  }
-  
-  .input-field:focus{
-    outline: none;
-  }
-  
-  .input-field::placeholder {
-    color: black;
-  }
-  
-  .login-button,
-  .signup-button {
-    @include auth-button;
-  }
-  
-  .error-message {
-    color: red;
-  }
-  
-  .link-button {
-    display: block;
-    text-align: center;
-    margin-top: 20px;
-    color: #000000;
+}
+
+.input-field:focus {
+  outline: none;
+}
+
+.input-field::placeholder {
+  color: rgb(142, 142, 142);
+}
+
+.login-button,
+.signup-button {
+  @include auth-button;
+}
+
+.error-message {
+  color: red;
+}
+
+.link-button {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #000000;
+  text-decoration: none;
+  font-weight: 300;
+}
+
+.link-button:hover {
+  text-decoration: underline;
+}
+
+/* Specifika stilar för SignIn-sidan */
+
+// .signout-container {
+//   border-radius: 8px;
+//   padding: 40px;
+//   max-width: 400px;
+//   margin: auto;
+// }
+
+// .login-text,
+// .signout-text {
+//   @include H1;
+//   margin-bottom: 1.5rem;
+// }
+
+.signin-forgot-container {
+  display: flex;
+  justify-content: flex-end;
+  .forgot-link {
     text-decoration: none;
+    color: black;
+    font-size: small;
     font-weight: 300;
   }
-  
-  .link-button:hover {
-    text-decoration: underline;
-  }
-  
-  /* Specifika stilar för SignIn-sidan */
-
-  .login-container,
-  .signout-container {
-    border-radius: 8px;
-    padding: 40px;
-    max-width: 400px;
-    margin: auto;
-  }
-  
-  .login-text,
-  .signout-text {
-    @include H1;
-    margin-bottom: 1.5rem;
-  }
-
-  .signin-forgot-container{
-    display: flex;
-    justify-content: flex-end;
-    width: 14rem;
-    .forgot-link{
-      text-decoration: none;
-      color: black;
-      font-size: small;
-      font-weight: 300;
-    }
-  }
+}
