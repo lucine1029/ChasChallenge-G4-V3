@@ -43,6 +43,7 @@
     border-radius: 5px;
     margin-bottom: 10px;
     text-decoration: none;
+    cursor: pointer;
 
     // &:hover{
     // background-color: ;
@@ -66,6 +67,7 @@
     background-color: #ffffff;
     color: #9b59b6;
     border: 2px solid #9b59b6;
+    cursor: pointer;
 
     // &:hover{
     // background-color: ;
@@ -77,7 +79,7 @@
 }
 
 
-// Auth Styling
+// --Auth Styling--
 
 // Signup/Login button
 @mixin auth-button {
@@ -94,20 +96,21 @@
     font-weight: 600;
 }
 
-@mixin auth-card {
+@mixin auth-card { 
     margin-bottom: 20px;
     box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.30);
     border-radius: 20px;
-    padding: 1.2rem;
+    padding: 1.5rem 2rem;
+    width: 20rem;
     background-color: white;
 
-    input{
+    .input-field{
         outline: none;
         width: 100%;
         padding: 10px;
-        border: none;
+        border: none !important;
         background-color: transparent;
-        border-bottom: solid 1.5px black;
-        border-radius: 0;
+        border-bottom: solid 1.5px black !important;
+        border-radius: 0 !important;
     }
 }

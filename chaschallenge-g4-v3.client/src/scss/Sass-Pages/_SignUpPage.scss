@@ -1,17 +1,24 @@
 //SignupPage
 @use '../abstract/index' as *;
 
+main{
+  @include center;
+  height: 100vh;
+}
+
+.card-container{
+  @include center;
+}
 .input-container {
   @include auth-card;
   }
-  
 
   .input-field:focus{
     outline: none;
   }
   
   .input-field::placeholder {
-    color: black;
+    color: rgb(142, 142, 142);
   }
   
   .login-button,
@@ -38,24 +45,22 @@
   
   /* Specifika stilar för SignIn-sidan */
 
-  .login-container,
-  .signout-container {
-    border-radius: 8px;
-    padding: 40px;
-    max-width: 400px;
-    margin: auto;
-  }
+  // .signout-container {
+  //   border-radius: 8px;
+  //   padding: 40px;
+  //   max-width: 400px;
+  //   margin: auto;
+  // }
   
-  .login-text,
-  .signout-text {
-    @include H1;
-    margin-bottom: 1.5rem;
-  }
+  // .login-text,
+  // .signout-text {
+  //   @include H1;
+  //   margin-bottom: 1.5rem;
+  // }
 
   .signin-forgot-container{
     display: flex;
     justify-content: flex-end;
-    width: 14rem;
     .forgot-link{
       text-decoration: none;
       color: black;
