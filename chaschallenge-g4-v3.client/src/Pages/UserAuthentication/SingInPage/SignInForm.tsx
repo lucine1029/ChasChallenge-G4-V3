@@ -41,6 +41,7 @@ function SignInForm() {
     <>
       <form onSubmit={handleSubmit(formSubmit)}>
         <div className='input-container'>
+          <h2>Logga in</h2>
           {/* <label htmlFor="email" className="input-label">Email:</label> */}
           <input
             id='email'
@@ -73,20 +74,20 @@ function SignInForm() {
             <span className='error-message'>{errors.password.message}</span>
           )}{' '}
           {/* Använd klassen för felmeddelande */}
+          <div className='signin-forgot-container'>
+            <Link className='forgot-link' to='/forgot-password'>
+              Glömt lösenordet?
+            </Link>
+          </div>
+            <button type='submit' className='login-button'>
+              Logga in
+            </button>{' '}
+            {/* Använd klassen för knappen */}
+          <Link to='/signup' className='link-button'>
+            Skapa ett konto på Babster
+          </Link>{' '}
         </div>
-        <div className='signin-forgot-container'>
-          <Link className='forgot-link' to='/home'>
-            Glömt lösenordet?
-          </Link>
-        </div>
-        <button type='submit' className='login-button'>
-          Logga in
-        </button>{' '}
-        {/* Använd klassen för knappen */}
       </form>
-      <Link to='/signup' className='link-button'>
-        Har du inte ett konto redan?
-      </Link>{' '}
       {/* Använd klassen för länk-knappen */}
     </>
   );
