@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OpenAI_API;
 using OpenAI_API.Models;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -27,7 +28,7 @@ namespace ChasChallenge_G4_V3.Server.Services
 
         Task<IResult> DeleteChildAsync(string userId, int childId);
 
-        Task<IResult> DeleteUserAsync(string userId, UserDto userDto);
+        Task<IResult> DeleteUserAsync(string userId);
     
         UserViewModel GetUser(string userId);
 
@@ -601,6 +602,8 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             string sqlDeleteAllergyChild = "DELETE FROM AllergyChild WHERE ChildrenId = @childId";
 
+           
+
             _context.Database.ExecuteSqlRaw(sqlDeleteUserChild, new SqlParameter("@childId", childId));
 
             _context.Database.ExecuteSqlRaw(sqlDeleteAllergyChild, new SqlParameter("@childId", childId));
@@ -619,15 +622,15 @@ namespace ChasChallenge_G4_V3.Server.Services
 
         }
 
-        public async Task<IResult> DeleteUserAsync(string userId, UserDto userDto)
+        public async Task<IResult> DeleteUserAsync(string userId)
         {
-            User? existingUser = await _userManager.FindByEmailAsync(userDto.Email);
+            User? existingUser = await _userManager.FindByIdAsync(userId);
 
             if (existingUser == null)
             {
                 return Results.BadRequest("User not found");
             }
-
+           
             var result = await _userManager.DeleteAsync(existingUser);
 
             if (!result.Succeeded)

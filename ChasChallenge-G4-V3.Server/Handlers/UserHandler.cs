@@ -203,7 +203,7 @@ namespace ChasChallenge_G4_V3.Server.Handlers
         {
             try
             {
-                userService.DeleteUserAsync(userId, userDto);
+                userService.DeleteUserAsync(userId);
                 return Results.Ok("User Deleted");
             }
             catch
