@@ -27,12 +27,12 @@ export default function HomePageTwo() {
             konflikter och uppfostran. Endast din fantasi sätter gränserna.
           </p>
           <div className='buttons'>
-            <a href='#' className='primary-button'>
-              Kom igång
-            </a>
-            <a href='#' className='secondary-button'>
-              Prova på
-            </a>
+            <Link className='link' to='/signup'>
+              <button className='primary-button'>Kom igång</button>
+            </Link>
+            <Link className='link' to='/#'>
+              <button className='secondary-button'>Prova på</button>
+            </Link>
           </div>
           <div className='question-section'>
             <h2>

@@ -1,11 +1,8 @@
-
-
 import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import ChatbotPage from './Pages/ChatbotPage/ChatbotPage';
-import HomePage from './Pages/HomePage/HomePage';
-import HomePageTwo from './Pages/HomePage/index';
+import HomePage from './Pages/HomePage/index';
 import AccountPage from './Pages/Settings/Account/Index';
 import AddKidsPage from './Pages/Settings/AddKids/Index';
 import SettingsPage from './Pages/Settings/Index';
@@ -49,7 +46,6 @@ function AppContent() {
     <>
       <Routes>
         <Route path='/' element={<HomePage />} />
-        <Route path='/two' element={<HomePageTwo />} />
         <Route path='/signup' element={<SignUpPage />} />
         <Route path='/signin' element={<SignInPage />} />
         <Route element={<ProtectedRoutes />}>
@@ -58,10 +54,22 @@ function AppContent() {
           <Route path='/settings/account' element={<AccountPage />} />
           {/* <Route path='/settings/changePW' element={<ChangePasswordPage />} /> */}
           <Route path='/settings/kids' element={<ManageKidsPage />} />
-          <Route path='/settings/kids/add' element={<AddKidsPage defaultValues={undefined} isEditing={undefined} onSave={undefined} />} />
+          <Route
+            path='/settings/kids/add'
+            element={
+              <AddKidsPage
+                defaultValues={undefined}
+                isEditing={undefined}
+                onSave={undefined}
+              />
+            }
+          />
           <Route path='/sleeptracking' element={<SleepTracking />} />
-           <Route path='/measurement' element={<Measurement />} /> // Example 
-          <Route path='/measurement/circumference' element={<HeadCircumference />} />
+          <Route path='/measurement' element={<Measurement />} /> // Example
+          <Route
+            path='/measurement/circumference'
+            element={<HeadCircumference />}
+          />
           <Route path='/measurement/height' element={<Height />} />
           <Route path='/measurement/weight' element={<Weight />} />
         </Route>
@@ -80,5 +88,3 @@ export default function App() {
     </AuthProvider>
   );
 }
-
-

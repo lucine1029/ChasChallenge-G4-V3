@@ -1,3 +1,5 @@
+@use '../Abstract/index' as *;
+
 .babster {
   font-family: Arial, sans-serif;
   background-color: white;
@@ -9,24 +11,30 @@
     align-items: center;
     padding: 0.5rem 1rem;
     //text-align: center;
-    border-bottom: 1px solid #858484;
+    border-bottom: 1px solid #6a62b6;
     position: relative;
 
     .logo {
-      color: #9b59b6;
+      color: #6a62b6;
       font-weight: 600;
       letter-spacing: 1px;
     }
 
     .header-button {
-      //position: absolute;
       right: 10px;
       top: 10px;
+      color: #6a62b6;
       background-color: #fff;
-      border: 1px solid #ddd;
+      border: 2px solid #6a62b6;
       border-radius: 5px;
       padding: 5px 10px;
       cursor: pointer;
+
+      &:active {
+        background-color: darken(#3f3b6d, 10%);
+        color: lighten(#fff, 10%);
+        border-color: darken(#3f3b6d, 10%);
+      }
     }
   }
 
@@ -59,12 +67,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(
-        155,
-        89,
-        182,
-        0.5
-      ); // The color to multiply with the image
+      background: #6a62b670; // The color to multiply with the image
       mix-blend-mode: multiply; // Apply the multiply blend mode to the overlay
       z-index: 2;
     }
@@ -77,42 +80,59 @@
   }
 
   .content {
-    padding: 20px;
+    //padding: 20px;
 
     h1 {
       font-size: 2rem;
-      color: #333;
+      color: #46284e;
     }
 
     p {
       font-size: 1rem;
-      color: #555;
+      color: #46284e;
       text-align: left;
       line-height: 1.3rem;
     }
 
     .buttons {
-      margin-top: 20px;
+      margin-top: 0.5rem;
+      padding: 1rem;
 
       .primary-button,
       .secondary-button {
         display: block;
         text-align: center;
+        width: 100%;
         padding: 10px;
         border-radius: 5px;
         margin-bottom: 10px;
         text-decoration: none;
+        cursor: pointer;
+
+        &:active {
+          background-color: darken(#3f3b6d, 10%);
+          border-color: darken(#3f3b6d, 10%);
+        }
+      }
+
+      .link {
+        text-decoration: none;
       }
 
       .primary-button {
-        background-color: #9b59b6;
+        background-color: #6a62b6;
         color: #fff;
+        border: none;
       }
 
       .secondary-button {
         background-color: #ffffff;
-        color: #9b59b6;
-        border: 2px solid #9b59b6;
+        color: #6a62b6;
+        border: 2px solid #6a62b6;
+
+        &:active {
+          color: lighten(#fff, 10%); // Change to desired color when pressed
+        }
       }
     }
 
@@ -122,7 +142,7 @@
       h2 {
         font-size: 1.5rem;
 
-        color: #333;
+        color: #46284e;
         display: flex;
         align-items: center;
 
@@ -137,7 +157,7 @@
       p {
         font-size: 1rem;
         line-height: 1.3rem;
-        color: #555;
+        color: #46284e;
         margin-top: 10px;
       }
     }
