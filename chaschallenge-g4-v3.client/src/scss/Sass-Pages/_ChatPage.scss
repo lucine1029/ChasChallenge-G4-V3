@@ -1,17 +1,18 @@
 @use '../abstract/index' as *;
 
+/* Main Container */
 main {
   display: flex;
   justify-content: start;
   align-items: center;
   flex-direction: column;
+    height: 65rem;
 }
 
+/* AI Chat Container */
 .ai-chat-container {
-  // width: 95%;
   height: 30rem;
   border-radius: 2rem;
-  //margin: 1rem 0.5rem;
   display: flex;
   justify-content: start;
   align-items: center;
@@ -20,18 +21,17 @@ main {
   scroll-behavior: smooth;
 }
 
+/* Chat Bubble */
 .chat-bubble {
   display: flex;
   align-items: start;
   justify-content: start;
   flex-direction: column;
-  //padding: 0.2rem 0.8rem;
   width: 50%;
   border-radius: 1rem;
-  //margin: 0.2rem;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-  word-wrap: break-word; /* Prevent overflow by breaking long words */
-  overflow-wrap: break-word; /* Fallback for older browsers */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 
   h4 {
     margin: 0.5px;
@@ -39,45 +39,60 @@ main {
 
   &.user {
     background-color: #d9b8ff;
+    min-width: 35rem;
+    margin-left: 4rem;
+    margin-top: 0.5rem;
+    padding: 0px 5px 0px 5px;
   }
+
   &.ai {
     background-color: #b4e0ff;
-  }
-  &.ai p {
-    text-align: left;
+    min-width: 35rem;
+    margin-right: 4rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    
+
+    p {
+      text-align: left;
+      padding: 0px 5px 0px 5px;
+    }
   }
 }
 
 .chat-bubble a {
-  word-wrap: break-word; /* Prevent overflow by breaking long words */
-  overflow-wrap: break-word; /* Fallback for older browsers */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
+/* User Input Container */
 .user-input-container {
   width: 100%;
   background-color: white;
   border-radius: 0.8rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
     rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
 }
 
 #chat-input {
-  //width: 700px;
   height: 2rem;
+  width: max 35rem;
   margin: 0rem 0.4rem;
   border: none;
   background-color: rgb(255, 255, 255);
-  border-radius: 1rem;
-  //padding: 0.4rem;
   font-size: medium;
   overflow-y: auto;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 #chat-input:focus {
-  outline: none;
+  background-color: rgb(255, 255, 255);
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 #chat-submit-btn {
@@ -89,11 +104,12 @@ main {
   font-size: medium;
 }
 
+/* Children Container */
 .children-container {
-  // width: 100%;
   h2 {
     margin-bottom: 1rem;
   }
+
   .ul {
     display: flex;
     list-style: none;
@@ -101,70 +117,24 @@ main {
     gap: 1rem;
     flex-wrap: wrap;
   }
+
   .child-card {
-    background-color: #fff;
+    background-color: #6a62b6;
     border-radius: 10px;
     padding: 0.2rem 0.5rem;
-    background-color: #6a62b6;
     color: white;
 
     p {
       margin: 0.5rem 0;
     }
   }
+
   .child-card.clicked {
     background-color: #3f3b6d;
   }
 }
 
-.modal {
-  display: block;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative; /* Required for absolute positioning of close button */
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  border-radius: 20px;
-}
-
-.close {
-  color: lightpink;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.modal-content p.card-text {
-  color: #6a62b6;
-  text-align: left;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  background-color: #6a62b6;
-  text-decoration: none;
-  cursor: pointer;
-}
-
+/* Accordion Button */
 .accordion-button {
   background-color: transparent;
   border: none;
@@ -174,13 +144,14 @@ main {
   margin-left: 5px;
 }
 
+/* Chat Greeting Container */
 .chat-greeting-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  height: 100%;
+  height: 70%;
 }
 
 .chat-greeting-header {
@@ -193,23 +164,116 @@ main {
   font-size: 18px;
 }
 
+/* Modal */
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  
+}
+
+.modal-content {
+  max-width: 35rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Required for absolute positioning of close button */
+  background-color: #fefefe;
+  // margin: 15% auto;
+
+  margin: 0 auto; /* Center horizontally */
+  margin-top: 0; /* Reset default margin */
+  top: 5rem; /* Move the modal upwards */
+
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  border-radius: 20px;
+  
+
+  p {
+    text-align: left;
+  }
+}
+
+.close {
+  color: lightpink;
+  position: absolute;
+  top: 10px;
+  right: 1.7rem;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.modal-content p.card-text {
+  color: #6a62b6;
+  text-align: left;
+}
+
+  &:hover,
+  &:focus {
+    color: black;
+    background-color: #6a62b6;
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
+.link-to-settings {
+  color: lightpink;
+  position: absolute;
+  top: 10px;
+  right: 4rem;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    color: black;
+    background-color: #6a62b6;
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
+/* Media Query */
 @media (min-width: 1140px) {
   .children-container {
     
     max-width: 528.8px;
     background-image: none;
   }
-}
 
-@media (min-width: 1140px) {
-.user-input-container {
-  width: 25%;
-  background-color: white;
-  border-radius: 0.8rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
-    rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-}
+  main {
+    height: 65rem;
+  }
+
+  .user-input-container {
+    width: 50%;
+    background-color: white;
+    border-radius: 0.8rem;
+    display: flex;
+
+    align-items: center;
+    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
+      rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  }
+  #chat-input {
+    height: 2rem;
+    width: 100%;
+    margin: 0rem 0.4rem;
+    border: none;
+    background-color: rgb(255, 255, 255);
+    font-size: medium;
+    overflow-y: auto;
+    box-shadow: none;
+  }
 }
