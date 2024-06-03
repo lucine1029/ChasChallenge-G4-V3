@@ -3,11 +3,12 @@
 .header-with-back-button {
   position: sticky;
   top: 0;
+  color: white;
   background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
+  padding: 10px 1rem;
   margin: 0;
   margin-bottom: 1rem;
   z-index: 10;
@@ -15,9 +16,9 @@
   .back-button {
     margin: 0;
     padding: 0;
-    background-color: transparent;
+    //background-color: transparent;
     border: none;
-    color: #333;
+    //color: white;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -30,6 +31,7 @@
     font-size: 1rem;
     margin: 0;
     padding: 0;
+    color: white;
   }
 
   .spacer {
@@ -39,6 +41,7 @@
   button {
     border: none;
     background: none;
+    color: white;
   }
 
   button:hover {

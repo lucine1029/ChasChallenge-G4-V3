@@ -1,10 +1,13 @@
 @use '../Abstract/index' as *;
 
-.add-child-card{
+.add-child-card {
   @include auth-card;
 }
-.add-child-btn{
- @include primary-button; 
+.add-child-btn {
+  @include secondary-button;
+  margin: 0 auto;
+  margin-top: 1rem;
+  width: 90%;
 }
 
 .dropdown-button,

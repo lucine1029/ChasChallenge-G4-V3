@@ -1,0 +1,6 @@
+@use '../Abstract/index' as *;
+
+.secondary-button {
+  @include secondary-button;
+  width: 100%;
+}

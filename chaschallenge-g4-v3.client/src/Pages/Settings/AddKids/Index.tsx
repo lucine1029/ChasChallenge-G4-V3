@@ -11,6 +11,7 @@ import {
   updateUserKid,
 } from '../../../ResusableComponents/Requests/childRequest.tsx';
 import { useAuth } from '../../../ResusableComponents/authUtils.ts';
+import '../../../scss/Sass-Pages/_AddKidsPage.scss';
 
 const allergies = [
   'Celiaki/gluten',
@@ -33,7 +34,7 @@ const allergies = [
 
 function Button({ onClick, children }) {
   return (
-    <button className='button-primary' onClick={onClick}>
+    <button className='add-child-btn' onClick={onClick}>
       {children}
     </button>
   );

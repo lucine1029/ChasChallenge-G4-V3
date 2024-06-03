@@ -4,7 +4,6 @@
 *,
 *::before,
 *::after {
-  //margin: 0 auto; //Anderes removed this because it did create problems in my layout, Anders
   padding: 0;
   box-sizing: border-box; // Ensures padding and borders are included in the width and height
 }
@@ -14,11 +13,18 @@
   font-family: $mainfont; // Assuming $mainfont is defined in your abstract/index
 }
 
+html,
 body {
-  //height: 100vh; //Ta bort om den strular?
-  margin: auto;
+  height: 100%;
+  margin: 0; // Remove auto margin to avoid centering issues
+}
+
+body {
   background-image: linear-gradient($gradient);
   background-repeat: no-repeat;
+  background-attachment: fixed; // This ensures the background stays fixed
+  display: flex;
+  flex-direction: column;
 }
 
 @media (min-width: 800px) {
@@ -29,4 +35,5 @@ body {
 
 main {
   padding: 0 1rem;
+  flex: 1; // Ensure main takes up remaining space
 }
