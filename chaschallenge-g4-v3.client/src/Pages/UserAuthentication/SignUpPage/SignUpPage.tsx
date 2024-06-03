@@ -4,7 +4,9 @@ const SignUp: React.FC = () => {
   return (
     <>
       <main>
-        <SignUpForm />
+        <section className='section-container'>
+          <SignUpForm />
+        </section>
       </main>
     </>
   );
