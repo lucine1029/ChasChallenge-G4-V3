@@ -15,18 +15,14 @@
 }
 
 body {
-  //width: 100vw;
+  height: 100vh; //Ta bort om den strular?
   margin: auto;
-  border: solid black 5px;
-
-  background-image: url('/Baby-Background.png');
-  background-size: cover;
+  background-image: linear-gradient($gradient);
 }
 
 @media (min-width: 800px) {
   body {
     max-width: 100%;
-    background-image: none;
   }
 }
 

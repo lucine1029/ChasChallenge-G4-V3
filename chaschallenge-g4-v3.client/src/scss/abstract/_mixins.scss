@@ -1,0 +1,113 @@
+
+
+//Background gradient styling
+@mixin background-gradient {
+    background-image: -moz-linear-gradient(#A35EBB, #FFA0A0);
+}
+
+// Flex Center
+@mixin center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// h1 styling
+@mixin H1 {
+    font-size: 2rem;
+    color: #46284E;
+}
+
+// h2 styling
+@mixin H2 {
+    font-size: 1.5rem;
+    color: #46284E;
+}
+
+@mixin paragraph {
+    font-size: 1rem;
+    color: #46284E;
+    text-align: left;
+    line-height: 1.3rem;
+}
+
+// Primary buttton styling
+@mixin primary-button {
+    border: none;
+    background: none;
+    background-color: #9b59b6;
+    color: #fff;
+    display: block;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-decoration: none;
+
+    // &:hover{
+    // background-color: ;
+    // }
+
+    // &:active{
+    // background-color: ;
+    // }
+}
+
+
+//Secondary button styling
+@mixin secondary-button {
+    background: none;
+    display: block;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    background-color: #ffffff;
+    color: #9b59b6;
+    border: 2px solid #9b59b6;
+
+    // &:hover{
+    // background-color: ;
+    // }
+
+    // &:active{
+    // background-color: ;
+    // }
+}
+
+
+// Auth Styling
+
+// Signup/Login button
+@mixin auth-button {
+    margin-top: 2rem;
+    width: 100%;
+    padding: 12px;
+    border-radius: .5rem;
+    background-color: #6A62B6;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: large;
+    font-weight: 600;
+}
+
+@mixin auth-card {
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.30);
+    border-radius: 20px;
+    padding: 1.2rem;
+    background-color: white;
+
+    input{
+        outline: none;
+        width: 100%;
+        padding: 10px;
+        border: none;
+        background-color: transparent;
+        border-bottom: solid 1.5px black;
+        border-radius: 0;
+    }
+}

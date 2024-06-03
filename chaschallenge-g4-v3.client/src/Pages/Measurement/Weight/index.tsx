@@ -119,7 +119,7 @@ const Weight: React.FC = () => {
       {
         label: 'Normal',
         data: getStandardData('normal'),
-        borderColor: 'rgba(0, 255, 0, 1)',
+        borderColor: 'rgba(0, 255, 1, 1)',
         backgroundColor: 'rgba(0, 255, 0, 0.1)',
         fill: 'origin',
       },
@@ -214,7 +214,7 @@ const Weight: React.FC = () => {
   return (
     <div className="measurement-tracking-container">
    <HeaderWithBackButton
-  title={<h2 style={{ color: '#4b0082', fontSize: '24px' }}>Viktkoll</h2>}
+  title={<h2 style={{ color: '#46284E', fontSize: '24px' }}>Viktkoll</h2>}
   customBackAction={undefined}
   isSettingsPage={undefined}
 />

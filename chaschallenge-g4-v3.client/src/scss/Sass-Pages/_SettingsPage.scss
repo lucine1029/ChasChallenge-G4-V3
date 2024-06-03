@@ -1,11 +1,11 @@
 @use '../abstract/index' as *;
 
-.settings-header {
+/* .settings-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px; // Adjust padding as needed
-}
+} */
 
 p {
   text-align: center;
@@ -15,7 +15,13 @@ p {
 .accountpage-nav {
   ul {
     list-style: none;
-    padding-left: 0;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
   }
 
   .link-style {
@@ -30,21 +36,23 @@ p {
   h3,
   p {
     margin: 0;
-    color: #4b0082;
+    color: #46284e;
   }
 
   .large-icon {
     font-size: 2rem;
+    color: #46284e;
   }
 
   .card {
     display: flex;
     align-items: center;
     gap: 1rem;
+    width: 100%;
     border-radius: 0.5rem;
     padding: 0.5rem;
-    margin: 0.5rem 0;
-    background-color: rgba(235, 235, 235, 0.265);
+    //margin: 0.5rem 0;
+    background-color: #dcd9fb;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   }
 }

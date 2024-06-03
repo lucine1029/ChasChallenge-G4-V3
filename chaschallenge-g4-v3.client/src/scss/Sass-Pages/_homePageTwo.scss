@@ -1,5 +1,7 @@
+@use '../abstract/index' as *;
+
 .babster {
-  font-family: Arial, sans-serif;
+  font-family: $mainfont;
   background-color: white;
 
   .header {
@@ -8,32 +10,37 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 1rem;
-    //text-align: center;
-    border-bottom: 1px solid #858484;
+    border-bottom: 1px solid #6a62b6;
     position: relative;
 
     .logo {
-      color: #9b59b6;
+      color: #6a62b6;
       font-weight: 600;
       letter-spacing: 1px;
     }
 
     .header-button {
-      //position: absolute;
       right: 10px;
       top: 10px;
+      color: #6a62b6;
       background-color: #fff;
-      border: 1px solid #ddd;
+      border: 2px solid #6a62b6;
       border-radius: 5px;
       padding: 5px 10px;
       cursor: pointer;
+
+      &:active {
+        background-color: darken(#3f3b6d, 10%);
+        color: lighten(#fff, 10%);
+        border-color: darken(#3f3b6d, 10%);
+      }
     }
   }
 
   .main-image-container {
     text-align: center;
     position: relative;
-    border-radius: 0 0 120px 120px; // Round the lower corners
+    border-radius: 0 0 120px 120px;
     overflow: hidden;
     max-width: 100%;
 
@@ -59,12 +66,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(
-        155,
-        89,
-        182,
-        0.5
-      ); // The color to multiply with the image
+      background: #6a62b663; // The color to multiply with the image
       mix-blend-mode: multiply; // Apply the multiply blend mode to the overlay
       z-index: 2;
     }
@@ -77,57 +79,33 @@
   }
 
   .content {
-    padding: 20px;
+    //padding: 20px;
 
     h1 {
-      font-size: 2rem;
-      color: #333;
+      @include H1;
     }
 
     p {
-      font-size: 1rem;
-      color: #555;
-      text-align: left;
-      line-height: 1.3rem;
+      @include paragraph;
     }
 
     .buttons {
       margin-top: 20px;
+    }
 
-      .primary-button,
-      .secondary-button {
-        display: block;
-        text-align: center;
-        padding: 10px;
-        border-radius: 5px;
-        margin-bottom: 10px;
-        text-decoration: none;
-      }
-
-      .primary-button {
-        background-color: #9b59b6;
-        color: #fff;
-      }
-
-      .secondary-button {
-        background-color: #ffffff;
-        color: #9b59b6;
-        border: 2px solid #9b59b6;
-      }
+    .primary-button {
+      @include primary-button;
+    }
+    .secondary-button {
+      @include secondary-button;
     }
 
     .question-section {
       margin-top: 30px;
 
       h2 {
-        font-size: 1.5rem;
-
-        color: #333;
-        display: flex;
-        align-items: center;
-
-        //align-items: center;
-
+        @include H2;
+        @include center;
         .question-icon {
           width: 70px;
           margin-right: 10px;
@@ -135,10 +113,8 @@
       }
 
       p {
-        font-size: 1rem;
-        line-height: 1.3rem;
-        color: #555;
         margin-top: 10px;
+        @include paragraph;
       }
     }
   }

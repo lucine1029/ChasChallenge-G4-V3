@@ -1,32 +1,10 @@
 //SignupPage
 @use '../abstract/index' as *;
 
-// :root{
-//   background-color: white;
-//   background-image: url('../../../public/Baby-Background.png');
-//   background-size: cover;
-// }
-
 .input-container {
-    margin-bottom: 20px;
+  @include auth-card;
   }
   
-  .input-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 6px;
-    color: #555;
-  }
-  
-  .input-field {
-    outline: none;
-    width: 100%;
-    padding: 10px;
-    border: none;
-    background-color: transparent;
-    border-bottom: solid 1.5px black;
-    border-radius: 0;
-  }
 
   .input-field:focus{
     outline: none;
@@ -38,22 +16,7 @@
   
   .login-button,
   .signup-button {
-    margin-top: 2rem;
-    width: 100%;
-    padding: 12px;
-    border-radius: .5rem;
-    background: linear-gradient(to bottom, $gradient);
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-size: large;
-    font-weight: 600;
-  }
-  
-  .login-button:hover,
-  .signup-button:hover {
-    background-color: #45a049;
+    @include auth-button;
   }
   
   .error-message {
@@ -74,6 +37,7 @@
   }
   
   /* Specifika stilar för SignIn-sidan */
+
   .login-container,
   .signout-container {
     border-radius: 8px;
@@ -84,10 +48,8 @@
   
   .login-text,
   .signout-text {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 20px;
-    text-transform: uppercase;
+    @include H1;
+    margin-bottom: 1.5rem;
   }
 
   .signin-forgot-container{

@@ -1,6 +1,7 @@
 import mainImage from '../../../public/babster-stork.webp';
 import spenatmonster from '../../../public/spenatmonster.webp';
 import '../../scss/Sass-Pages/_homePageTwo.scss';
+import { Link } from 'react-router-dom';
 
 export default function HomePageTwo() {
   return (
@@ -8,7 +9,9 @@ export default function HomePageTwo() {
       <header className='header'>
         {/* <img src={} alt='Babster Logo' className='logo' /> */}
         <span className='logo'>Babster</span>
-        <button className='header-button'>Logga in</button>
+        <Link to='/Signin'>
+          <button className='header-button'>Logga in</button>
+        </Link>
       </header>
       <div className='main-image-container'>
         <div className='image-overlay'>
@@ -24,12 +27,12 @@ export default function HomePageTwo() {
             konflikter och uppfostran. Endast din fantasi sätter gränserna.
           </p>
           <div className='buttons'>
-            <a href='#' className='primary-button'>
-              Kom igång
-            </a>
-            <a href='#' className='secondary-button'>
-              Prova på
-            </a>
+            <Link className='link' to='/signup'>
+              <button className='primary-button'>Kom igång</button>
+            </Link>
+            <Link className='link' to='/#'>
+              <button className='secondary-button'>Prova på</button>
+            </Link>
           </div>
           <div className='question-section'>
             <h2>

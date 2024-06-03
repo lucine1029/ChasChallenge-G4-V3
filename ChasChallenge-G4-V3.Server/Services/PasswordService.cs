@@ -15,7 +15,6 @@ namespace ChasChallenge_G4_V3.Server.Services
         Task<bool>ResetPasswordAsync(ResetPasswordRequestViewModel model);
         Task<IResult> UpdatePasswordAsync(ChangePasswordDto password, string userId);
 
-
     }
 
     public class PasswordService : IPasswordService
