@@ -43,7 +43,7 @@ export default function ManageKidsPage() {
       <main>
         <Button onClick={handleAddChildClick}>Lägg till barn</Button>
         {editingKid ? (
-          <div>
+          <div className='div'>
             <AddKidsPage
               defaultValues={editingKid}
               isEditing={true}
@@ -51,7 +51,7 @@ export default function ManageKidsPage() {
             />
           </div>
         ) : (
-          <div>
+          <div className='div'>
             <KidsList onEditClick={handleEditClick} />
           </div>
         )}
