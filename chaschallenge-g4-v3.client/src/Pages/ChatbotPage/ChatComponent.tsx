@@ -65,12 +65,22 @@ const ChatComponent: React.FC<Props> = () => {
   const calculateAge = (birthdate: string) => {
     const birthDate = new Date(birthdate);
     const today = new Date();
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
+
+    let years = today.getFullYear() - birthDate.getFullYear();
+    let months = today.getMonth() - birthDate.getMonth();
+
+    // Adjust years and months if the current month is before the birth month
+    if (months < 0 || (months === 0 && today.getDate() < birthDate.getDate())) {
+      years--;
+      months += 12;
     }
-    return age;
+
+    // Adjust months if the current day is before the birth day
+    if (today.getDate() < birthDate.getDate()) {
+      months--;
+    }
+
+    return { years, months };
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -83,10 +93,18 @@ const ChatComponent: React.FC<Props> = () => {
       const selectedChild = children[clickedCardIndex];
       const childName = selectedChild.name;
       const childAge = calculateAge(selectedChild.birthdate);
+
+      let ageString = '';
+      if (childAge.years > 0) {
+        ageString = `${childAge.years} år`;
+      } else {
+        ageString = `${childAge.months} månader`;
+      }
+
       const allergies = selectedChild.allergies
         .map((allergy: { name: string }) => allergy.name)
         .join(', ');
-      const combinedInput = `${input}. Child's name: ${childName}. Age: ${childAge}. Allergies: ${allergies}`;
+      const combinedInput = `${input}. Child's name: ${childName}. Age: ${ageString}. Allergies: ${allergies}`;
       const displayMessage = {
         role: 'user',
         content: input,
@@ -121,7 +139,11 @@ const ChatComponent: React.FC<Props> = () => {
         });
         if (completion.choices[0].message.content !== null) {
           const aiResponse = completion.choices[0].message.content;
-          const responseWithChildInfo = `${childName}, ${childAge} år: ${aiResponse}`;
+          // const responseWithChildInfo = `${childName}, ${childAge} år: ${aiResponse}`;
+          const responseWithChildInfo = `${childName}, ${
+            childAge.years > 0 ? `${childAge.years} år` : `${childAge.months} månader`
+          }: ${aiResponse}`;
+
           setMessages((prevMessages) => [
             ...prevMessages,
             { role: 'ai', content: responseWithChildInfo },
@@ -159,9 +181,11 @@ const ChatComponent: React.FC<Props> = () => {
               key={index}
               role={message.role}
               content={message.content}
-              loading={loading && message.role === 'ai'}
+              loading={loading && message.role === 'ai'} // Set loading to true for AI messages only
             />
           ))}
+          {loading && <ChatBubble role='ai' content='' loading={true} />}{' '}
+          {/* Empty AI bubble with loader */}
         </div>
       )}
 
