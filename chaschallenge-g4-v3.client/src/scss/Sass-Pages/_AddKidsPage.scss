@@ -2,6 +2,9 @@
 
 .add-child-card {
   @include auth-card;
+  @include center;
+  flex-direction: column;
+  width: 100%;
 }
 .add-child-btn {
   @include secondary-button;

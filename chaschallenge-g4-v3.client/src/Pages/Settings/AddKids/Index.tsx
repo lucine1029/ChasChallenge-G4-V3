@@ -183,7 +183,7 @@ function KidDataForm({ defaultValues, isEditing, onSave }) {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className='add-child-card' onSubmit={handleSubmit(onSubmit)}>
         <FetchAvatarDropdown
           onAvatarChange={(url) => setValue('imageSource', url)} // Correct field name to imageSource
           defaultAvatar={defaultValues?.imageSource}
@@ -208,7 +208,7 @@ function KidDataForm({ defaultValues, isEditing, onSave }) {
           <option value='' disabled hidden>
             Identitet
           </option>
-          <option value='Binär'>Binär</option>
+          <option value='Binär'>Icke binär</option>
           <option value='Flicka'>Flicka</option>
           <option value='Pojke'>Pojke</option>
         </select>
