@@ -1,5 +1,14 @@
 @use '../Abstract/index' as *;
 
+.form-container{
+  @include auth-card;
+  .input-field::placeholder{
+    color: rgb(131, 131, 131)
+  }
+}
+
+
+
 .dropdown-button,
 .input-field,
 .select-field {
@@ -11,6 +20,14 @@
   background-color: #fff;
   cursor: pointer;
   text-align: left;
+}
+
+
+.button-primary {
+  @include primary-button;
+  cursor: pointer;
+  width: 90%;
+  margin: 1rem auto;
 }
 
 .dropdown-content {
