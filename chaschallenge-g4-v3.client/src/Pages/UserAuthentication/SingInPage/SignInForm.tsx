@@ -10,7 +10,7 @@ interface FormValues {
   password: string;
 }
 
-function SignInForm(): React.FC {
+function SignInForm() {
   const {
     register,
     handleSubmit,
@@ -59,8 +59,6 @@ function SignInForm(): React.FC {
             <span className='error-message'>{errors.email.message}</span>
           )}{' '}
           {/* Använd klassen för felmeddelande */}
-        </div>
-        <div className='input-container'>
           {/* <label htmlFor="password" className="input-label">Password:</label> */}
           <input
             id='password'

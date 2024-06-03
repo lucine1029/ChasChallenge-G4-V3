@@ -216,7 +216,6 @@
 
 // export default ChatComponent;
 
-
 import OpenAI from 'openai';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
@@ -370,7 +369,7 @@ const ChatComponent: React.FC<Props> = () => {
   };
 
   return (
-    <main>
+    <>
       {clickedCardIndex !== null && (
         <div className='ai-chat-container' ref={chatContainerRef}>
           {messages.map((message, index) => (
@@ -404,7 +403,6 @@ const ChatComponent: React.FC<Props> = () => {
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  
                 }}
                 onClick={() => handleCardClick(index)}
               >
@@ -430,7 +428,7 @@ const ChatComponent: React.FC<Props> = () => {
           Skicka
         </button>
       </form>
-    </main>
+    </>
   );
 };
 

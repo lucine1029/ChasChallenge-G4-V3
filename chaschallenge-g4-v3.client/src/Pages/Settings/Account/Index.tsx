@@ -148,10 +148,7 @@ const UserSettings = () => {
   return (
     <>
       <HeaderWithBackButton
-        title='Uppdatera dina uppgifter'
-        customBackAction={() => navigate(-1)} // Provide custom back action if necessary
-        isSettingsPage={true} // Assuming this is a settings page
-      />
+        title='Kontouppgifter' />
       <div className='user-settings-container'>
         <div className='user-name'>{`${userFirstName} ${userLastName}`}</div>
         <form className='user-settings-form' onSubmit={handleSubmit}>

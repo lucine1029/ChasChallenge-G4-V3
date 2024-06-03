@@ -10,9 +10,8 @@ import ManageKidsPage from './Pages/Settings/ManageKids/Index';
 import SleepTracking from './Pages/Sleep/SleepTracking';
 import SignUpPage from './Pages/UserAuthentication/SignUpPage/SignUpPage';
 import SignInPage from './Pages/UserAuthentication/SingInPage/SingInPage';
-// import ChangePasswordPage from './Pages/Settings/Account/ChangePW';
 
-/* import ChangePasswordPage from './Pages/Settings/Account/ChangePW'; */
+// import ChangePasswordPage from './Pages/Settings/Account/ChangePW';
 
 import HeadCircumference from './Pages/Measurement/Circumference/index';
 import Height from './Pages/Measurement/Length/index';
