@@ -93,11 +93,19 @@
       margin-top: 20px;
     }
 
+    .link {
+      text-decoration: none;
+    }
+
     .primary-button {
       @include primary-button;
+      width: 90%;
+      margin: 0.5rem auto;
     }
     .secondary-button {
       @include secondary-button;
+      width: 90%;
+      margin: 0.5rem auto;
     }
 
     .question-section {

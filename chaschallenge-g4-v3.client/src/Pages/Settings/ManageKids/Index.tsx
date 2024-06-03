@@ -36,16 +36,18 @@ export default function ManageKidsPage() {
     <>
       {!editingKid && <HeaderWithBackButton title='Barn' />}
       {editingKid ? (
-        <AddKidsPage
-          defaultValues={editingKid}
-          isEditing={true}
-          onSave={handleSave}
-        />
+        <main>
+          <AddKidsPage
+            defaultValues={editingKid}
+            isEditing={true}
+            onSave={handleSave}
+          />
+        </main>
       ) : (
-        <>
-          <KidsList onEditClick={handleEditClick} />
+        <main>
           <Button onClick={handleAddChildClick}>Lägg till barn</Button>
-        </>
+          <KidsList onEditClick={handleEditClick} />
+        </main>
       )}
     </>
   );
