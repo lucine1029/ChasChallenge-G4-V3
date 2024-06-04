@@ -153,9 +153,13 @@ namespace ChasChallenge_G4_V3.Server.Handlers
                 var allergies = userServices.GetChildsAllergies(userId, childId);
                 return Results.Json(allergies);
             }
-            catch (ChildNotFoundException ex)
+            catch (UserNotFoundException ex)
             {
                 return Results.NotFound(new {message = ex.Message});
+            }
+            catch (ChildNotFoundException ex)
+            {
+                return Results.NotFound(new { message = ex.Message });
             }
         }
 

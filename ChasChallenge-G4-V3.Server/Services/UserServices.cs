@@ -18,14 +18,14 @@ namespace ChasChallenge_G4_V3.Server.Services
 {
     public interface IUserServices
     {
-        
+
         void AddChild(string userId, ChildDto childDto);
 
         //void AddExistingChild(int userId, int childId);
         void AddAllergy(int childId, AllergyDto allergyDto);
         void AddMeasurement(int childId, MeasurementDto measurementDto);
 
-     
+
 
         UserViewModel GetUser(string userId);
 
@@ -54,9 +54,9 @@ namespace ChasChallenge_G4_V3.Server.Services
         }
 
 
-        public void AddChild(string userId, ChildDto childDto) 
+        public void AddChild(string userId, ChildDto childDto)
         {
-            User? user = _context.Users 
+            User? user = _context.Users
                 .Include(u => u.Children)
                 .SingleOrDefault(u => u.Id == userId);
 
@@ -240,9 +240,9 @@ namespace ChasChallenge_G4_V3.Server.Services
                     Children = u.Children.Select(c => new PrintAllUsersChildViewModel { Id = c.Id, Name = c.Name }).ToList()
                 }).ToList();
 
-            if(userViewModels.Count <= 0)
-            { 
-                throw new UserNotFoundException("No user found"); 
+            if (userViewModels.Count <= 0)
+            {
+                throw new UserNotFoundException("No user found");
             }
 
             return userViewModels;
@@ -287,14 +287,23 @@ namespace ChasChallenge_G4_V3.Server.Services
 
         public List<AllergyViewModel> GetChildsAllergies(string userId, int childId)
         {
-            Child? child = _context.Children
-                .Where(c => c.Id == childId)
-                .Include(c => c.Allergies)
-                .SingleOrDefault();
+             User? user = _context.Users
+            .Where(u => u.Id == userId)
+            .Include(u => u.Children)
+            .ThenInclude(c => c.Allergies)
+            .SingleOrDefault();
+
+            if (user is null)
+            {
+                throw new UserNotFoundException("User not found");
+            }
+
+            Child? child = user.Children
+                .SingleOrDefault(c => c.Id == childId);
 
             if (child is null)
             {
-                throw new ChildNotFoundException("Child not found!");
+                throw new ChildNotFoundException("Child not found");
             }
 
             List<AllergyViewModel> allergyViewModels = child.Allergies
