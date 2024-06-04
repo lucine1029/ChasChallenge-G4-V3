@@ -23,7 +23,7 @@ export default function HeaderWithBackButton({
   };
 
   const handleDoneClick = () => {
-    navigate('/');
+    navigate('/chat');
     console.log('Done button clicked');
   };
 
@@ -33,7 +33,7 @@ export default function HeaderWithBackButton({
         <button
           className='back-button'
           onClick={handleBackClick}
-          aria-label="Back"
+          aria-label='Back'
           style={{
             background: 'none', // Transparent background
             border: 'none', // Remove border
@@ -59,4 +59,3 @@ export default function HeaderWithBackButton({
     </header>
   );
 }
-

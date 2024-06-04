@@ -3,14 +3,14 @@
 .header-with-back-button {
   position: sticky;
   top: 0;
-  background-color: transparent;
+  background-color: #a35ebb;
   color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 1rem;
   margin: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   z-index: 10;
 
   .back-button {
