@@ -53,8 +53,6 @@ Kommande funktionsförslag inkluderar playdate-bokning, receptförslag och digit
 
 ## Länkar
 
-- [Canvas](https://chasacademy.instructure.com/courses/289/assignments/1639?module_item_id=8128)
-- [Grupper](https://docs.google.com/spreadsheets/d/1FTswdeoUfvYsFpSSxKnMZITmkNA4EvcfXzgXCOhLM7Y/edit#gid=0)
 - [Figma grupp 4](https://www.figma.com/file/MfPjQvFp95gMkuazioFBON/chas-challenge?type=whiteboard&node-id=0-1)
 - [Figma bäbis](https://www.figma.com/file/T778oN5lPF3Aignt9BxKLF/chas-challenge?type=design&node-id=1-20&mode=design&t=fZJFgKjgWHkvgJOR-0)
 - [Github Project Page - Agil planering](https://github.com/users/lucine1029/projects/8/views/1)
