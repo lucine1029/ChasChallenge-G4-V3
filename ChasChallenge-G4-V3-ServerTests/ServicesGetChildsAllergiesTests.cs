@@ -36,7 +36,7 @@ namespace ChasChallenge_G4_V3_ServerTests
         public void GetChildsAllergies_Throws_Exception_If_Child_Not_Found()
         {
             //Arrange
-            var options = new DbContextOptionsBuilder<ApplicationContext>().UseInMemoryDatabase(databaseName: "test-db1").Options;
+            var options = new DbContextOptionsBuilder<ApplicationContext>().UseInMemoryDatabase(databaseName: "GetChildsAllergies-db1").Options;
             var context = new ApplicationContext(options);
             var userStore = new UserStore<User>(context);
             var userManager = new UserManager<User>(userStore, null, null, null, null, null, null, null, null);
@@ -49,6 +49,8 @@ namespace ChasChallenge_G4_V3_ServerTests
                 Id = "1"
             };
 
+            context.Users.Add(user);
+            context.SaveChanges();
             //Act
             userServices.GetChildsAllergies("1", 22);
         }
