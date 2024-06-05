@@ -326,7 +326,7 @@ namespace ChasChallenge_G4_V3.Server.Services
                 throw new UserNotFoundException("User not found!");
             }
 
-            if (user.Children is null)
+            if (user.Children is null || !user.Children.Any())
             {
                 throw new ChildNotFoundException("Children not found!");
             }
