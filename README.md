@@ -1,5 +1,11 @@
 # Babster
 
+##Inloggning för att testa funktioner:
+Användare: grupp4@chasacademy.se
+lösenord : Grupp4CC
+
+Vill du köra kod, hör av dig till någon av gruppmedlemmarna så löser vi det.
+
 ## Beskrivning
 
 **Babster** är en app designad för att underlätta vardagen för föräldrar genom att erbjuda snabb och relevant information om deras barns matvanor, sömn och andra behov. Appen använder AI för att ge personliga råd baserade på barnets ålder, vikt, längd och allergier.
@@ -18,10 +24,6 @@ Beta funktionalitet:
 - Draft för att logga sömn, vikt, längd mm för besök hos barnmorska. Ej kopplat mot backend.
 
 Kommande funktionsförslag inkluderar playdate-bokning, receptförslag och digital journalhantering
-
-###
-
-Inloggning för att testa funktioner:
 
 ## Team
 
