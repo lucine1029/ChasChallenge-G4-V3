@@ -7,11 +7,8 @@ const BASE_URL = 'http://localhost:5148';
 export const getUsersChildren = async (userId: string) => {
   try {
     const response = await axios.get(`${BASE_URL}/user:${userId}/child:${5}`);
-    //   const response = await axios.get(`${BASE_URL}/user:${userId}`);
-    // console.log(`Ungarna från UR${JSON.stringify(response.data)}`);
-    // console.log(`Ungarna från UR${(response.data.name)}`);
     console.log('Ungarna från UR', response.data.children);
-    return response.data; // Return the data for further processing
+    return response.data;
   } catch (error) {
     console.error('Error fetching data:', error);
     throw error; // Rethrow the error for handling elsewhere if needed
@@ -47,7 +44,7 @@ export const createUserKid = async (userId, kidData) => {
       'Error creating child:',
       error.response ? error.response.data : error.message
     );
-    throw error; // Re-throw the error to handle it in the calling function if needed
+    throw error;
   }
 };
 
@@ -66,6 +63,6 @@ export const updateUserKid = async (userId, childId, kidData) => {
       'Error updating child:',
       error.response ? error.response.data : error.message
     );
-    throw error; // Re-throw the error to handle it in the calling function if needed
+    throw error;
   }
 };

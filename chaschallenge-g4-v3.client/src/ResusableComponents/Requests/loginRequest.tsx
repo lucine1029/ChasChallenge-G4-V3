@@ -45,7 +45,6 @@ export const login = async ({ email, password }: UserData) => {
         'Axios error response:',
         error.response?.data || error.message
       );
-      // You can add custom handling here based on the status code
       if (error.response?.status === 500) {
         throw new Error('Internal server error. Please try again later.');
       } else {
@@ -61,5 +60,3 @@ export const login = async ({ email, password }: UserData) => {
     }
   }
 };
-
-/////////Logout
