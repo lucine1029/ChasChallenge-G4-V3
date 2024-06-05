@@ -44,9 +44,9 @@ Kommande funktionsförslag inkluderar playdate-bokning, receptförslag och digit
 
 - Sara Radic - [**sasiie**](https://github.com/sasiie)
 
-### FJS 3-4 Frontend (backend)
+### FJS 3-4 Frontend
 
-- Anders Jacobsson - [AndoGpp](https://github.com/AndoGpp)
+- Anders Jacobsson - [AndersJCodes](https://github.com/AndersJCodes)
 - Linus Johannesson - [LimpanGH](https://github.com/LimpanGH)
 - Ruben Ahlin - [RuAhTo](https://github.com/RuAhTo)
 - [Zabi Sideqi](mailto:zabi.sideqi@chasacademy.se) - [Zabi-23](https://github.com/Zabi-23)
@@ -59,4 +59,4 @@ Kommande funktionsförslag inkluderar playdate-bokning, receptförslag och digit
 
 ## Övrigt
 
-För frågor eller support, vänligen kontakta jonny.touma@chasacademy.se
+För frågor om projektet och dess idé, vänligen kontakta jonny.touma@chasacademy.se
