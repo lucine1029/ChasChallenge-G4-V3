@@ -1,7 +1,8 @@
 # Babster
 
-##Inloggning för att testa funktioner:
-Användare: grupp4@chasacademy.se
+## Inloggning för att testa funktioner:
+
+Användare: grupp4@chasacademy.se  
 lösenord : Grupp4CC
 
 Vill du köra kod, hör av dig till någon av gruppmedlemmarna så löser vi det.
@@ -37,7 +38,6 @@ Kommande funktionsförslag inkluderar playdate-bokning, receptförslag och digit
 
 ### Devops
 
-- Asif Ahmed - [asif2fun](https://github.com/asif2fun)
 - Daniel Rosales - [HelloDanielWorld](https://github.com/HelloDanielWorld)
 
 ### UXF - Design
