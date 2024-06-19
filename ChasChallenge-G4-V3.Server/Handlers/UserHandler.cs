@@ -1,7 +1,10 @@
-﻿using ChasChallenge_G4_V3.Server.Models;
+﻿using ChasChallenge_G4_V3.Server.CustomExceptions;
+using ChasChallenge_G4_V3.Server.Models;
 using ChasChallenge_G4_V3.Server.Models.DTOs;
 using ChasChallenge_G4_V3.Server.Models.ViewModels;
 using ChasChallenge_G4_V3.Server.Services;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Collections.Generic;
 
 namespace ChasChallenge_G4_V3.Server.Handlers
@@ -18,9 +21,21 @@ namespace ChasChallenge_G4_V3.Server.Handlers
                 userServices.AddChild(userId, childDto);
                 return Results.Ok();
             }
-            catch (Exception ex)
+            catch (InvalidDataException ex)
             {
-                return Results.BadRequest("Something went wrong");
+                return Results.BadRequest(new { message = ex.Message});
+            }
+            catch (UserNotFoundException ex)
+            {
+                return Results.NotFound(new { message = ex.Message});
+            }
+            catch (DuplicateNameException ex)
+            {
+                return Results.BadRequest(new { message = ex.Message });
+            }
+            catch(DbUpdateException ex)
+            {
+                return Results.BadRequest(new { message = ex.Message});
             }
         }
 
@@ -31,10 +46,21 @@ namespace ChasChallenge_G4_V3.Server.Handlers
                 userServices.AddAllergy(userId, childId, allergydto);
                 return Results.Ok();
             }
-
-            catch (Exception ex)
+            catch (InvalidDataException ex)
             {
-                return Results.BadRequest(ex);
+                return Results.BadRequest(new { message = ex.Message});
+            }
+            catch(ChildNotFoundException ex)
+            {
+                return Results.NotFound(new {message = ex.Message});
+            }
+            catch(DuplicateNameException ex)
+            {
+                return Results.BadRequest(new {message = ex.Message});
+            }
+            catch(DbUpdateException ex)
+            {
+                return Results.BadRequest(new {messsage = ex.Message});
             }
         }
 
@@ -45,9 +71,21 @@ namespace ChasChallenge_G4_V3.Server.Handlers
                 userServices.AddMeasurement(userId, childId, measurementDto);
                 return Results.Ok();
             }
-            catch (Exception ex)
+            catch (InvalidDataException ex)
             {
-                return Results.BadRequest(ex);
+                return Results.BadRequest(new { message = ex.Message});
+            }
+            catch(ChildNotFoundException ex)
+            {
+                return Results.NotFound(new {messsage = ex.Message});
+            }
+            catch(DuplicateNameException ex)
+            {
+                return Results.BadRequest(new { message = ex.Message});
+            }
+            catch(DbUpdateException ex)
+            {
+                return Results.BadRequest(new { message = ex.Message });
             }
         }
 
@@ -60,9 +98,9 @@ namespace ChasChallenge_G4_V3.Server.Handlers
                 var user = userServices.GetUser(userId);
                 return Results.Json(user);
             }
-            catch (Exception ex)
+            catch (UserNotFoundException ex)
             {
-                return Results.NotFound($"Exception {ex.Message}");
+                return Results.NotFound(new  {message = ex.Message});
             }
         }
 
@@ -73,9 +111,9 @@ namespace ChasChallenge_G4_V3.Server.Handlers
                 var users = userServices.GetAllUsers();
                 return Results.Json(users);
             }
-            catch (Exception ex)
+            catch (UserNotFoundException ex)
             {
-                return Results.NotFound($"Exception {ex.Message}");
+                return Results.NotFound( new {message = ex.Message});
             }
         }
 
@@ -86,9 +124,13 @@ namespace ChasChallenge_G4_V3.Server.Handlers
                 var child = userServices.GetChildOfUser(userId, childId);
                 return Results.Json(child);
             }
-            catch (Exception ex)
+            catch (UserNotFoundException ex)
             {
-                return Results.NotFound($"Exception {ex.Message}");
+                return Results.NotFound( new {message = ex.Message});
+            }
+            catch (ChildNotFoundException ex)
+            {
+                return Results.NotFound(new { message = ex.Message });
             }
         }
 
@@ -112,9 +154,13 @@ namespace ChasChallenge_G4_V3.Server.Handlers
                 var allergies = userServices.GetChildsAllergies(userId, childId);
                 return Results.Json(allergies);
             }
-            catch (Exception ex)
+            catch (UserNotFoundException ex)
             {
-                return Results.NotFound($"Exception {ex.Message}");
+                return Results.NotFound(new {message = ex.Message});
+            }
+            catch (ChildNotFoundException ex)
+            {
+                return Results.NotFound(new { message = ex.Message });
             }
         }
 
@@ -125,9 +171,13 @@ namespace ChasChallenge_G4_V3.Server.Handlers
                 var allergies = userServices.GetAllChildrensAllergies(userId);
                 return Results.Json(allergies);
             }
-            catch (Exception ex)
+            catch (UserNotFoundException ex)
             {
-                return Results.NotFound($"Exception {ex.Message}");
+                return Results.NotFound(new { message = ex.Message });
+            }
+            catch (ChildNotFoundException ex)
+            {
+                return Results.NotFound(new { message = ex.Message });
             }
         }
 
@@ -138,9 +188,13 @@ namespace ChasChallenge_G4_V3.Server.Handlers
                 var childDiet = await userServices.GetChildDietAi(userId, childId, food);
                 return Results.Json(childDiet);
             }
-            catch (Exception ex)
+            catch (UserNotFoundException ex)
             {
-                return Results.NotFound($"Exception {ex.Message}");
+                return Results.NotFound(new { message = ex.Message });
+            }
+            catch(ChildNotFoundException ex)
+            {
+                return Results.NotFound(new { message = ex.Message });
             }
         }
 
