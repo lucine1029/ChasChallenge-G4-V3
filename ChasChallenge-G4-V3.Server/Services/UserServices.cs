@@ -31,7 +31,7 @@ namespace ChasChallenge_G4_V3.Server.Services
         Task<IResult> DeleteChildAsync(string userId, int childId);
 
         Task<IResult> DeleteUserAsync(string userId);
-    
+
         UserViewModel GetUser(string userId);
 
         List<PrintAllUsersViewModel> GetAllUsers();
@@ -58,11 +58,11 @@ namespace ChasChallenge_G4_V3.Server.Services
         {
             _userManager = userManager;
             _context = context;
-        }      
+        }
 
-        public void AddChild(string userId, ChildDto childDto) 
+        public void AddChild(string userId, ChildDto childDto)
         {
-            User? user = _context.Users 
+            User? user = _context.Users
                 .Include(u => u.Children)
                 .SingleOrDefault(u => u.Id == userId);
 
@@ -102,7 +102,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             }
         }
 
-        public void UpdateChild(string userId, int childId,  ChildDto childDto)
+        public void UpdateChild(string userId, int childId, ChildDto childDto)
         {
             Child? child = _context.Children
                 .Where(c => c.Id == childId)
@@ -213,7 +213,7 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             foreach (AllergyDto a in allergiesToAdd)
             {
-                bool allergyExistsInDb = false; 
+                bool allergyExistsInDb = false;
 
                 if (string.IsNullOrWhiteSpace(a.Name))
                 {
@@ -310,7 +310,7 @@ namespace ChasChallenge_G4_V3.Server.Services
                 .Include(m => m.Measurements)
                 .SingleOrDefault();
 
-            if(child == null)
+            if (child == null)
             {
                 throw new Exception("Child not found.");
             }
@@ -346,7 +346,7 @@ namespace ChasChallenge_G4_V3.Server.Services
                 throw new Exception("Child not found.");
             }
 
-            if (userDto.FirstName is null || userDto.LastName is null) 
+            if (userDto.FirstName is null || userDto.LastName is null)
             {
                 throw new InvalidDataException("name or email missing");
             }
@@ -385,7 +385,7 @@ namespace ChasChallenge_G4_V3.Server.Services
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                Children = user.Children.Select(c => new ChildViewModel {Id = c.Id, Name = c.Name, NickName = c.NickName, Gender = c.Gender, birthdate = c.birthdate, ImageSource = c.ImageSource}).ToList()
+                Children = user.Children.Select(c => new ChildViewModel { Id = c.Id, Name = c.Name, NickName = c.NickName, Gender = c.Gender, birthdate = c.birthdate, ImageSource = c.ImageSource }).ToList()
             };
             foreach (ChildViewModel child in userViewModel.Children)
             {
@@ -446,15 +446,15 @@ namespace ChasChallenge_G4_V3.Server.Services
             }
 
             ChildViewModel childViewModel = new ChildViewModel
-                {
-                    Id = child.Id,
-                    Name = child.Name,
-                    NickName = child.NickName,
-                    birthdate = child.birthdate,
-                    Gender = child.Gender,
-                    ImageSource = child.ImageSource,
-                    Allergies = child.Allergies.Select(a => new AllergyViewModel { Name = a.Name }).ToList(),
-                    Measurements = child.Measurements.Select(m => new MeasurementViewModel { DateOfMeasurement = m.DateOfMeasurement, Weight = m.Weight, Height = m.Height, HeadCircumference = m.HeadCircumference }).ToList()
+            {
+                Id = child.Id,
+                Name = child.Name,
+                NickName = child.NickName,
+                birthdate = child.birthdate,
+                Gender = child.Gender,
+                ImageSource = child.ImageSource,
+                Allergies = child.Allergies.Select(a => new AllergyViewModel { Name = a.Name }).ToList(),
+                Measurements = child.Measurements.Select(m => new MeasurementViewModel { DateOfMeasurement = m.DateOfMeasurement, Weight = m.Weight, Height = m.Height, HeadCircumference = m.HeadCircumference }).ToList()
 
             };
 
@@ -463,6 +463,16 @@ namespace ChasChallenge_G4_V3.Server.Services
 
         public List<AllergyViewModel> GetChildsAllergies(string userId, int childId)
         {
+            User? user = _context.Users
+            .Where(u => u.Id == userId)
+            .Include(u => u.Children)
+            .ThenInclude(c => c.Allergies)
+            .SingleOrDefault();
+
+            if (user is null)
+            {
+                throw new UserNotFoundException("User not found");
+            }
             Child? child = user.Children
                 .SingleOrDefault(c => c.Id == childId);
 
@@ -580,7 +590,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             Child? child = _context.Children
                 .Where(c => c.Id == childId)
                 .SingleOrDefault();
-            
+
             if (child is null)
             {
                 return Results.BadRequest("Child does not exist");
@@ -594,7 +604,7 @@ namespace ChasChallenge_G4_V3.Server.Services
 
             string sqlDeleteAllergyChild = "DELETE FROM AllergyChild WHERE ChildrenId = @childId";
 
-           
+
 
             _context.Database.ExecuteSqlRaw(sqlDeleteUserChild, new SqlParameter("@childId", childId));
 
@@ -622,7 +632,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             {
                 return Results.BadRequest("User not found");
             }
-           
+
             var result = await _userManager.DeleteAsync(existingUser);
 
             if (!result.Succeeded)
@@ -631,7 +641,7 @@ namespace ChasChallenge_G4_V3.Server.Services
             }
 
             return Results.Ok("User deleted");
-            
+
 
         }
     }
